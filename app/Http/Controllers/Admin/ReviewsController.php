@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Review;
+
+
+use Session;
+
+class ReviewsController extends Controller
+{
+
+    public function index(Request $request)
+    {
+
+        try {
+            $data['result'] = Review::getLists($request->all());
+
+            
+
+
+            return view('admin.reviews.list', $data);
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
+        }
+    }
+
+
+    public function form(Request $request, $id = null)
+{
+    $data = Review::with(['user', 'item',])->find($id);
+
+
+    return view('admin.userreport.view', compact('data'));
+}
+
+    public function destroy($id)
+    {
+        try {
+            $deleted = Review::deleteRecord($id);
+
+            if ($deleted['status'] == true) {
+                return redirect()->back()->with('success', $deleted['message']);
+            } else {
+                return redirect()->back()->with('error', $deleted['message']);
+            }
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
+        }
+    }
+
+
+    
+
+
+   
+
+    
+
+
+
+
+    
+
+
+
+
+   
+
+
+
+
+
+
+
+   
+
+
+
+
+    
+
+
+
+ 
+    
+}

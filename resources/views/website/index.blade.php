@@ -1,0 +1,191 @@
+@extends('website.layout.app')
+@section('content')
+
+  <!--Categories-saction-->
+  @if(count($homeCategories) > 0)
+  <div class="container">
+    <div class="Explore Popular Categories">
+      <h2 data-aos="fade-up" data-aos-duration="1000">Explore Popular Categories</h2>
+      <div class="blaze-slider home-banner-new">
+        <div class="blaze-container">
+          <div class="blaze-track-container">
+            <button class="blaze-prev left-right" data-aos="fade-up" data-aos-duration="1000"><span><img src="{{asset('website_assets/images/left.png')}}"></span></button>
+            <div class="blaze-track" data-aos="fade-up" data-aos-duration="1000">
+              @foreach($homeCategories as $category)
+              <div class="based-saction-box"> 
+                <a href="{{url('category-detail/'.$category->slug)}}"> 
+                  <img src="{{$category->image ? asset('uploads/category/'.$category->image) : asset('uploads/Image-not-found.png')}}" alt="#" class="home-cat-image"> 
+                  <span>{{ $category->name }}</span> 
+                </a> 
+              </div>
+              @endforeach
+            </div>
+          </div>
+          <button class="blaze-next left-right" data-aos="fade-up" data-aos-duration="1000"><span><img
+                src="{{asset('website_assets/images/right.png')}}"></span></button>
+        </div>
+        <!--<div class="blaze-pagination"></div>-->
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <!--Bringing-Fashion-->
+  <div class="container">
+    <div class="bringing-fashion-saction" data-aos="fade-up" data-aos-duration="1000">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="bringing-fashion-saction-left">
+            <h2 data-aos="fade-up" data-aos-duration="1000">Bringing fashion<br>
+              brands to life</h2>
+            <p data-aos="fade-up" data-aos-duration="1000">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam.</p>
+            <div class="save" data-aos="fade-up" data-aos-duration="1000">Save up to <span>60% Off</span></div>
+            <a href="#" data-aos="fade-up" data-aos-duration="1000">Order now</a>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="bringing-fashion-saction-right"> <img src="{{asset('website_assets/images/fashion-image.png')}}"
+              alt="#" data-aos="fade-up" data-aos-duration="1000"> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Recommendations-->
+  @if(count($recommendateItemData) > 0)
+  <div class="container">
+    <div class="recommendations-saction">
+      <h2 data-aos="fade-up" data-aos-duration="1000">Recommendations</h2>
+      <a href="{{url('item/list')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <div class="recommendations-saction-shop">
+        <div class="row">
+          @each('website.partial.item_list', $recommendateItemData, 'row')
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <!--Popular-Item-->
+  @if(count($popularItemData) > 0)
+  <div class="container">
+    <div class="recommendations-saction">
+      <h2 data-aos="fade-up" data-aos-duration="1000">Popular item</h2>
+      <a href="{{url('item/list')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <div class="recommendations-saction-shop">
+        <div class="row">
+          @each('website.partial.item_list', $popularItemData, 'row')
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <!--Google ad banner-->
+  <div class="container">
+    <div class="google-ad-banner" data-aos="fade-up" data-aos-duration="1000"> <img
+        src="{{asset('website_assets/images/google-banner.png')}}" alt="#"> </div>
+  </div>
+
+  <!--All-Item-->
+  @if(count($allItemData) > 0)
+  <div class="container">
+    <div class="recommendations-saction all-itmes">
+      <h2 data-aos="fade-up" data-aos-duration="1000">All item</h2>
+      <div class="low-higy-price-box">
+        <div class="select">
+          <div class="selectBtn" data-type="firstOption">Category</div>
+          <div class="selectDropdown">
+            @foreach($homeCategories as $category)
+              <div class="option category-option" data-id="{{ $category->id }}">
+                {{ $category->name }}
+              </div>
+            @endforeach
+          </div>
+        </div>
+        <div class="select">
+          <div class="selectBtn" data-type="firstOption">Price - Low to High</div>
+            <div class="selectDropdown">
+              <div class="option sort-option" data-sort="low_to_high">Low to High</div>
+              <div class="option sort-option" data-sort="high_to_low">High to Low</div>
+              <div class="option sort-option" data-sort="oldest">Oldest to Newest</div>
+              <div class="option sort-option" data-sort="newest">Newest to Oldest</div>
+            </div>
+        </div>
+      </div>
+      <div class="recommendations-saction-shop">
+        <div class="load-more-box">
+          <div class="product-box">
+            <div class="row" id="item-container">
+              @include('website.partial.item_card_list',['items'=>$allItemData])
+            </div>
+          </div>
+          @if($totalItemCount > 8)
+            <div class="load-more text-center mt-4">
+              <button class="btn-load btn btn-primary">Load More</button>
+            </div>
+          @endif
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
+
+  <script>
+    let offset = 8;
+    let category_id = '';
+    let sort_by = '';
+
+    // CATEGORY FILTER
+    $(document).on('click', '.category-option', function () {
+
+        category_id = $(this).data('id');
+        offset = 0;
+
+        loadItems(true);
+    });
+
+    // SORT FILTER
+    $(document).on('click', '.sort-option', function () {
+
+        sort_by = $(this).data('sort');
+        offset = 0;
+
+        loadItems(true);
+    });
+
+    // LOAD MORE BUTTON
+    $(document).on('click', '.btn-load', function () {
+        loadItems(false);
+    });
+
+    function loadItems(reset = false) {
+
+        $.ajax({
+            url: "{{route('load.items')}}",
+            type: "GET",
+            data: {
+                offset: offset,
+                category_id: category_id,
+                sort_by: sort_by
+            },
+            success: function (response) {
+
+                if (reset) {
+                    $('#item-container').html(response);
+                    offset = 8;
+                } else {
+
+                    if (response.trim() == '') {
+                        $('.btn-load').hide();
+                    } else {
+                        $('#item-container').append(response);
+                        offset += 8;
+                    }
+                }
+            }
+        });
+    }
+</script>
+@endsection

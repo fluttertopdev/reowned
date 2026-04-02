@@ -215,6 +215,11 @@ class SellController extends Controller
         $limit = 6;
 
         $query = Item::with(['latestImage'])
+            ->withCount([
+                'favorites as favorite_count' => function($q){
+                    $q->whereNull('deleted_at');
+                }
+            ])
             ->where('user_id', Auth::guard('web')->user()->id);
 
         // Status filter
@@ -244,7 +249,12 @@ class SellController extends Controller
         $offset = $request->offset ?? 0;
         $limit = 6;
 
-        $query = Item::with('images')
+        $query = Item::with(['images'])
+            ->withCount([
+                'favorites as favorite_count' => function($q){
+                    $q->whereNull('deleted_at');
+                }
+            ])
             ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc');
 

@@ -68,8 +68,17 @@
                       @endif
                   </label>
 
+                  {{-- NUMBER --}}
+                  @if($field->field_type == 'number')
+                      <input type="text"
+                             name="custom_fields[{{ $field->id }}]"
+                             class="form-control"
+                             minlength="{{ $field->min_length }}"
+                             maxlength="{{ $field->max_length }}"
+                             {{ $field->is_required ? 'required' : '' }}>
+
                   {{-- TEXT --}}
-                  @if($field->field_type == 'textbox')
+                  @elseif($field->field_type == 'textbox')
                       <input type="text"
                              name="custom_fields[{{ $field->id }}]"
                              class="form-control"
@@ -158,14 +167,14 @@
           <h4>Confirm your location</h4>
           <div class="confirm-row">
             <label>Area *</label>
-            <input type="text" id="area" name="area" class="form-control" placeholder="Enter your area">
+            <input type="text" id="listing_area" name="area" class="form-control" placeholder="Enter your area">
           </div>
-          <input type="hidden" name="city" id="city">
-          <input type="hidden" name="state" id="state">
-          <input type="hidden" name="country" id="country">
-          <input type="hidden" name="pincode" id="pincode">
-          <input type="hidden" name="latitude" id="latitude">
-          <input type="hidden" name="longitude" id="longitude">
+          <input type="hidden" name="city" id="listing_city">
+          <input type="hidden" name="state" id="listing_state">
+          <input type="hidden" name="country" id="listing_country">
+          <input type="hidden" name="pincode" id="listing_pincode">
+          <input type="hidden" name="latitude" id="listing_latitude">
+          <input type="hidden" name="longitude" id="listing_longitude">
         </div>
         <div class="post-now">
           <button>Post Now</button>
@@ -252,9 +261,9 @@ $(document).ready(function(){
         }
 
         // Area
-        if($("#area").val().trim() == ""){
+        if($("#listing_area").val().trim() == ""){
             valid = false;
-            $("#area").after("<span class='error text-danger'>Select valid area</span>");
+            $("#listing_area").after("<span class='error text-danger'>Select valid area</span>");
         }
 
         // Custom Fields Required
@@ -282,15 +291,13 @@ $(document).ready(function(){
 });
 </script>
 
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8lv49sFP9c6gt001S-V4bUMRJflcgxI&libraries=places"></script>
-
 <script>
-let autocomplete;
-
 function initAutocomplete() {
 
     autocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('area'),
+        document.getElementById('listing_area'),
         {
             types: ['geocode'], // important
             componentRestrictions: { country: "in" } // India only
@@ -304,8 +311,8 @@ function initAutocomplete() {
       let lat = place.geometry.location.lat();
       let lng = place.geometry.location.lng();
 
-      $("#latitude").val(lat);
-      $("#longitude").val(lng);
+      $("#listing_latitude").val(lat);
+      $("#listing_longitude").val(lng);
 
       let area = '', city = '', state = '', country = '', pincode = '';
 
@@ -342,11 +349,11 @@ function initAutocomplete() {
           }
       });
 
-      $("#area").val(area);
-      $("#city").val(city);
-      $("#state").val(state);
-      $("#country").val(country);
-      $("#pincode").val(pincode);
+      $("#listing_area").val(area);
+      $("#listing_city").val(city);
+      $("#listing_state").val(state);
+      $("#listing_country").val(country);
+      $("#listing_pincode").val(pincode);
     });
 }
 

@@ -30,6 +30,7 @@ Route::get('/', [HomeController::class, 'index'])
     ->name('website.index');
 Route::get('/load-items', [HomeController::class, 'loadItems'])->name('load.items');
 Route::post('/save-location', [HomeController::class, 'saveLocation'])->name('save.location');
+Route::get('/check-session-location', [HomeController::class, 'checkSessionLocation'])->name('check.session.location');
 
 
 /*

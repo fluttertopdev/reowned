@@ -69,7 +69,7 @@
 </div>
 <!-- Location -->
 <div class="map-poup">
-  <div id="myModal" class="modal">
+  <div id="myLocationEditModal" class="modal">
     <div class="modal-content location-modal">
 
       <div class="modal-header">
@@ -87,11 +87,11 @@
       </div>
 
       <div class="map-search">
-        <input type="text" id="locationSearch" placeholder="Search city / area">
+        <input type="text" id="mapLocationSearch" placeholder="Search city / area">
       </div>
 
       <div class="map-wrapper">
-        <div id="map"></div>
+       <div id="mapCanvas"></div>
       </div>
 
       <div class="slider-container">
@@ -99,7 +99,6 @@
           <label>KM Range</label>
           <label id="rangeValue">20KM</label>
         </div>
-
         <input type="range" id="kmRange" min="0" max="100" value="20">
       </div>
 

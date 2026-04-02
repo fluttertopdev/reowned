@@ -212,5 +212,14 @@ class HomeController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function checkSessionLocation()
+    {
+        if (session()->has('user_lat') && session()->has('user_lng')) {
+            return response()->json(['exists' => true]);
+        }
+
+        return response()->json(['exists' => false]);
+    }
    
 }

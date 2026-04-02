@@ -202,7 +202,7 @@
         margin-bottom: 10px;
     }
 
-    #locationSearch {
+    #mapLocationSearch {
         width: 100%;
         padding: 10px;
         border-radius: 6px;
@@ -215,7 +215,7 @@
         margin-bottom: 15px;
     }
 
-    #map {
+    #mapCanvas {
         height: 300px;
         width: 100%;
     }
@@ -261,6 +261,12 @@
     }
     .option.active a{
         color: green !important;
+    }
+    .pac-container {
+        z-index: 999999 !important;
+    }
+    .area-filter {
+        cursor: pointer;
     }
 </style>
 
@@ -621,12 +627,12 @@
         const value = range.value;
         const max = range.max;
         const percent = (value / max) * 100;
+
         range.style.setProperty('--value', `${percent}%`);
-        rangeValue.textContent = `${value}KM`;
+        rangeValue.textContent = `${value} KM`;
     }
 
     range.addEventListener('input', updateSliderBackground);
-    updateSliderBackground();
 </script>
 
 <script>
@@ -1163,7 +1169,7 @@
 
         } else {
 
-            $('#myModal').show();
+            $('#myLocationEditModal').show();
 
             initMap(23.2599, 77.4126); // default Bhopal
 
@@ -1176,7 +1182,7 @@
 
         let center = { lat: lat, lng: lng };
 
-        map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("mapCanvas"), {
             zoom: 13,
             center: center,
             gestureHandling: "greedy"
@@ -1212,13 +1218,15 @@
 
         });
 
-        initAutocomplete();
-
     }
 
     function initAutocomplete() {
 
-        let input = document.getElementById('locationSearch');
+        let input = document.getElementById('mapLocationSearch');
+
+        if (autocomplete) {
+            return; // prevent duplicate binding
+        }
 
         autocomplete = new google.maps.places.Autocomplete(input, {
             types: ['geocode'],
@@ -1231,30 +1239,19 @@
 
             let place = autocomplete.getPlace();
 
-            // If user selects suggestion
-            if (place && place.geometry) {
+            if (!place.geometry) return;
 
-                let lat = place.geometry.location.lat();
-                let lng = place.geometry.location.lng();
+            let lat = place.geometry.location.lat();
+            let lng = place.geometry.location.lng();
 
-                let location = { lat: lat, lng: lng };
+            let location = { lat, lng };
 
-                map.setCenter(location);
-                map.setZoom(13);
+            map.setCenter(location);
+            map.setZoom(13);
+            marker.setPosition(location);
 
-                marker.setPosition(location);
-
-                getAddress(lat, lng);
-
-            } else {
-
-                // fallback for manual typing
-                geocodeAddress(input.value);
-
-            }
-
+            getAddress(lat, lng);
         });
-
     }
 
     function geocodeAddress(address) {
@@ -1286,7 +1283,7 @@
     }
 
 
-    $('#locationSearch').on('keydown', function (e) {
+    $('#mapLocationSearch').on('keydown', function (e) {
 
         if (e.key === "Enter") {
 
@@ -1382,7 +1379,7 @@
                 let cleanAddress = area + (city ? ', ' + city : '');
 
                 // UI update
-                $('#locationSearch').val(cleanAddress);
+                $('#mapLocationSearch').val(cleanAddress);
                 $('#currentLocation').text(cleanAddress);
 
                 // store structured
@@ -1400,8 +1397,6 @@
         });
 
     }
-
-
 
     // Save button
     $(document).on('click', '.save-button button', function () {
@@ -1435,12 +1430,13 @@
                 pincode: pincode
             },
             success: function () {
+                window.location.href="/";
                 console.log("Location saved in session");
             }
         });
 
         $('#currentLocation').text(localStorage.getItem('user_address'));
-        $('#myModal').hide();
+        $('#myLocationEditModal').hide();
     });
 
 
@@ -1448,33 +1444,39 @@
     // Open modal again
     $('#openModalBtn').click(function () {
 
-        $('#myModal').show();
+        $('#myLocationEditModal').show();
 
         let lat = localStorage.getItem('user_lat') || 23.2599;
         let lng = localStorage.getItem('user_lng') || 77.4126;
+
+        // ADD THIS PART (restore slider)
+        let savedRadius = localStorage.getItem('radius') || 20;
+
+        $('#kmRange').val(savedRadius);
+        $('#rangeValue').text(savedRadius + " KM");
+
+        // update slider UI (gradient fill)
+        setTimeout(() => {
+            updateSliderBackground();
+        }, 100);
 
         setTimeout(function () {
 
             initMap(parseFloat(lat), parseFloat(lng));
 
-        }, 300);
+            // INIT AUTOCOMPLETE HERE
+            initAutocomplete();
+
+            // FIX: force focus
+            $('#mapLocationSearch').focus();
+
+        }, 500);
 
     });
-
-
 
     // Close modal
     $('#closeModalBtn').click(function () {
-        $('#myModal').hide();
-    });
-
-
-
-    // Range slider UI
-    $('#kmRange').on('input', function () {
-
-        $('#rangeValue').text($(this).val() + " KM");
-
+        $('#myLocationEditModal').hide();
     });
 </script>
 
@@ -1506,5 +1508,49 @@
             performSearch();
         });
 
+    });
+</script>
+
+<!-- Check session -->
+<script>
+    $(document).ready(function () {
+
+        let lat = localStorage.getItem('user_lat');
+        let lng = localStorage.getItem('user_lng');
+        let radius = localStorage.getItem('radius');
+
+        // Only run if localStorage has data
+        if (lat && lng) {
+
+            $.ajax({
+                url: "{{ route('check.session.location') }}",
+                method: "GET",
+                success: function (res) {
+
+                    // If session missing → restore it
+                    if (!res.exists) {
+
+                        $.ajax({
+                            url: "{{ route('save.location') }}",
+                            method: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                lat: lat,
+                                lng: lng,
+                                radius: radius,
+                                area: localStorage.getItem('user_area'),
+                                city: localStorage.getItem('user_city'),
+                                state: localStorage.getItem('user_state'),
+                                pincode: localStorage.getItem('user_pincode')
+                            },
+                            success: function () {
+                                console.log("Session restored from localStorage ✅");
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
     });
 </script>

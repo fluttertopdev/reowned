@@ -72,7 +72,7 @@
                     </div>
                   </div>
                   <div class="product-box">
-                    @if($items->count() >= 6)
+                    @if($items->count() > 6)
                       <div class="load-more text-center mt-4">
                           <button class="btn-load" id="loadMoreBtn">Load More</button>
                       </div>

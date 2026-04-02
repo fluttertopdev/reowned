@@ -13,8 +13,19 @@
             </div>
             <div class="add-text-right">
                 <ul>
-                    <li><a href="#"><img src="{{asset('website_assets/images/eyea-add-1.png')}}"><span>0</span></a></li>
-                    <li><a href="#"><img src="{{asset('website_assets/images/hart-add-2.png')}}"><span>0</span></a></li>
+                   <li>
+                        <a href="#">
+                            <img src="{{asset('website_assets/images/eyea-add-1.png')}}">
+                            <span>{{ $item->views ?? 0 }}</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="{{asset('website_assets/images/hart-add-2.png')}}">
+                            <span>{{ $item->favorite_count ?? 0 }}</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 

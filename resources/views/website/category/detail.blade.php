@@ -14,7 +14,7 @@
         <h2 class="title-page">{{ucfirst($slug)}} Category</h2>
         <div class="designer-row-box-saction">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" id="filterContainer">
                     <div class="categories-left-side">
                         <h4>Filters</h4>
                         <button class="filter"><img src="{{asset('website_assets/images/filter.png')}}"></button>
@@ -28,7 +28,7 @@
                                 <ul>
                                     @foreach($category as $row)
                                         <li class="inneronclick active">
-                                            <a href="javascript:void(0)" class="inneronclick-disgine category-filter"
+                                            <a href="javascript:void(0)" class="inneronclick-disgine category-filter {{ $selectedCategory == $row->slug ? 'active' : '' }}"
                                                 data-slug="{{ $row->slug }}" data-name="{{ $row->name }}">
                                                 {{ $row->name }} ({{ $row->items_count }})
                                                 <span class="icon">+</span>
@@ -39,7 +39,7 @@
 
                                                     @foreach($row->children as $sub)
                                                         <li>
-                                                            <a href="javascript:void(0)" class="subcategory-filter"
+                                                            <a href="javascript:void(0)" class="subcategory-filter {{ $selectedCategory == $sub->slug ? 'active' : '' }}"
                                                                 data-slug="{{ $sub->slug }}" data-name="{{ $sub->name }}">
                                                                 {{ $sub->name }} ({{ $sub->items_count }})
                                                             </a>
@@ -116,8 +116,17 @@
                                         <div class="slider-track" id="sliderTrack"></div>
 
                                         <!-- Sliders -->
-                                        <input type="range" id="priceMin" min="0" max="{{ $maxPriceValue }}" step="500" value="0">
-                                        <input type="range" id="priceMax" min="0" max="{{ $maxPriceValue }}" step="500" value="{{ $maxPriceValue }}">
+                                        <input type="range" id="priceMin"
+                                               min="0"
+                                               max="{{ $maxPriceValue }}"
+                                               step="100"
+                                               value="{{ $minPrice }}">
+
+                                        <input type="range" id="priceMax"
+                                               min="0"
+                                               max="{{ $maxPriceValue }}"
+                                               step="100"
+                                               value="{{ $maxPrice }}">
 
                                     </div>
 
@@ -139,17 +148,17 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="checkbox" id="today" name="date_filter" value="today">
+                                        <input type="checkbox" id="today" name="date_filter" value="today"{{ $selectedDate == 'today' ? 'checked' : '' }}>
                                         <label for="today">Today</label>
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="checkbox" id="week" name="date_filter" value="week"> 
+                                        <input type="checkbox" id="week" name="date_filter" value="week"{{ $selectedDate == 'week' ? 'checked' : '' }}>
                                         <label for="week">Last 7 days</label>
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="checkbox" id="month" name="date_filter" value="month"> 
+                                       <input type="checkbox" id="month" name="date_filter" value="month"{{ $selectedDate == 'month' ? 'checked' : '' }}>
                                         <label for="month">Last 30 days</label>
                                     </div>
                                 </form>
@@ -164,9 +173,9 @@
                             <div class="dropdown-list">
                                 <div class="slider-container">
                                     <div class="slider-labels">
-                                        <label id="rangeValue">20KM</label>
+                                        <label id="rangeValue">{{ $radiusValue }} KM</label>
                                     </div>
-                                    <input type="range" id="kmRange" min="0" max="100" value="20">
+                                   <input type="range" id="kmRange" min="0" max="100" value="{{ $radiusValue }}">
                                 </div>
                                 <div class="aply-button"><button class="apply-button">Apply</button></div>
                             </div>
@@ -223,27 +232,60 @@
         </div>
     </div>
     <script>
-        let selectedCategory = '';
+        let selectedSort = '';
+        let openDropdowns = [];
+        let selectedCategory = "{{ $selectedCategory ?? '' }}";
+        let selectedArea = "{{ $selectedArea ?? '' }}";
+        let dateFilter = "{{ $selectedDate ?? '' }}";
+
+        let minPrice = {{ $minPrice ?? 0 }};
+        let maxPrice = {{ $maxPrice ?? 0 }};
+        let radius = {{ $radiusValue ?? 20 }};
 
         $(document).on('click', '.sort-option', function () {
 
-            let sort = $(this).data('sort');
+            selectedSort = $(this).data('sort');
 
-            loadItems(sort);
+            let text = $(this).text();
+            $(this).closest('.select').find('.selectBtn').text(text);
 
+            // highlight active (optional)
+            $('.sort-option').removeClass('active');
+            $(this).addClass('active');
+
+            loadItems();
         });
 
 
-        $(document).on('click', '.category-filter, .subcategory-filter', function () {
+        // CATEGORY CLICK → only toggle
+        $(document).on('click', '.category-filter', function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            let parent = $(this).closest('li');
+            let dropdown = parent.children('.iner-dropdown');
+            let icon = $(this).find('.icon');
+
+            parent.siblings().find('.iner-dropdown').slideUp(200);
+            parent.siblings().find('.icon').text('+');
+
+            dropdown.stop(true, true).slideToggle(200);
+
+            icon.text(icon.text() === '+' ? '-' : '+');
+        });
+
+        // SUBCATEGORY CLICK → apply filter
+        $(document).on('click', '.subcategory-filter', function (e) {
+
+            e.stopPropagation();
 
             selectedCategory = $(this).data('slug');
 
             let name = $(this).data('name');
-
-            addFilterTag(name);
+            addFilterTag('category', name);
 
             loadItems();
-
         });
 
         let priceRange = '';
@@ -257,10 +299,6 @@
 
             loadItems();
         });
-
-
-        let minPrice = 0;
-        let maxPrice = parseInt($('#priceMax').val());
 
         $('#priceMin').on('input', function () {
 
@@ -303,11 +341,6 @@
             updateSliderTrack();
         });
 
-        $('#applyPrice').click(function () {
-            addFilterTag(`₹ ${minPrice} - ₹ ${maxPrice}`);
-            loadItems();
-        });
-
 
         function updateSliderTrack() {
 
@@ -325,8 +358,6 @@
         }
 
 
-        let selectedArea = '';
-
         $(document).on('click', '.area-filter', function () {
 
             $('.area-filter').removeClass('active');
@@ -334,12 +365,11 @@
 
             selectedArea = $(this).data('area');
 
-            addFilterTag(selectedArea);
+            addFilterTag('area', selectedArea);
 
             loadItems();
         });
 
-        let dateFilter = '';
 
         $(document).on('change', 'input[name="date_filter"]', function () {
 
@@ -352,7 +382,7 @@
 
                 let label = $(this).next('label').text();
 
-                addFilterTag(label);
+                addFilterTag('date', label);
 
             } else {
                 dateFilter = '';
@@ -361,8 +391,7 @@
             loadItems();
         });
 
-        
-        let radius = 20;
+
         $(document).ready(function () {
             radius = $('#kmRange').val();
         });
@@ -380,13 +409,22 @@
         });
 
 
-        function loadItems(sort = '') {
+        function loadItems() {
+
+            // SAVE OPEN DROPDOWNS
+            openDropdowns = [];
+
+            $('.onclick-button.active').each(function () {
+                let index = $('.onclick-button').index(this);
+                openDropdowns.push(index);
+            });
 
             let url = window.location.pathname;
-
             let searchParams = new URLSearchParams();
 
-            if (sort) searchParams.set('sort', sort);
+            if (selectedSort) {
+                searchParams.set('sort', selectedSort);
+            }
             if (selectedCategory) searchParams.set('slug', selectedCategory);
             if (priceRange) searchParams.set('price_range', priceRange);
             if (selectedArea) searchParams.set('area', selectedArea);
@@ -400,8 +438,100 @@
                 url: url + '?' + searchParams.toString(),
                 type: 'GET',
                 success: function (res) {
-                    $('#item-list').html(res);
+
+                    $('#item-list').html(res.items);
+
+                    let newFilters = $(res.filters).find('#filterContainer').html();
+                    $('#filterContainer').html(newFilters);
+
+                    initFiltersUI();
+                    initPriceSlider();
+                    initKmSlider();
+
+                    // RESTORE DROPDOWN STATE
+                    restoreDropdowns();
+                    restoreSubcategories();
                 }
+            });
+        }
+
+        function restoreDropdowns() {
+
+            $('.onclick-button').each(function (index) {
+
+                if (openDropdowns.includes(index)) {
+
+                    $(this).addClass('active');
+                    $(this).children('.dropdown-list').show();
+
+                }
+            });
+        }
+
+        function restoreSubcategories() {
+
+            if (selectedCategory) {
+
+                let el = $(`[data-slug="${selectedCategory}"]`);
+
+                let parentLi = el.closest('li');
+
+                parentLi.children('.iner-dropdown').show();
+
+                parentLi.find('.icon').text('-');
+            }
+        }
+
+        $(document).ready(function () {
+            initFiltersUI();
+            initPriceSlider();
+            initKmSlider();
+        });
+
+
+        function initFiltersUI() {
+
+            // =========================
+            // RESTORE CATEGORY ACTIVE
+            // =========================
+            if (selectedCategory) {
+                $(`[data-slug="${selectedCategory}"]`).addClass('active');
+            }
+
+            // =========================
+            // RESTORE AREA ACTIVE
+            // =========================
+            if (selectedArea) {
+                $(`.area-filter[data-area="${selectedArea}"]`).addClass('active');
+            }
+
+            // =========================
+            // RESTORE DATE FILTER
+            // =========================
+            if (dateFilter) {
+                $(`input[name="date_filter"][value="${dateFilter}"]`).prop('checked', true);
+            }
+
+            // =========================
+            // EVENTS
+            // =========================
+
+            $('.area-filter').off('click').on('click', function () {
+                selectedArea = $(this).data('area');
+                loadItems();
+            });
+
+            $('input[name="date_filter"]').off('change').on('change', function () {
+
+                $('input[name="date_filter"]').not(this).prop('checked', false);
+
+                if ($(this).is(':checked')) {
+                    dateFilter = $(this).val();
+                } else {
+                    dateFilter = '';
+                }
+
+                loadItems();
             });
         }
 
@@ -431,12 +561,15 @@
         });
 
 
-        function addFilterTag(name) {
+        function addFilterTag(type, name) {
+
+            // remove existing same type
+            $(`#applied-filters li[data-type="${type}"]`).remove();
 
             let tag = `
-                <li class="filter-tag">
+                <li class="filter-tag" data-type="${type}">
                     ${name}
-                    <button class="remove-filter">
+                    <button class="remove-filter" data-type="${type}">
                         <img src="{{asset('website_assets/images/tage-close.png')}}">
                     </button>
                 </li>`;
@@ -447,85 +580,114 @@
 
         $(document).on('click', '.remove-filter', function () {
 
-            $(this).closest('li').remove();
+            let type = $(this).data('type');
 
-            // optional: reset all filters
-            selectedCategory = '';
-            selectedArea = '';
-            priceRange = '';
-            dateFilter = '';
+            if (type === 'category') selectedCategory = '';
+            if (type === 'area') selectedArea = '';
+            if (type === 'price') {
+                minPrice = 0;
+                maxPrice = $('#priceMax').attr('max');
+            }
+            if (type === 'radius') radius = 20;
+            if (type === 'date') dateFilter = '';
+
+            $(this).closest('li').remove();
 
             loadItems();
         });
-    </script>
-    <script>
-        $(document).ready(function () {
 
-            $('.inneronclick').on('click', function (e) {
+        function initPriceSlider() {
 
-                e.stopPropagation();
+            let $min = $('#priceMin');
+            let $max = $('#priceMax');
 
-                let target = $(e.target);
+            if (!$min.length || !$max.length) return;
 
-                // CATEGORY CLICK
-                if (target.closest('.category-filter').length) {
+            // Set values from existing variables
+            $min.val(minPrice);
+            $max.val(maxPrice);
 
-                    let el = target.closest('.category-filter');
+            $('#minPrice').text(minPrice);
+            $('#maxPrice').text(maxPrice);
 
-                    let slug = el.data('slug');
-                    let name = el.data('name');
+            // REMOVE OLD EVENTS
+            $min.off('input');
+            $max.off('input');
 
-                    selectedCategory = slug;
+            // REBIND EVENTS
+            $min.on('input', function () {
 
-                    addFilterTag(name);
-                    loadItems();
+                let val = parseInt($(this).val());
 
+                if (val > maxPrice) {
+                    val = maxPrice;
+                    $(this).val(val);
                 }
 
-                // SUBCATEGORY CLICK
-                if (target.closest('.subcategory-filter').length) {
+                minPrice = val;
+                $('#minPrice').text(val);
 
-                    let el = target.closest('.subcategory-filter');
-
-                    let slug = el.data('slug');
-                    let name = el.data('name');
-
-                    selectedCategory = slug;
-
-                    addFilterTag(name);
-                    loadItems();
-
-                }
-
-                // Dropdown toggle
-                $('.iner-dropdown').removeClass('iner-dropdown-open');
-                $('.inneronclick').removeClass('active');
-                $('.icon').text('+');
-
-                $(this).find('.iner-dropdown').addClass('iner-dropdown-open');
-                $(this).addClass('active');
-                $(this).find('.icon').text('-');
-
+                updateSliderTrack();
             });
 
+            $max.on('input', function () {
+
+                let val = parseInt($(this).val());
+
+                if (val < minPrice) {
+                    val = minPrice;
+                    $(this).val(val);
+                }
+
+                maxPrice = val;
+                $('#maxPrice').text(val);
+
+                updateSliderTrack();
+            });
+
+            // apply button
+            $('#applyPrice').off('click').on('click', function () {
+                addFilterTag('price', `₹ ${minPrice} - ₹ ${maxPrice}`);
+                loadItems();
+            });
+
+            updateSliderTrack();
+        }
+
+        function initKmSlider() {
+
+            let $km = $('#kmRange');
+
+            if (!$km.length) return;
+
+            $km.val(radius);
+            $('#rangeValue').text(radius + ' KM');
+
+            $km.off('input').on('input', function () {
+                radius = $(this).val();
+                $('#rangeValue').text(radius + ' KM');
+            });
+
+            $('.apply-button').off('click').on('click', function () {
+                radius = $('#kmRange').val();
+                addFilterTag('radius', radius + ' KM');
+                loadItems();
+            });
+        }
+
+        $(document).on('click', '.onclick-button > span', function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            let parent = $(this).parent();
+
+            parent.toggleClass('active');
+            parent.children('.dropdown-list').stop(true, true).slideToggle(200);
         });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('.onclick-button').click(function (e) {
-                e.stopPropagation(); // Prevent bubbling
 
-                // Close others
-                $('.onclick-button').not(this).removeClass('open-list-drop');
-
-                // Toggle current
-                $(this).toggleClass('open-list-drop');
-            });
-
-            // Optional: close if clicked outside
-            $(document).click(function () {
-                $('.onclick-button').removeClass('open-list-drop');
-            });
+        $(document).on('click', '.dropdown-list', function (e) {
+            e.stopPropagation();
         });
     </script>
 @endsection

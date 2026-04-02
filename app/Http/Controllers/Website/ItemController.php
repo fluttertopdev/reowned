@@ -9,6 +9,8 @@ use Session;
 use App\Models\Item;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class ItemController extends Controller
 {
@@ -97,47 +99,53 @@ class ItemController extends Controller
         $pincode = session('pincode');
         $area    = session('area');
 
-        $itemQuery = Item::where('slug',$slug)
-            ->where('status',1)
+        $item = Item::where('slug', $slug)
+            ->where('status', 1)
             ->with([
                 'images',
                 'latestImage',
                 'user',
                 'customFields'
-            ]);
-
-        if($lat && $lng){
-
-            $itemQuery->select('items.*')
-                ->selectRaw("
-                    (6371 * acos(
-                        cos(radians(?)) 
-                        * cos(radians(latitude)) 
-                        * cos(radians(longitude) - radians(?)) 
-                        + sin(radians(?)) 
-                        * sin(radians(latitude))
-                    )) AS distance
-                ", [$lat, $lng, $lat])
-
-                ->having("distance", "<=", $radius);
-
-        } else {
-
-            // fallback
-            if($city){
-                $itemQuery->where('city', $city);
-            }
-
-            if($state){
-                $itemQuery->where('state', $state);
-            }
-        }
-
-        $item = $itemQuery->first();
+            ])
+            ->first();
 
         if(!$item){
             return redirect('/')
-                ->with('error', 'Item not available in your area');
+                ->with('error', 'Item not found');
+        }
+
+        $isOwner = $userId == $item->user_id;
+
+        if(!$isOwner){
+
+            // LOCATION CHECK
+            if($lat && $lng && $item->latitude && $item->longitude){
+
+                $distance = $this->calculateDistance($lat, $lng, $item->latitude, $item->longitude);
+
+                if($distance > $radius){
+                    return redirect('/')
+                        ->with('error', 'Item not available in your area');
+                }
+
+            } else {
+
+                if($city && $item->city != $city){
+                    return redirect('/')->with('error', 'Item not available in your area');
+                }
+
+                if($state && $item->state != $state){
+                    return redirect('/')->with('error', 'Item not available in your area');
+                }
+            }
+
+            // VIEW COUNT
+            $key = 'viewed_item_'.$item->id.'_'.request()->ip();
+
+            if(!Cache::has($key)){
+                Item::where('id', $item->id)->increment('views');
+                Cache::put($key, true, now()->addMinutes(1));
+            }
         }
 
         $relatedQuery = Item::where('category_id',$item->category_id)
@@ -179,12 +187,26 @@ class ItemController extends Controller
         $isFavorite = false;
 
         if(Auth::guard('web')->check()){
-            $isFavorite = Favorite::where('user_id',$userId)
-                ->where('item_id',$item->id)
-                ->exists();
+            $isFavorite = Auth::check() 
+                ? Favorite::where('user_id',$userId)
+                    ->where('item_id',$item->id)
+                    ->whereNull('deleted_at')
+                    ->exists()
+                : false;
         }
 
         return view('website.item.item_detail',compact('item','relatedItems','isFavorite'));
+    }
+
+    private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        return 6371 * acos(
+            cos(deg2rad($lat1)) *
+            cos(deg2rad($lat2)) *
+            cos(deg2rad($lng2 - $lng1)) +
+            sin(deg2rad($lat1)) *
+            sin(deg2rad($lat2))
+        );
     }
 
 

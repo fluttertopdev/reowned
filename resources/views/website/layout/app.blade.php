@@ -17,6 +17,9 @@
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <title>Reowned</title>
+  <script>
+    var base_url = "{{url('')}}";
+  </script>
 </head>
 
 <body>

@@ -159,7 +159,7 @@
                 </a>
               </div>
               <div class="start-chate-call">
-                <a href="{{route('chats')}}" class="start-chate"><img src="{{asset('website_assets/images/chate.svg')}}">Start chat</a>
+                <a href="{{ route('chat.start', $item->id) }}" class="start-chate"><img src="{{asset('website_assets/images/chate.svg')}}">Start chat</a>
                 <a href="tel:{{$item->user ? $item->user->phone : '--'}}" class="call-button"><img src="{{asset('website_assets/images/call.svg')}}">Call</a>
               </div>
             </div>

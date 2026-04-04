@@ -374,6 +374,144 @@
     }
 </style>
 
+<!-- chat -->
+<style>
+  /* CHAT CONTAINER */
+  .chat-meassge-box {
+      height: 400px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f5f7fb;
+      display: flex;
+      flex-direction: column;
+
+      /* Hide scrollbar */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE & Edge */
+  }
+
+  .chat-meassge-box::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+  }
+
+  /* MESSAGE COMMON */
+  .chat-meassge-box div {
+      max-width: 80%;
+      padding: 2px 5px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      position: relative;
+      word-wrap: break-word;
+      display: inline-flex;
+  }
+
+  /*Seen Status*/
+  span.seen-status {
+      display: inline-block;
+      color: #000;
+      font-size: 10px;
+      font-family: "Manrope", sans-serif;
+      font-weight: 500;
+      margin-top: 10px;
+      width: 20px;
+  }
+
+  /* MY MESSAGE */
+  .my-msg {
+      background: #d9fdd3;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+  }
+
+  /* OTHER MESSAGE */
+  .other-msg {
+      background: #ffffff;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+  }
+
+  /* SEEN */
+  .seen-status {
+      font-size: 10px;
+      margin-left: 5px;
+      color: #999;
+  }
+
+  /* INPUT AREA */
+  .type-meassge-box {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-top: 1px solid #eee;
+  }
+
+  .type-your {
+      flex: 1;
+      border-radius: 25px;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      resize: none;
+      height: 40px;
+  }
+
+  /* SEND BUTTON */
+  .send-meassge {
+      background: #ff6b00;
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+  }
+
+  /* TYPING */
+  .typing-indicator span{
+    color: green !important;
+  }
+   
+  /*Active Chat*/
+  a.open-chat.active {
+    background-color: #fff;
+  }
+
+    /*chat icon*/
+    .chat-icon {
+        margin-top: -20px;
+    }
+    
+    /*Unread count*/
+    span.unread-count.badge {
+        float: inline-end;
+        background: green;
+        color: white;
+        border-radius: 50%;
+        font-size: 10px;
+        margin-top: 40px;
+    }
+    /*Today yeaster tag*/
+    .chat-date{
+        text-align: center;
+        margin: 10px 0;
+        font-size: 12px;
+        color: #888;
+    }
+
+    /*Time*/
+    span.msg-time {
+        font-size: 10px;
+        margin-top: 10px;
+    }
+
+    /*item name*/
+    .item-name-a{
+        text-decoration: none;
+        color: #cb694f;
+        font-weight: 900;
+    }
+</style>
+
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1430,7 +1568,7 @@
                 pincode: pincode
             },
             success: function () {
-                window.location.href="/";
+                window.location.href="{{ url('/') }}";
                 console.log("Location saved in session");
             }
         });

@@ -131,10 +131,34 @@ Route::get('/notifications', [NotificationController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth.webuser')->group(function () {
-    Route::get('/chats', [ChatController::class, 'index'])
-        ->name('chats');
-});
+     
+     Route::get('/chats', [ChatController::class, 'index'])
+    ->name('index');
 
+    Route::prefix('chat')->name('chat.')->group(function () {
+
+        Route::get('/chats', [ChatController::class, 'index'])
+            ->name('index');
+
+        Route::get('/list', [ChatController::class,'chatList']);
+
+        Route::get('/messages/{id}', [ChatController::class,'messages']);
+
+        Route::post('/send', [ChatController::class,'send']);
+
+        Route::post('/block', [ChatController::class,'block']);
+
+        Route::post('/unblock', [ChatController::class,'unblock']);
+
+        Route::get('/start/{item}', [ChatController::class,'startChat'])
+            ->name('start');
+
+        Route::post('/typing', [ChatController::class,'typing']);
+
+        Route::post('/seen', [ChatController::class, 'markSeen']);
+
+    });
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -12,9 +12,13 @@
 
 
 <script src="{{asset('/assets/vendor/libs/jquery/jquery.js')}}"></script>
+
+<!-- ADD THIS -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-<script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+
 <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>

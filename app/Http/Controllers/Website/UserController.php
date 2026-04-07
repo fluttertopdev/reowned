@@ -19,24 +19,38 @@ use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-    public function accountDetail(Request $request)
+    public function accountDetail(Request $request,$id)
     {
+        $userId = $id;
         $user = Auth::guard('web')->user();
-        $userId = $user->id ?? 0;
+        $user_id = $user->id ?? 0;
+
+        if($userId == $user_id){
+           return redirect('/')
+                ->with('error', 'Account not exists');
+        }
+
+        $profileUser = User::find($userId);
+
+        if(!$profileUser){
+           return redirect('/')
+                ->with('error', 'Account not exists');
+        }
 
         $query = Item::where('status',1)
+            ->where('user_id', $userId)
             ->with(['latestImage'])
-            ->withExists(['favorites as is_favorite' => function($q) use ($userId){
-                $q->where('user_id',$userId);
+            ->withExists(['favorites as is_favorite' => function($q) use ($user_id){
+                $q->where('user_id',$user_id);
             }]);
 
         $totalItemCount = $query->count();
 
-        $allItemData = $query->orderBy('id','DESC')
+        $allItemData = $query->orderBy('views','DESC')
             ->limit(8)
             ->get();
 
-        return view('website.user.account_detail', compact('user','allItemData','totalItemCount'));
+        return view('website.user.account_detail', compact('profileUser','allItemData','totalItemCount'));
     }
 
 

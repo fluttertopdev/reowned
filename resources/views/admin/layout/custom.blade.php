@@ -106,8 +106,6 @@
           window.location.href = "{{ route('staff.destroy', '') }}/" + itemId;
         } else if (pagename == 'notification') {
           window.location.href = "{{ route('notification.destroy', '') }}/" + itemId;
-        } else if (pagename == 'seo') {
-          window.location.href = "{{ route('seo.destroy', '') }}/" + itemId;
         } else if (pagename == 'userqueries') {
           window.location.href = "{{ route('userqueries.destroy', '') }}/" + itemId;
         } else if (pagename == 'userqueries') {
@@ -167,6 +165,7 @@
     reader.readAsDataURL(event.target.files[0]);
   }
 </script>
+
 <script type="text/javascript">
   function calculateFinalPrice() {
     let price = parseFloat(document.getElementById("multicol-price").value) || 0;
@@ -216,6 +215,7 @@
     });
   });
 </script>
+
 <script type="text/javascript">
   $(document).ready(function () {
     function loadStates(selectedState = null) {
@@ -285,7 +285,6 @@
 
       $.ajax({
         url: "{{ route('translation.updatetranslation') }}",
-
         type: "POST",
         dataType: "JSON",
         data: {
@@ -364,56 +363,108 @@
   });
 
   // ====Ads===
-    document.addEventListener("DOMContentLoaded", function () {
-      var quillEditor = document.getElementById("full-editor"); // Get Quill editor div
-      var descriptionTextarea = document.getElementById("description-ads"); // Get hidden textarea
-      var descriptionError = document.getElementById("description-error-ads"); // Get error message span
-      var form = document.getElementById("description-form-ads");
+  document.addEventListener("DOMContentLoaded", function () {
+    var quillEditor = document.getElementById("full-editor"); // Get Quill editor div
+    var descriptionTextarea = document.getElementById("description-ads"); // Get hidden textarea
+    var descriptionError = document.getElementById("description-error-ads"); // Get error message span
+    var form = document.getElementById("description-form-ads");
 
-      // Function to get content from Quill editor
-      function getEditorContent() {
-        return quillEditor.querySelector(".ql-editor").innerHTML.trim();
+    // Function to get content from Quill editor
+    function getEditorContent() {
+      return quillEditor.querySelector(".ql-editor").innerHTML.trim();
+    }
+
+    // Sync Quill content to hidden textarea before submitting
+    function updateTextarea() {
+      descriptionTextarea.value = getEditorContent();
+    }
+
+    // Live validation to check if editor is empty
+    function validateDescription() {
+      var content = getEditorContent();
+      if (content === "" || content === "<p><br></p>") {
+        descriptionError.textContent = "The description field is required.";
+        descriptionTextarea.setCustomValidity("The description field is required.");
+        return false;
+      } else {
+        descriptionError.textContent = "";
+        descriptionTextarea.setCustomValidity("");
+        return true;
       }
+    }
 
-      // Sync Quill content to hidden textarea before submitting
-      function updateTextarea() {
-        descriptionTextarea.value = getEditorContent();
+    // Listen for changes inside the editor and update the hidden textarea
+    quillEditor.addEventListener("input", function () {
+      updateTextarea();
+      validateDescription();
+    });
+
+    // Validate on form submit
+    form.addEventListener("submit", function (event) {
+      updateTextarea();
+      if (!validateDescription()) {
+        event.preventDefault(); // Prevent form submission if validation fails
       }
+    });
 
-      // Live validation to check if editor is empty
-      function validateDescription() {
-        var content = getEditorContent();
-        if (content === "" || content === "<p><br></p>") {
-          descriptionError.textContent = "The description field is required.";
-          descriptionTextarea.setCustomValidity("The description field is required.");
-          return false;
-        } else {
-          descriptionError.textContent = "";
-          descriptionTextarea.setCustomValidity("");
-          return true;
-        }
+    // Load existing content from textarea to editor on page load
+    if (descriptionTextarea.value.trim() !== "") {
+      quillEditor.querySelector(".ql-editor").innerHTML = descriptionTextarea.value;
+    }
+  });
+
+  // ====FAQ===
+  document.addEventListener("DOMContentLoaded", function () {
+    var quillEditor = document.getElementById("full-editor"); // Get Quill editor div
+    var descriptionTextarea = document.getElementById("description-faq"); // Get hidden textarea
+    var descriptionError = document.getElementById("description-error-faq"); // Get error message span
+    var form = document.getElementById("description-form-faq");
+
+    // Function to get content from Quill editor
+    function getEditorContent() {
+      return quillEditor.querySelector(".ql-editor").innerHTML.trim();
+    }
+
+    // Sync Quill content to hidden textarea before submitting
+    function updateTextarea() {
+      descriptionTextarea.value = getEditorContent();
+    }
+
+    // Live validation to check if editor is empty
+    function validateDescription() {
+      var content = getEditorContent();
+      if (content === "" || content === "<p><br></p>") {
+        descriptionError.textContent = "The description field is required.";
+        descriptionTextarea.setCustomValidity("The description field is required.");
+        return false;
+      } else {
+        descriptionError.textContent = "";
+        descriptionTextarea.setCustomValidity("");
+        return true;
       }
+    }
 
-      // Listen for changes inside the editor and update the hidden textarea
-      quillEditor.addEventListener("input", function () {
-        updateTextarea();
-        validateDescription();
-      });
+    // Listen for changes inside the editor and update the hidden textarea
+    quillEditor.addEventListener("input", function () {
+      updateTextarea();
+      validateDescription();
+    });
 
-      // Validate on form submit
-      form.addEventListener("submit", function (event) {
-        updateTextarea();
-        if (!validateDescription()) {
-          event.preventDefault(); // Prevent form submission if validation fails
-        }
-      });
-
-      // Load existing content from textarea to editor on page load
-      if (descriptionTextarea.value.trim() !== "") {
-        quillEditor.querySelector(".ql-editor").innerHTML = descriptionTextarea.value;
+    // Validate on form submit
+    form.addEventListener("submit", function (event) {
+      updateTextarea();
+      if (!validateDescription()) {
+        event.preventDefault(); // Prevent form submission if validation fails
       }
+    });
+
+    // Load existing content from textarea to editor on page load
+    if (descriptionTextarea.value.trim() !== "") {
+      quillEditor.querySelector(".ql-editor").innerHTML = descriptionTextarea.value;
+    }
   });
 </script>
+
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[id^='full-editor-']").forEach(function (editorDiv) {

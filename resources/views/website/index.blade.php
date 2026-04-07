@@ -31,33 +31,29 @@
   @endif
 
   <!--Bringing-Fashion-->
+  @if($bannerData)
   <div class="container">
     <div class="bringing-fashion-saction" data-aos="fade-up" data-aos-duration="1000">
       <div class="row">
-        <div class="col-md-4">
-          <div class="bringing-fashion-saction-left">
-            <h2 data-aos="fade-up" data-aos-duration="1000">Bringing fashion<br>
-              brands to life</h2>
-            <p data-aos="fade-up" data-aos-duration="1000">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam.</p>
-            <div class="save" data-aos="fade-up" data-aos-duration="1000">Save up to <span>60% Off</span></div>
-            <a href="#" data-aos="fade-up" data-aos-duration="1000">Order now</a>
+        <div class="col-md-12">
+          <div class="bringing-fashion-saction-right"> 
+            <a target="_blank" href="{{$bannerData->link}}">
+              <img src="{{ $bannerData->image ? asset('uploads/banner/'.$bannerData->image) : asset(
+              'uploads/default-banner.png')}}" alt="#" data-aos="fade-up" data-aos-duration="1000" width="100%" height="424px"> 
+            </a>
           </div>
-        </div>
-        <div class="col-md-8">
-          <div class="bringing-fashion-saction-right"> <img src="{{asset('website_assets/images/fashion-image.png')}}"
-              alt="#" data-aos="fade-up" data-aos-duration="1000"> </div>
         </div>
       </div>
     </div>
   </div>
+  @endif
 
   <!--Recommendations-->
   @if(count($recommendateItemData) > 0)
   <div class="container">
     <div class="recommendations-saction">
       <h2 data-aos="fade-up" data-aos-duration="1000">Recommendations</h2>
-      <a href="{{url('item/list')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <a href="{{url('item/list?type=recommendation')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $recommendateItemData, 'row')
@@ -72,7 +68,7 @@
   <div class="container">
     <div class="recommendations-saction">
       <h2 data-aos="fade-up" data-aos-duration="1000">Popular item</h2>
-      <a href="{{url('item/list')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <a href="{{url('item/list?type=popular')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $popularItemData, 'row')

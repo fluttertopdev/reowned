@@ -17,7 +17,6 @@
         <div class="footer-box">
           <h3>Quick links</h3>
           <ul>
-            <li><a href="{{url('about-us')}}">About us</a></li>
             <li><a href="{{url('contact-us')}}">Contact us</a></li>
             <li><a href="{{url('subscriptions')}}">Subscription</a></li>
             <li><a href="{{url('faqs')}}">FAQs</a></li>

@@ -19,18 +19,22 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('website.layout.header', function ($view) {
 
             $categories = Category::with(['children' => function ($q) {
-                            $q->where('status', 1)
-                              ->orderBy('name');
-                        }])
-                        ->where('parent_id', 0)
-                        ->where('status', 1)
-                        ->orderBy('name')
-                        ->get();
+                                $q->where('status', 1)
+                                  ->orderBy('name');
+                            }])
+                            ->where('parent_id', 0)
+                            ->where('status', 1)
+
+                            // NEW CONDITIONS
+                            ->where('is_featured', 1)
+                            ->orderBy('featured_position', 'asc')
+
+                            ->get();
 
             $view->with([
-                'headerCategories' => $categories,          // for top select dropdown
-                'mainCategories'   => $categories->take(6), // first 6
-                'otherCategories'  => $categories->slice(6) // remaining
+                'headerCategories' => $categories,
+                'mainCategories'   => $categories->take(6),
+                'otherCategories'  => $categories->slice(6)
             ]);
         });
     }

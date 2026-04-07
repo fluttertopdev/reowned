@@ -87,19 +87,21 @@
                                 <th>#</th>
                                 <th>{{__('lang.image')}}</th>
                                 <th>{{ isset(request()->category) ? __('lang.subcategory') : __('lang.category') }}</th>
-
-                                @if(!isset(request()->category)) <!-- Show subcategories only for main categories -->
+                                @if(!isset(request()->category))
                                 <th>{{__('lang.subcategory')}}</th>
                                 @endif
                                 <th>{{__('lang.created_at')}}</th>
                                 <th>{{__('lang.status')}}</th>
+                                @if(!isset(request()->category))
+                                <th>{{__('lang.featured')}}</th>
+                                @endif
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="category_table">
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
-                            <tr>
+                            <tr class="row1" data-id="{{ $row->id }}" data-featured="{{ $row->is_featured }}">
                                 <td>{{ $result->firstItem() + $index }}</td>
                                 <td aria-colindex="2" role="cell">
                                     <span class="b-avatar mr-1 badge-secondary rounded-circle">
@@ -142,6 +144,15 @@
 
                                 </td>
                                 @endcan
+                                @if(!isset(request()->category))
+                                <td>
+                                    <a href="{{ route('category.updateFeatured', $row->id) }}">
+                                        <span class="badge {{ $row->is_featured == 1 ? 'bg-success' : 'bg-warning' }}">
+                                            {{ $row->is_featured == 1 ? 'Yes' : 'No' }}
+                                        </span>
+                                    </a>
+                                </td>
+                                @endif
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -218,6 +229,51 @@
 </div>
 <!-- Content wrapper -->
 
+<!-- 1. jQuery FIRST -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- 2. jQuery UI SECOND -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<!-- 3. YOUR SCRIPT LAST -->
+<script>
+$(document).ready(function(){
+
+    $("#category_table").sortable({
+        items: "tr.row1[data-featured='1']",
+        cursor: 'move',
+        opacity: 0.6,
+        update: function() {
+            sendOrderofCategoryToServer();
+        }
+    });
+
+});
+
+function sendOrderofCategoryToServer() {
+    var order = [];
+    var token = $('meta[name="csrf-token"]').attr('content');
+
+    $('#category_table tr.row1').each(function(index, element) {
+        order.push({
+            id: $(this).attr('data-id'),
+            position: index + 1
+        });
+    });
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: base_url + "/admin/category-sortable",
+        data: {
+            order: order,
+            _token: token
+        },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+  }
+</script>
 
 @endsection

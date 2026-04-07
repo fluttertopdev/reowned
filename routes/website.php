@@ -252,10 +252,10 @@ Route::get('/category-detail/{slug}', [CategoryController::class, 'detail'])
 */
 
 Route::middleware('auth.webuser')->group(function () {
-    Route::get('/account-detail', [UserController::class, 'accountDetail'])
-            ->name('account-detail');
     Route::get('/ajax/load-items', [UserController::class,'loadItems'])->name('ajax.load.items');
 });
+    Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])
+            ->name('account-detail');
 
 Route::prefix('user')->name('user.')->group(function () {
 

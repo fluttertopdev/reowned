@@ -248,7 +248,14 @@
 
 
     <li class="menu-header small text-uppercase">
-      <span class="menu-header-text" data-i18n="{{__('lang.staff_management')}}">{{__('lang.staff_management')}}</span>
+      <span class="menu-header-text" data-i18n="{{__('lang.website_management')}}">{{__('lang.website_management')}}</span>
+    </li>
+
+    <li class="menu-item {{ Request::is('admin/banner/edit*') ? 'active' : '' }}">
+      <a href="{{ url('admin/banner/edit') }}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="{{__('lang.banner')}}">{{__('lang.banner')}}</div>
+      </a>
     </li>
 
 
@@ -334,10 +341,6 @@
     @endcan
 
 
-
-
-
-
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.setting_management')}}">{{__('lang.setting_management')}}</span>
@@ -355,13 +358,6 @@
           <li class="menu-item {{ Request::is('admin/setting*') ? 'active' : '' }}">
             <a href="{{ route('setting.index') }}" class="menu-link">
               <div data-i18n="{{__('lang.all_setting')}}">{{__('lang.all_setting')}}</div>
-            </a>
-          </li>
-        @endcan
-        @can('seosetting')
-          <li class="menu-item {{ Request::is('admin/seo*') ? 'active' : '' }}">
-            <a href="{{ route('seo.index') }}" class="menu-link">
-              <div data-i18n="{{__('lang.seo_setting')}}">{{__('lang.seo_setting')}}</div>
             </a>
           </li>
         @endcan

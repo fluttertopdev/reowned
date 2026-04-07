@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\Favorite;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -84,15 +85,47 @@ class HomeController extends Controller
             }
         }
 
+
+        $recentCategories = \DB::table('user_recent_views')
+            ->where('user_id', $userId)
+            ->orderBy('id','DESC')
+            ->limit(10)
+            ->pluck('category_id')
+            ->filter()
+            ->unique()
+            ->values();
+
+        $recentItemIds = \DB::table('user_recent_views')
+            ->where('user_id', $userId)
+            ->whereNotNull('item_id')
+            ->latest()
+            ->limit(5)
+            ->pluck('item_id');
+
         // Recommended (Random Nearby)
-        $data['recommendateItemData'] = (clone $baseQuery)
-            ->inRandomOrder()
-            ->limit(8)
-            ->get();
+        if($recentCategories->count() > 0){
+
+            $data['recommendateItemData'] = (clone $baseQuery)
+                ->where(function($q) use ($recentCategories, $recentItemIds){
+                    $q->whereIn('category_id', $recentCategories)
+                      ->orWhereIn('id', $recentItemIds);
+                })
+                ->orderBy('views','DESC')
+                ->limit(8)
+                ->get();
+
+        } else {
+
+            // fallback
+            $data['recommendateItemData'] = (clone $baseQuery)
+                ->orderBy('views','DESC')
+                ->limit(8)
+                ->get();
+        }
 
         // Popular (Latest Nearby)
         $data['popularItemData'] = (clone $baseQuery)
-            ->orderBy('id','DESC')
+            ->orderBy('views','DESC')
             ->limit(8)
             ->get();
 
@@ -104,6 +137,9 @@ class HomeController extends Controller
 
         // Total Count
         $data['totalItemCount'] = (clone $baseQuery)->count();
+
+        // Banner Data
+        $data['bannerData'] = Banner::where('status',1)->first();
 
         return view('website.index', $data);
     }

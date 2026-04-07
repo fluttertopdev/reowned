@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CmsController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TipController;
 use App\Http\Controllers\Auth\LoginController;
@@ -19,7 +20,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\QueriesController;
 use App\Http\Controllers\Admin\SellerController;
@@ -96,8 +96,11 @@ Route::middleware('admin-language')->group(function () {
       Route::get('/delete/{id}', 'destroy')->name('category.destroy');
       Route::get('/translation/{id}', 'translation')->name('category.translation');
       Route::post('/updatetranslate/{id}', 'updateTranslate')->name('category.updatetranslate');
-      // category routing end
+      Route::get('/update-featured/{id}', [CategoryController::class, 'updateFeatured'])->name('category.updateFeatured');
     });
+    Route::post('/category-sortable', [CategoryController::class, 'sorting'])
+      ->name('category-sorting');
+    // category routing end
 
     
     // advertisement-package routing end here
@@ -154,6 +157,14 @@ Route::middleware('admin-language')->group(function () {
       Route::post('/updatetranslate/{id}', 'updateTranslate')->name('cms.updatetranslate');
     });
     // Cms routing end here
+
+
+    // Banner routing start here
+    Route::prefix('banner')->controller(BannerController::class)->group(function () {
+      Route::get('/edit', 'edit')->name('banner.edit');
+      Route::post('/update', 'update')->name('banner.update');
+    });
+    // Banner routing end here
 
 
     // faq routing start here
@@ -313,17 +324,6 @@ Route::middleware('admin-language')->group(function () {
       Route::post('/bulk-delete', 'bulkDelete')->name('notification.bulkDelete');
     });
     //  notification routing end here
-
-    // seo setting routing start here
-    Route::prefix('seo')->controller(SeoController::class)->group(function () {
-      Route::get('/', 'index')->name('seo.index');
-      Route::get('/form/{id?}', 'form')->name('seo.form');
-      Route::post('/store', 'store')->name('seo.store');
-      Route::post('/update', 'update')->name('seo.update');
-      Route::get('/delete/{id}', 'destroy')->name('seo.destroy');
-      Route::get('/status/{id}', 'updateStatus')->name('seo.updateStatus');
-    });
-    // seo setting notification routing end here
 
     // role  routing start here
     Route::prefix('role')->controller(RoleController::class)->group(function () {

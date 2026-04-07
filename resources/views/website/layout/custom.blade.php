@@ -1692,3 +1692,17 @@
         }
     });
 </script>
+
+<!-- load more category -->
+<script>
+    $(document).on('click', '#moreBtn', function (e) {
+
+        e.stopPropagation();
+
+        $('#moreCategories').slideToggle();
+
+        let text = $(this).find('a').text();
+
+        $(this).find('a').text(text == '+ More' ? '- Less' : '+ More');
+    });
+</script>

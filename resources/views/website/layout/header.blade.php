@@ -30,16 +30,35 @@
                     @endif
                   </div>
                   <div class="selectDropdown">
+                    <!-- ALL -->
                     <div class="option {{ $currentSlug == 'all' ? 'active' : '' }}" data-type="all">
                         <a>All Categories</a>
                     </div>
 
-                    @foreach($headerCategories as $category)
+                    <!-- FIRST 6 -->
+                    @foreach($mainCategories as $category)
                         <div class="option {{ $currentSlug == $category->slug ? 'active' : '' }}" 
                              data-type="{{ $category->slug }}">
                             <a>{{ $category->name }}</a>
                         </div>
                     @endforeach
+
+                    <!-- MORE BUTTON -->
+                    @if($otherCategories->count())
+                        <div class="more-toggle" id="moreBtn">
+                            <a>+ More</a>
+                        </div>
+
+                        <!-- REMAINING -->
+                        <div id="moreCategories" style="display:none;">
+                            @foreach($otherCategories as $category)
+                                <div class="option {{ $currentSlug == $category->slug ? 'active' : '' }}" 
+                                     data-type="{{ $category->slug }}">
+                                    <a>{{ $category->name }}</a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                   </div>
                 </div>
               </div>

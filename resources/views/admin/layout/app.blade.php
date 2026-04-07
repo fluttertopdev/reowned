@@ -18,9 +18,9 @@ $direction = \Helpers::getLanguageDirection($langCode);
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Admin Dashboard</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ csrf_token() }}" />
-
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('/assets/img/favicon/favicon.ico')}}" />
 
@@ -71,6 +71,10 @@ $direction = \Helpers::getLanguageDirection($langCode);
 
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/editor.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/typography.css')}}" />
+
+    <script>
+        var base_url = "{{url('')}}";
+    </script>
 </head>
 
 <body>

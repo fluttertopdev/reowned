@@ -28,7 +28,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         try {
-            $categoryId = $request->query('category'); // Get category ID from the URL
+            $categoryId = $request->query('category');
             $data['result'] = Category::getLists($request->all(), $categoryId);
 
             return view('admin.category.list', $data);
@@ -252,10 +252,6 @@ class CategoryController extends Controller
         }
     }
 
-
-
-
-
     public function updateStatus($id)
     {
         try {
@@ -311,7 +307,6 @@ class CategoryController extends Controller
     }
 
 
-
     public function updateTranslate($id, Request $request)
     {
         $customMessages = [];
@@ -355,5 +350,49 @@ class CategoryController extends Controller
         }
 
         return redirect(url('admin/category'))->with('success', 'Translation updated successfully.');
+    }
+
+
+    public function sorting(Request $request)
+    {
+        try {
+
+            foreach ($request->order as $order) {
+
+                Category::where('id', $order['id'])
+                    ->update([
+                        'featured_position' => $order['position'],
+                    ]);
+            }
+
+            return response([
+                'status' => true,
+                'message' => 'Category order updated successfully',
+                'data' => []
+            ]);
+
+        } catch (\Exception $ex) {
+
+            return response([
+                'status' => false,
+                'message' => $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function updateFeatured($id)
+    {
+        $category = Category::findOrFail($id);
+
+        $category->is_featured = $category->is_featured == 1 ? 0 : 1;
+
+        // If turning OFF → remove position
+        if ($category->is_featured == 0) {
+            $category->featured_position = null;
+        }
+
+        $category->save();
+
+        return redirect()->back()->with('success', 'Featured status updated');
     }
 }

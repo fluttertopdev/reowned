@@ -147,7 +147,7 @@
               </span>
               <div class="date-box"><img src="{{asset('website_assets/images/date.svg')}}">Posted on : {{ $item->created_at->format('M d, Y') }}</div>
               <div class="designer-box">
-                <a href="{{url('account-detail')}}">
+                <a href="{{ $item->user ? route('account-detail', $item->user->id) : '#' }}">
                   <div class="designer-box-image">
                     <img src="{{ $item->user->image ? url('uploads/user/'.$item->user->image) : url('uploads/default-user.png') }}">
                   </div>

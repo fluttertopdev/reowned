@@ -84,6 +84,26 @@ class CategoryController extends Controller
                     $globalQuery->where('subcategory_id',$categoryData->id);
                 }
             }
+
+            if($userId && isset($categoryData)){
+
+                $exists = \DB::table('user_recent_views')
+                    ->where('user_id', $userId)
+                    ->where('category_id', $categoryData->id)
+                    ->where('type','category')
+                    ->where('created_at','>=', now()->subMinutes(10))
+                    ->exists();
+
+                if(!$exists){
+                    \DB::table('user_recent_views')->insert([
+                        'user_id'     => $userId,
+                        'item_id'     => null,
+                        'category_id' => $categoryData->id,
+                        'type'        => 'category',
+                        'created_at'  => now()
+                    ]);
+                }
+            }
         }
 
         // SEARCH

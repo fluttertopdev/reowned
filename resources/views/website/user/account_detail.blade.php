@@ -16,15 +16,44 @@
             <div class="sell-informaction">
               <h3>Seller information</h3>
               <ul>
+                @php
+                    $shareUrl = url('account-detail/'.$profileUser->id);
+                    $shareText = "Check this User Profile";
+                @endphp
                 <li> <a href="#" class="open-box-soler"><img
                       src="{{asset('website_assets/images/solar_share-linear.svg')}}"></a>
                   <div class="solar-share-box">
                     <ul>
-                      <li><a href="#"><img src="{{asset('website_assets/images/solor-icon-1.png')}}"> Facebook</a></li>
-                      <li><a href="#"><img src="{{asset('website_assets/images/solor-icon-2.png')}}"> X</a></li>
-                      <li><a href="#"><img src="{{asset('website_assets/images/solor-icon-3.png')}}"> WhatsApp</a></li>
-                      <li><a href="#"><img src="{{asset('website_assets/images/solor-icon-4.png')}}"> Copy link</a></li>
-                    </ul>
+
+                            <!-- Facebook -->
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank">
+                                    <img src="{{asset('website_assets/images/solor-icon-1.png')}}"> Facebook
+                                </a>
+                            </li>
+
+                            <!-- X (Twitter) -->
+                            <li>
+                                <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}" target="_blank">
+                                    <img src="{{asset('website_assets/images/solor-icon-2.png')}}"> X
+                                </a>
+                            </li>
+
+                            <!-- WhatsApp -->
+                            <li>
+                                <a href="https://wa.me/?text={{ $shareText }} {{ $shareUrl }}" target="_blank">
+                                    <img src="{{asset('website_assets/images/solor-icon-3.png')}}"> WhatsApp
+                                </a>
+                            </li>
+
+                            <!-- Copy Link -->
+                            <li>
+                                <a href="javascript:void(0)" onclick="copyShareLink()">
+                                    <img src="{{asset('website_assets/images/solor-icon-4.png')}}"> Copy link
+                                </a>
+                            </li>
+
+                        </ul>
                   </div>
                 </li>
               </ul>
@@ -32,19 +61,19 @@
             <div class="designer-box">
               <div class="designer-box-image"> 
                 @php
-                  $image = !empty($user->image) 
-                    ? asset('uploads/user/' . $user->image) 
+                  $image = !empty($profileUser->image) 
+                    ? asset('uploads/user/' . $profileUser->image) 
                     : asset('website_assets/images/parofile-image.png');
                 @endphp
                 <img src="{{$image}}" alt="#">
               </div>
-              <div class="designer-box-text"> <span>{{$user->name}}</span>
-                <p>{{ $user->email }}</p>
-                <p>Member since: {{ date('Y', strtotime($user->created_at)) }}</p>
+              <div class="designer-box-text"> <span>{{$profileUser->name}}</span>
+                <p>{{ $profileUser->email }}</p>
+                <p>Member since: {{ date('Y', strtotime($profileUser->created_at)) }}</p>
               </div>
               <a href="#" class="desiginer-link"><img
-                  src="{{asset('website_assets/images/sms-black.svg')}}">{{ $user->email }}</a> <a href="tel:{{ $user->phone }}"
-                class="desiginer-link"><img src="{{asset('website_assets/images/call-black.svg')}}">{{ $user->phone }}</a>
+                  src="{{asset('website_assets/images/sms-black.svg')}}">{{ $profileUser->email }}</a> <a href="tel:{{ $profileUser->phone }}"
+                class="desiginer-link"><img src="{{asset('website_assets/images/call-black.svg')}}">{{ $profileUser->phone }}</a>
             </div>
           </div>
         </div>
@@ -54,7 +83,6 @@
               <div class="tab-left-right">
                 <ul id="tabs-nav">
                   <li><a href="#tab1">Live Ads</a></li>
-                  <li><a href="#tab2">Reviews</a></li>
                 </ul>
                 <div class="tab-right-box">
                   <div class="short-by-btn">
@@ -67,11 +95,6 @@
                         <div class="option sort-option" data-sort="newest">Newest to Oldest</div>
                       </div>
                     </div>
-                  </div>
-                  <div class="grid-list-button">
-                    <button class="list-view on active"><img
-                        src="{{asset('website_assets/images/list-btn.png')}}"></button>
-                    <button class="grid-view"><img src="{{asset('website_assets/images/grid-btn.png')}}"></button>
                   </div>
                 </div>
               </div>
@@ -225,5 +248,24 @@
 
   });
   </script>
+  
+  <script>
+    function copyShareLink() {
 
+        const url = "{{ url()->current() }}";
+
+        navigator.clipboard.writeText(url).then(function() {
+          Swal.fire({
+              icon: 'success',
+              title: 'Copied!',
+              text: 'Link copied to clipboard',
+              timer: 1500,
+              showConfirmButton: false
+          });
+        }).catch(function(err) {
+            console.error('Could not copy text: ', err);
+        });
+
+    }
+  </script>
 @endsection

@@ -10,7 +10,7 @@
 
             <form class="card-body"
                 action="{{ isset($data) ? route('faq.update') : route('faq.store') }}"
-                method="POST"  id="description-form">
+                method="POST"  id="description-form-faq" novalidate>
 
                 @csrf
                 @if(isset($data))
@@ -37,9 +37,9 @@
                     <div id="full-editor"></div>
 
                     <!-- Hidden textarea for storing content -->
-                    <textarea name="description" id="description" hidden>{{ old('description', $data->description ?? '') }}</textarea>
+                    <textarea name="description" id="description-faq" style="display:none;">{{ old('description', $data->description ?? '') }}</textarea>
 
-                    <span class="text-danger" id="description-error">
+                    <span class="text-danger" id="description-error-faq">
                         @error('description') {{ $message }} @enderror
                     </span>
                 </div>
@@ -56,8 +56,5 @@
         </div>
     </div>
 </div>
-
-
-
 
 @endsection

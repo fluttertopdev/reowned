@@ -20,7 +20,8 @@ class ItemController extends Controller
         $user = Auth::guard('web')->user();
         $userId = $user->id ?? 0;
 
-        // Get location from session
+        $type = $request->type;
+
         $lat     = session('user_lat');
         $lng     = session('user_lng');
         $radius  = session('radius', 20);
@@ -30,7 +31,23 @@ class ItemController extends Controller
         $pincode = session('pincode');
         $area    = session('area');
 
-        // Base Query
+        // USER ACTIVITY
+        $recentCategories = \DB::table('user_recent_views')
+            ->where('user_id', $userId)
+            ->latest()
+            ->limit(10)
+            ->pluck('category_id')
+            ->filter()
+            ->unique();
+
+        $recentItemIds = \DB::table('user_recent_views')
+            ->where('user_id', $userId)
+            ->whereNotNull('item_id')
+            ->latest()
+            ->limit(5)
+            ->pluck('item_id');
+
+        // BASE QUERY
         $query = Item::where('items.status',1)
             ->where('user_id','!=',$userId)
             ->whereNull('items.deleted_at')
@@ -40,7 +57,7 @@ class ItemController extends Controller
                   ->whereNull('deleted_at');
             }]);
 
-        // Apply Location Filter
+        // LOCATION
         if($lat && $lng){
 
             $query->select('items.*')
@@ -59,28 +76,38 @@ class ItemController extends Controller
 
         } else {
 
-            // fallback
-            if($city){
-                $query->where('city', $city);
+            if($city) $query->where('city', $city);
+            if($state) $query->where('state', $state);
+            if($pincode) $query->where('pincode', $pincode);
+            if($area) $query->where('area', 'like', '%'.$area.'%');
+        }
+
+        // TYPE LOGIC
+        if($type == 'recommendation'){
+
+            if($recentCategories->count() || $recentItemIds->count()){
+
+                $query->where(function($q) use ($recentCategories, $recentItemIds){
+                    $q->whereIn('category_id', $recentCategories)
+                      ->orWhereIn('id', $recentItemIds);
+                })
+                ->orderBy('views','DESC');
+
+            } else {
+                $query->orderBy('views','DESC');
             }
 
-            if($state){
-                $query->where('state', $state);
-            }
+        } elseif($type == 'popular'){
 
-            if($pincode){
-                $query->where('pincode', $pincode);
-            }
+            $query->orderBy('views','DESC');
 
-            if($area){
-                $query->where('area', 'like', '%'.$area.'%');
-            }
+        } else {
 
             $query->orderBy('id','DESC');
         }
 
-        // Get Data
-        $data['allItemData'] = $query->get();
+        $data['allItemData'] = $query->paginate(12);
+        $data['type'] = $type;
 
         return view('website.item.item_list', $data);
     }
@@ -145,6 +172,18 @@ class ItemController extends Controller
             if(!Cache::has($key)){
                 Item::where('id', $item->id)->increment('views');
                 Cache::put($key, true, now()->addMinutes(1));
+            }
+
+            // STORE USER ACTIVITY (ITEM VIEW)
+            if($userId){
+
+                \DB::table('user_recent_views')->insert([
+                    'user_id'     => $userId,
+                    'item_id'     => $item->id,
+                    'category_id' => $item->category_id,
+                    'type'        => 'item',
+                    'created_at'  => now()
+                ]);
             }
         }
 

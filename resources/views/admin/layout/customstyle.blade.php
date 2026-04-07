@@ -23,9 +23,6 @@
         height: 300px;
     }
 
-
-
-
     .paymentamethod_image {
         height: 50px;
     }

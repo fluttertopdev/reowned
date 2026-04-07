@@ -345,5 +345,9 @@ return [
     'expired' => 'Expired',
     'purchase_date' => 'Purchased Date',
     'idproofback' => 'Id Proof Back',
+    'featured' => 'Featured',
+    'website_management' => 'Website Management',
+    'banner' => 'Banner',
+    'link' => 'Link',
 
 ];

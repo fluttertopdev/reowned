@@ -6,7 +6,17 @@
       <ul>
         <li><a href="{{url('/')}}">Home</a></li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">All Item Lists</a></li>
+        <li>
+          <a href="#" class="active">
+            @if($type == 'recommendation')
+                Recommended for you
+            @elseif($type == 'popular')
+                Popular in your area
+            @else
+                All Items
+            @endif
+          </a>
+        </li>
       </ul>
     </div>
     <div class="designer-row-box-saction">

@@ -73,7 +73,9 @@ class Category extends Model
                     fn($query) =>
                     $query->where('status', $search['status'])
                 )
-                ->latest('id')
+                ->orderByDesc('is_featured')
+                ->orderBy('featured_position', 'asc')
+                ->orderByDesc('id')
                 ->paginate($search['pageno'] ?? config('constant.pagination'))
                 ->appends(request()->query());
         } catch (\Exception $e) {
@@ -85,14 +87,10 @@ class Category extends Model
     }
 
 
-
-
     public static function addUpdate($data, $id = 0)
     {
         try {
-            $data = Arr::except($data, ['_token']); // Remove '_token' safely
-
-
+            $data = Arr::except($data, ['_token']);
 
             // Handle image upload
             if (!empty($data['image'])) {
@@ -115,8 +113,6 @@ class Category extends Model
                 return ['status' => true, 'message' => __('lang.admin_data_add_msg')];
             }
         } catch (\Exception $e) {
-            dd($e->getMessage());
-
             return [
 
                 'status' => false,

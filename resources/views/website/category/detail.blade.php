@@ -4,23 +4,23 @@
     <div class="container">
         <div class="brudcrum">
             <ul>
-                <li><a href="{{url('/')}}">Home</a></li>
+                <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
                 <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-                <li><a href="{{url('categories')}}">All categories</a></li>
+                <li><a href="{{url('categories')}}">{{ __('lang.website.all_categories') }}</a></li>
                 <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-                <li class="active">{{ ucfirst($slug) ?? 'Search Result' }}</li>
+                <li class="active">{{ ucfirst($slug) ?? __('lang.website.search_result')  }}</li>
             </ul>
         </div>
-        <h2 class="title-page">{{ucfirst($slug)}} Category</h2>
+        <h2 class="title-page">{{ucfirst($slug)}} __('lang.website.category') </h2>
         <div class="designer-row-box-saction">
             <div class="row">
                 <div class="col-md-4" id="filterContainer">
                     <div class="categories-left-side">
-                        <h4>Filters</h4>
+                        <h4>{{ __('lang.website.filters') }}</h4>
                         <button class="filter"><img src="{{asset('website_assets/images/filter.png')}}"></button>
 
                         <div class="all-categories-dropdown onclick-button">
-                            <span>All Category ({{count($category)}})
+                            <span>{{ __('lang.website.all_category') }} ({{count($category)}})
                                 <img src="{{asset('website_assets/images/up-icon.svg')}}" class="up-icon"><img
                                     src="{{asset('website_assets/images/down-icon.svg')}}" class="down-icon">
                             </span>
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="all-categories-dropdown onclick-button">
-                            <span>Location
+                            <span>{{ __('lang.website.location') }}
                                 <img src="{{asset('website_assets/images/up-icon.svg')}}" class="up-icon"><img
                                     src="{{asset('website_assets/images/down-icon.svg')}}" class="down-icon">
                             </span>
@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="all-categories-dropdown onclick-button">
-                             <span>Budget
+                             <span>{{ __('lang.website.budget') }}
                                 <img src="{{asset('website_assets/images/up-icon.svg')}}" class="up-icon"><img
                                     src="{{asset('website_assets/images/down-icon.svg')}}" class="down-icon">
                             </span>
@@ -98,7 +98,7 @@
 
                                     <div class="slider-container">
 
-                                        <p class="range-label">Choose a range below</p>
+                                        <p class="range-label">{{ __('lang.website.choose_range') }}</p>
 
                                         <div class="price-values">
                                             <span id="minPrice">0</span>
@@ -130,13 +130,13 @@
 
                                     </div>
 
-                                    <button id="applyPrice">Apply</button>
+                                    <button id="applyPrice">{{ __('lang.website.apply') }}</button>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="all-categories-dropdown onclick-button">
-                            <span>Date Posted
+                            <span>{{ __('lang.website.date_posted') }}
                                 <img src="{{asset('website_assets/images/up-icon.svg')}}" class="up-icon"><img
                                     src="{{asset('website_assets/images/down-icon.svg')}}" class="down-icon">
                             </span>
@@ -144,29 +144,29 @@
                                 <form>
                                     <div class="form-group">
                                         <input type="checkbox" id="alltime" name="date_filter" value="alltime">
-                                        <label for="alltime">All time</label>
+                                        <label for="alltime">{{ __('lang.website.all_time') }}</label>
                                     </div>
 
                                     <div class="form-group">
                                         <input type="checkbox" id="today" name="date_filter" value="today"{{ $selectedDate == 'today' ? 'checked' : '' }}>
-                                        <label for="today">Today</label>
+                                        <label for="today">{{ __('lang.website.today') }}</label>
                                     </div>
 
                                     <div class="form-group">
                                         <input type="checkbox" id="week" name="date_filter" value="week"{{ $selectedDate == 'week' ? 'checked' : '' }}>
-                                        <label for="week">Last 7 days</label>
+                                        <label for="week">{{ __('lang.website.last_7_days') }}</label>
                                     </div>
 
                                     <div class="form-group">
                                        <input type="checkbox" id="month" name="date_filter" value="month"{{ $selectedDate == 'month' ? 'checked' : '' }}>
-                                        <label for="month">Last 30 days</label>
+                                        <label for="month">{{ __('lang.website.last_30_days') }}</label>
                                     </div>
                                 </form>
                             </div>
                         </div>
 
                         <div class="all-categories-dropdown onclick-button">
-                            <span>Nearby (KM Range)
+                            <span>{{ __('lang.website.nearby_km_range') }}
                                 <img src="{{asset('website_assets/images/up-icon.svg')}}" class="up-icon"><img
                                     src="{{asset('website_assets/images/down-icon.svg')}}" class="down-icon">
                             </span>
@@ -177,7 +177,7 @@
                                     </div>
                                    <input type="range" id="kmRange" min="0" max="100" value="{{ $radiusValue }}">
                                 </div>
-                                <div class="aply-button"><button class="apply-button">Apply</button></div>
+                                <div class="aply-button"><button class="apply-button">{{ __('lang.website.apply') }}</button></div>
                             </div>
                         </div>
 
@@ -187,16 +187,16 @@
                     <div class="desginer-right-box home-apliances-right">
                         <div class="tabs">
                             <div class="tab-left-right">
-                                <h5>{{count($items)}} Items</h5>
+                                <h5>{{count($items)}} {{ __('lang.website.items') }}</h5>
                                 <div class="tab-right-box">
                                     <div class="short-by-btn">
                                         <div class="select">
-                                            <div class="selectBtn" data-type="firstOption">Newest to oldest</div>
+                                            <div class="selectBtn" data-type="firstOption">{{ __('lang.website.newest_to_oldest') }}</div>
                                             <div class="selectDropdown">
-                                                <div class="option sort-option" data-sort="low_to_high">Low to High</div>
-                                                <div class="option sort-option" data-sort="high_to_low">High to Low</div>
-                                                <div class="option sort-option" data-sort="oldest">Oldest to Newest</div>
-                                                <div class="option sort-option" data-sort="newest">Newest to Oldest</div>
+                                                <div class="option sort-option" data-sort="low_to_high">{{ __('lang.website.low_to_high') }}</div>
+                                                <div class="option sort-option" data-sort="high_to_low">{{ __('lang.website.high_to_low') }}</div>
+                                                <div class="option sort-option" data-sort="oldest">{{ __('lang.website.oldest_to_newest') }}</div>
+                                                <div class="option sort-option" data-sort="newest">{{ __('lang.website.newest_to_oldest') }}</div>
                                             </div>
                                         </div>
                                     </div>

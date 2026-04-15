@@ -208,7 +208,7 @@ class PackageController extends Controller
             }
         }
 
-        return redirect(url('admin/advertisement-package'))->with('success', 'Translation updated successfully.');
+        return redirect(url('admin/advertisement-package'))->with('success', __('lang.admin_translation_updated'));
     }
 
 
@@ -435,7 +435,7 @@ class PackageController extends Controller
             }
         }
 
-        return redirect(url('admin/item-listing-package'))->with('success', 'Translation updated successfully.');
+        return redirect(url('admin/item-listing-package'))->with('success', __('lang.admin_translation_updated'));
     }
 
 

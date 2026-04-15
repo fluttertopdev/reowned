@@ -1,12 +1,11 @@
 <?php
-if (Session()->has('admin_locale')) {
-    $langCode = Session()->get('admin_locale');
-} else {
-    $langCode = config('app.fallback_locale');
-}
-$direction = \Helpers::getLanguageDirection($langCode);
+    if (Session()->has('admin_locale')) {
+        $langCode = Session()->get('admin_locale');
+    } else {
+        $langCode = config('app.fallback_locale');
+    }
+    $direction = \Helpers::getLanguageDirection($langCode);
 ?>
-
 
 <html lang="{{$langCode}}" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="{{$direction}}"
     data-theme="theme-default" data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template"
@@ -17,7 +16,7 @@ $direction = \Helpers::getLanguageDirection($langCode);
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard | {{setting('name')}}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ csrf_token() }}" />
     

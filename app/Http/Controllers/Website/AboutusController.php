@@ -11,7 +11,7 @@ class AboutusController extends Controller
 {
     public function index(Request $request)
     {
-         return view('website.about.index');
+        return view('website.about.index');
     }
    
 }

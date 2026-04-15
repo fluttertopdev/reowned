@@ -4,21 +4,21 @@
   <div class="container">
       <div class="brudcrum brudcrum-defrent">
           <ul>
-              <li><a href="{{url('/')}}">Home</a></li>
+              <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
               <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-              <li><a href="#" class="active">Sell</a></li>
+              <li><a href="#" class="active">{{ __('lang.website.sell') }}</a></li>
           </ul>
       </div>
   </div>
 
   <div class="sell-all-seaction">
       <div class="container">
-          <h2>Select category</h2>
+          <h2>{{ __('lang.website.select_category') }}</h2>
           <div class="sell-all-seaction-inner">
               <div class="row">
                   <div class="col-md-4">
                       <div class="sell-all-seaction-left">
-                          <h4>All category</h4>
+                          <h4>{{ __('lang.website.all_category') }}</h4>
 
                           <ul id="categoryList">
                               @foreach($categories as $index => $category)
@@ -34,7 +34,7 @@
 
                           @if($categories->count() > 10)
                               <div class="load-more-btn">
-                                  <button id="loadMoreBtn">Load More</button>
+                                  <button id="loadMoreBtn">{{ __('lang.website.load_more') }}</button>
                               </div>
                           @endif
                       </div>
@@ -43,7 +43,7 @@
                       <div class="home-appliances-right">
                           <h2 id="categoryTitle">
                               {{ $firstCategory->name ?? '' }}
-                              <span>(All Subcategory)</span>
+                              <span>({{ __('lang.website.all_subcategory') }})</span>
                           </h2>
 
                           <div class="home-appliances-list">

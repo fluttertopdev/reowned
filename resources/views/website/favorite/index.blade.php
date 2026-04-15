@@ -4,9 +4,9 @@
 <div class="container">
   <div class="brudcrum brudcrum-defrent">
     <ul>
-      <li>Home appliances</li>
+      <li>{{ __('lang.website.home_appliances') }}</li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-      <li><a href="#" class="active">Favorites</a></li>
+      <li><a href="#" class="active">{{ __('lang.website.favorites') }}</a></li>
     </ul>
   </div>
 </div>
@@ -26,7 +26,7 @@
                 @else
                   <div class="no-ads-found">
                     <img src="{{asset('website_assets/images/no-chat-icon.png')}}">
-                    <span>No favourites items found</span>
+                    <span>{{ __('lang.website.no_favorites_items_found') }}</span>
                   </div>
                 @endif
               </div>

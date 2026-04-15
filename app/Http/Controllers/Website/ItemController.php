@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Session;
 use App\Models\Item;
+use App\Models\Reportreason;
+use App\Models\Userreport;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -138,7 +140,7 @@ class ItemController extends Controller
 
         if(!$item){
             return redirect('/')
-                ->with('error', 'Item not found');
+                ->with('error', __('lang.website.item_not_found'));
         }
 
         $isOwner = $userId == $item->user_id;
@@ -152,17 +154,17 @@ class ItemController extends Controller
 
                 if($distance > $radius){
                     return redirect('/')
-                        ->with('error', 'Item not available in your area');
+                        ->with('error', __('lang.website.item_not_available_in_your_area'));
                 }
 
             } else {
 
                 if($city && $item->city != $city){
-                    return redirect('/')->with('error', 'Item not available in your area');
+                    return redirect('/')->with('error', __('lang.website.item_not_available_in_your_area'));
                 }
 
                 if($state && $item->state != $state){
-                    return redirect('/')->with('error', 'Item not available in your area');
+                    return redirect('/')->with('error', __('lang.website.item_not_available_in_your_area'));
                 }
             }
 
@@ -234,7 +236,9 @@ class ItemController extends Controller
                 : false;
         }
 
-        return view('website.item.item_detail',compact('item','relatedItems','isFavorite'));
+        $reportReasons = Reportreason::where('status',1)->get();
+
+        return view('website.item.item_detail',compact('item','relatedItems','isFavorite','reportReasons'));
     }
 
     private function calculateDistance($lat1, $lng1, $lat2, $lng2)
@@ -275,6 +279,43 @@ class ItemController extends Controller
                 'status' => 'added'
             ]);
         }
+    }
+
+
+    public function reportItem(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+        $userId = $user->id ?? 0;
+
+        // Validation
+        $request->validate([
+            'reason_id' => 'required|exists:report_reasons,id',
+            'item_id'   => 'required|exists:items,id',
+        ]);
+
+        // Check already reported
+        $already = Userreport::where('user_id', Auth::id())
+            ->where('item_id', $request->item_id)
+            ->first();
+
+        if ($already) {
+            return response()->json([
+                'status' => false,
+                'message' => __('lang.website.you_already_reported_this_item')
+            ]);
+        }
+
+        // Insert
+        Userreport::create([
+            'user_id'   => $userId,
+            'item_id'   => $request->item_id,
+            'reason_id' => $request->reason_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('lang.website.item_reported_successfully')
+        ]);
     }
    
 }

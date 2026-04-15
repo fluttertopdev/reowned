@@ -30,11 +30,20 @@ class ViewServiceProvider extends ServiceProvider
                             ->orderBy('featured_position', 'asc')
 
                             ->get();
+            
+            $categoriesAll = Category::with(['children' => function ($q) {
+                                $q->where('status', 1)
+                                  ->orderBy('name');
+                            }])
+                            ->where('parent_id', 0)
+                            ->where('status', 1)
+                            ->orderBy('featured_position', 'asc')
+                            ->get();
 
             $view->with([
                 'headerCategories' => $categories,
-                'mainCategories'   => $categories->take(6),
-                'otherCategories'  => $categories->slice(6)
+                'mainCategories'   => $categoriesAll->take(6),
+                'otherCategories'  => $categoriesAll->slice(6)
             ]);
         });
     }

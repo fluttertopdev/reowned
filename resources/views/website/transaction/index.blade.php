@@ -4,9 +4,9 @@
 <div class="container">
   <div class="brudcrum brudcrum-defrent">
     <ul>
-      <li>Home appliances</li>
+      <li>{{ __('lang.website.home_appliances') }}</li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-      <li><a href="#" class="active">Transaction</a></li>
+      <li><a href="#" class="active">{{ __('lang.website.transaction') }}</a></li>
     </ul>
   </div>
 </div>
@@ -23,13 +23,13 @@
               <table>
                 <tbody>
                   <tr>
-                      <th>ID</th>
-                      <th>Package Detail</th>
-                      <th>Payment Method</th>
-                      <th>Transaction ID</th>
-                      <th>Date</th>
-                      <th>Price</th>
-                      <th>Status</th>
+                      <th>{{ __('lang.website.id') }}</th>
+                      <th>{{ __('lang.website.package_detail') }}</th>
+                      <th>{{ __('lang.website.payment_method') }}</th>
+                      <th>{{ __('lang.website.transaction_id') }}</th>
+                      <th>{{ __('lang.website.date') }}</th>
+                      <th>{{ __('lang.website.price') }}</th>
+                      <th>{{ __('lang.website.status') }}</th>
                   </tr>
 
                   @forelse($payments as $payment)
@@ -51,17 +51,17 @@
 
                           <td>
                               @if($payment->payment_status == 'success')
-                                  <button class="succeed-btn">Success</button>
+                                  <button class="succeed-btn">{{ __('lang.website.success') }}</button>
                               @elseif($payment->payment_status == 'failed')
-                                  <button class="fail-btn">Failed</button>
+                                  <button class="fail-btn">{{ __('lang.website.failed') }}</button>
                               @else
-                                  <button class="pending-btn">Pending</button>
+                                  <button class="pending-btn">{{ __('lang.website.pending') }}</button>
                               @endif
                           </td>
                       </tr>
                   @empty
                       <tr>
-                          <td colspan="7" class="text-center">No transactions found</td>
+                          <td colspan="7" class="text-center">{{ __('lang.website.no_transactions_found') }}</td>
                       </tr>
                   @endforelse
               </tbody>
@@ -69,8 +69,8 @@
             </div>
             <div class="paginaction-table">
                 <p>
-                    Showing {{ $payments->firstItem() }} to {{ $payments->lastItem() }} 
-                    of {{ $payments->total() }} entries
+                    {{ __('lang.website.showing') }} {{ $payments->firstItem() }} {{ __('lang.website.to') }} {{ $payments->lastItem() }} 
+                    {{ __('lang.website.of') }} {{ $payments->total() }} {{ __('lang.website.entries') }}
                 </p>
 
                 {{ $payments->links() }}

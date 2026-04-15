@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home_appliances') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Subscription</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.subscription') }}</a></li>
       </ul>
     </div>
   </div>
@@ -20,12 +20,12 @@
           <div class="edit-profile-saction-right">
 
             <div class="subscription-box">
-              <h2>Pricing plans</h2>
+              <h2>{{ __('lang.website.pricing_plans') }}</h2>
               <div class="subscription-box-inner">
                 <div class="tabs">
                   <ul id="tabs-nav">
-                    <li><a href="#tab1">Ad Listing Plan</a></li>
-                    <li><a href="#tab2">Featured Ad Plan</a></li>
+                    <li><a href="#tab1">{{ __('lang.website.ad_listing_plan') }}</a></li>
+                    <li><a href="#tab2">{{ __('lang.website.featured_ad_plan') }}</a></li>
                   </ul>
                   <div id="tabs-content">
                     <div id="tab1" class="tab-content">
@@ -48,7 +48,7 @@
                                               @endif
                                           </h4>
                                       @else
-                                          <h4>Free</h4>
+                                          <h4>{{ __('lang.website.free') }}</h4>
                                       @endif
                                     </div>
 
@@ -68,14 +68,14 @@
                                           data-price="{{ $row->final_price }}"
                                           data-type="ads"
                                       >
-                                          Choose plan
+                                        {{ __('lang.website.choose_plan') }}
                                       </button>
                                     </div>
                                 </div>
                             </div>
                           @empty
                             <div class="col-12 text-center">
-                                <p>No Packages Found</p>
+                                <p>{{ __('lang.website.no_packages_found') }}</p>
                             </div>
                           @endforelse
                         </div>
@@ -101,7 +101,7 @@
                                               @endif
                                           </h4>
                                       @else
-                                          <h4>Free</h4>
+                                          <h4>{{ __('lang.website.free') }}</h4>
                                       @endif
                                     </div>
 
@@ -121,14 +121,14 @@
                                           data-price="{{ $row->final_price }}"
                                           data-type="item"
                                       >
-                                          Choose plan
+                                        {{ __('lang.website.choose_plan') }}
                                       </button>
                                     </div>
                                 </div>
                             </div>
                           @empty
                             <div class="col-12 text-center">
-                                <p>No Packages Found</p>
+                                <p>{{ __('lang.website.no_packages_found') }}</p>
                             </div>
                           @endforelse
                         </div>
@@ -149,30 +149,34 @@
     <div id="planModal" class="modal">
       <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <h2>Payment with</h2>
+        <h2>{{ __('lang.website.payment_with') }}</h2>
         <div class="payment-list-popup">
           <ul>
             @if(setting('enable_razorpay') == 1)
               <li>
                   <a href="javascript:void(0)" onclick="payWithRazorpay()">
-                      <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-2.png')}}"> Razorpay
+                      <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-2.png')}}"> {{ __('lang.website.razorpay') }}
                   </a>
               </li>
             @endif
             @if(setting('enable_stripe') == 1 && setting('currency') == '$')
               <li>
                 <a id="stripePayBtn" style="cursor: pointer;">
-                  <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-1.png')}}"> Stripe
+                  <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-1.png')}}"> {{ __('lang.website.stripe') }}
                 </a>
               </li>
             @else
-              <p class="text-warning">
-                Stripe available only for USD payments
-              </p>
+              <li >
+                <a href="#">
+                  <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-1.png')}}"> {{ __('lang.website.stripe') }}
+                  <br>
+                  <span class="text-danger">{{ __('lang.website.stripe_available_only_for_USD_payments') }}</span>
+                </a>
+              </li>
             @endif
             <li>
               <a href="javascript:void(0)" onclick="showPaypal()">
-                <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-paypal.png')}}"> Paypal
+                <img style="height: 48px" src="{{asset('website_assets/images/payment-icon-paypal.png')}}"> {{ __('lang.website.paypal') }}
               </a>
             </li>
           </ul>
@@ -227,7 +231,7 @@
     function payWithRazorpay() {
 
       if (!selectedPackage.id) {
-          alert("Please select a package");
+          toastr.error("{{ __('lang.website.please_select_a_package') }}");
           return;
       }
 
@@ -287,10 +291,10 @@
       .then(res => res.json())
       .then(data => {
           if(data.success){
-              toastr.success("Payment Successful ✅");
+              toastr.success("{{ __('lang.website.payment_successful') }}");
               location.reload();
           } else {
-              toastr.error("Payment Failed ❌");
+              toastr.error("{{ __('lang.website.payment_failed') }}");
           }
       });
     }
@@ -304,7 +308,7 @@
     document.getElementById('stripePayBtn').addEventListener('click', function () {
 
         if (!selectedPackage.id) {
-            alert("Please select a package");
+            toastr.error("{{ __('lang.website.please_select_a_package') }}");
             return;
         }
 
@@ -333,7 +337,7 @@
     function showPaypal() {
 
       if (!selectedPackage.id) {
-          alert("Please select a package");
+          toastr.error("{{ __('lang.website.please_select_a_package') }}");
           return;
       }
 
@@ -375,7 +379,7 @@
               .then(data => {
                   if (data.status) {
                       closePlanModal();
-                      toastr.success("Payment Successful ✅");
+                      toastr.success("{{ __('lang.website.payment_successful') }}");
 
                       setTimeout(() => {
                           window.location.reload();

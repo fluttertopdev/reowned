@@ -15,7 +15,7 @@
                             <h5>{{__('lang.advertisement_package')}}</h5>
                         </div>
                         <div class="col-md-6">
-                             @can('add-advertisementpackage')
+                            @can('add-advertisementpackage')
                             <div class="table-btn-css">
                                 <a href="{{route('advertisement-package.form')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -23,12 +23,10 @@
                                     </button>
                                 </a>
                             </div>
-                               @endcan
+                            @endcan
                         </div>
 
-
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value=""> {{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -56,19 +54,17 @@
 
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('advertisement-package.index') }}">{{__('lang.reset')}}</a>
 
-                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="ti ti-download"></i> Export
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('advertisement-package.export.excel') }}">
-                                        Export to Excel
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('advertisement-package.export.pdf') }}">
-                                        Export to PDF
-                                    </a>
-                                </div>
-                
-
+                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="ti ti-download"></i> {{__('lang.export')}}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('advertisement-package.export.excel') }}">
+                                    {{__('lang.export_to_excel')}}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('advertisement-package.export.pdf') }}">
+                                    {{__('lang.export_to_pdf')}}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -268,8 +268,10 @@
     .area-filter {
         cursor: pointer;
     }
+    div#moreBtn{
+        cursor: pointer;
+    }
 </style>
-
 <!-- filter -->
 <style>
     .slider-container {
@@ -373,7 +375,6 @@
         width: 10%;
     }
 </style>
-
 <!-- chat -->
 <style>
   /* CHAT CONTAINER */
@@ -511,6 +512,81 @@
         font-weight: 900;
     }
 </style>
+<!-- Lang drop -->
+<style>
+   .lang-dropdown {
+        position: relative;
+        display: inline-block;
+        float: inline-end;
+    }
+
+    .lang-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 25px;
+        border: 1px solid #333;
+        background: #000;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .lang-btn img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .arrow-down {
+        border: solid #fff;
+        border-width: 0 1.5px 1.5px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(45deg);
+        margin-left: 5px;
+    }
+
+    .lang-menu {
+        position: absolute;
+        top: 110%;
+        right: 0;
+        background: #fff;
+        border-radius: 10px;
+        list-style: none;
+        padding: 5px 10px;
+        margin: 0;
+        display: none;
+        min-width: 100px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .lang-menu li a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .lang-menu li a:hover {
+        background: #f5f5f5;
+    }
+
+    .lang-menu li a.active {
+        font-weight: bold;
+    }
+
+    .lang-menu img {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+    }
+    .lang-menu.show {
+        display: block;
+    }
+</style>
 
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
@@ -529,47 +605,47 @@
                         <!-- Logo -->
                         <img src="{{asset('website_assets/images/search-button.png')}}">
 
-                        <h2>Welcome to Reowned</h2>
-                        <p>Let’s create your account</p>
+                        <h2>{{ __('lang.website.welcome_to_reowned') }}</h2>
+                        <p>{{ __('lang.website.lets_create_your_account') }}</p>
 
                         <form id="registerForm" method="POST" action="{{ route('user.do-signup') }}">
                             @csrf
 
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" placeholder="Type name" name="name" required>
+                                <label>{{ __('lang.website.name') }}</label>
+                                <input type="text" placeholder="{{ __('lang.website.type_name') }}" name="name" required>
                                 <small class="error-text text-danger"></small>
                             </div>
 
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" placeholder="Enter your email" name="email" required
+                                <label>{{ __('lang.website.email') }}</label>
+                                <input type="email" placeholder="{{ __('lang.website.enter_your_email') }}" name="email" required
                                     autocomplete="off" class="register-email">
                                 <small class="error-text text-danger already-email-msg"></small>
                             </div>
 
                             <div class="form-group">
-                                <label>Phone Number</label>
+                                <label>{{ __('lang.website.phone_number') }}</label>
                                 <input type="text" id="mobile_code" class="js-states form-control"
-                                    placeholder="Phone Number" name="mobile" required>
+                                    placeholder="{{ __('lang.website.enter_phone_number') }}" name="mobile" required>
                                 <small class="error-text text-danger"></small>
                             </div>
 
                             <div class="form-group position-relative">
-                                <label>Password</label>
-                                <input type="password" placeholder="Enter your password" name="password" required
+                                <label>{{ __('lang.website.password') }}</label>
+                                <input type="password" placeholder="{{ __('lang.website.enter_your_password') }}" name="password" required
                                     minlength="8">
                                 <small class="error-text text-danger"></small>
                             </div>
 
-                            <button type="submit" class="singup-btn">Signup</button>
+                            <button type="submit" class="singup-btn">{{ __('lang.website.signup') }}</button>
                         </form>
                          
                         @if(setting('enable_google_login') == 1)
                         <div class="Sign-in-google">
                             <a href="{{ route('google.login') }}">
                                 <img src="{{asset('website_assets/images/flat-color-icons_google.png')}}">
-                                Sign in with google
+                                {{ __('lang.website.sign_in_with_google') }}
                             </a>
                         </div>
                         @endif
@@ -638,31 +714,31 @@
                         <!-- Logo -->
                         <img src="{{asset('website_assets/images/search-button.png')}}">
 
-                        <h2>Login to Reowned</h2>
-                        <p>Welcome back, please enter your details</p>
+                        <h2>{{ __('lang.website.login_to_reowned') }}</h2>
+                        <p>{{ __('lang.website.welcome_back_enter_details') }}</p>
 
                         <form id="loginForm" method="POST" action="{{ route('user.do-login') }}">
                             @csrf
 
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" placeholder="Enter your email" name="email" required>
+                                <label>{{ __('lang.website.email') }}</label>
+                                <input type="email" placeholder="{{ __('lang.website.enter_your_email') }}" name="email" required>
                             </div>
 
                             <div class="form-group position-relative">
-                                <label>Password</label>
-                                <input type="password" placeholder="Enter your password" name="password" required>
+                                <label>{{ __('lang.website.password') }}</label>
+                                <input type="password" placeholder="{{ __('lang.website.enter_your_password') }}" name="password" required>
                                 <small class="error-text text-danger"></small>
                             </div>
 
-                            <button type="submit" class="login-submit-btn">Login</button>
+                            <button type="submit" class="login-submit-btn">{{ __('lang.website.login') }}</button>
                         </form>
                         
                         @if(setting('enable_google_login') == 1)
                         <div class="Sign-in-google">
                             <a href="{{ route('google.login') }}">
                                 <img src="{{asset('website_assets/images/flat-color-icons_google.png')}}">
-                                Sign in with google
+                                {{ __('lang.website.sign_in_with_google') }}
                             </a>
                         </div>
                         @endif
@@ -691,8 +767,8 @@
 
                         <!-- Img -->
                         <img src="{{asset('website_assets/images/verify-otp.png')}}">
-                        <h2>You’ve got mail!</h2>
-                        <p>Click the link in your email to verify your account.</p>
+                        <h2>{{ __('lang.website.youve_got_mail') }}</h2>
+                        <p>{{ __('lang.website.click_the_link_in_your_email') }}</p>
 
                     </div>
                 </div>
@@ -709,13 +785,13 @@
         <div class="modal-content">
             <div class="sign-delete-box">
                 <img src="{{asset('website_assets/images/sign-out-icon.png')}}">
-                <h4>Are you sure?</h4>
-                <p>Are you sure you want to Sign out ?</p>
+                <h4>{{ __('lang.website.are_you_sure') }}</h4>
+                <p>{{ __('lang.website.are_you_sure_to_sign_out') }}</p>
                 <form method="post" action="{{route('user.logout')}}">
                     @csrf
                     <div class="button-popup-sign-detlet">
-                        <button type="button" class="cancel-btn" data-close="signOutModal">Cancel</button>
-                        <button type="submit" class="yes-btn">Yes</button>
+                        <button type="button" class="cancel-btn" data-close="signOutModal">{{ __('lang.website.cancel') }}</button>
+                        <button type="submit" class="yes-btn">{{ __('lang.website.yes') }}</button>
                     </div>
                 </form>
             </div>
@@ -729,18 +805,18 @@
         <div class="modal-content">
             <div class="sign-delete-box">
                 <img src="{{asset('website_assets/images/deleate-icon.png')}}">
-                <h4>Are you sure?</h4>
+                <h4>{{ __('lang.website.are_you_sure') }}</h4>
                 <ul>
-                    <li>Your ads and transactions history will be deleted</li>
-                    <li>Accounts details can't be recovered</li>
-                    <li>Subscriptions will be cancelled</li>
-                    <li>Saved preferences and messages will be lost</li>
+                    <li>{{ __('lang.website.your_ads_transactions_history_deleted') }}</li>
+                    <li>{{ __('lang.website.accounts_details_cant_be_recovered') }}</li>
+                    <li>{{ __('lang.website.subscriptions_will_be_cancelled') }}</li>
+                    <li>{{ __('lang.website.saved_preferences_and_messages_lost') }}</li>
                 </ul>
                 <form method="post" action="{{route('user.delete')}}">
                     @csrf
                     <div class="button-popup-sign-detlet">
-                        <button type="button" class="cancel-btn" data-close="deleteModal">Cancel</button>
-                        <button type="submit" class="yes-btn">Yes</button>
+                        <button type="button" class="cancel-btn" data-close="deleteModal">{{ __('lang.website.cancel') }}</button>
+                        <button type="submit" class="yes-btn">{{ __('lang.website.yes') }}</button>
                     </div>
                 </form>
             </div>
@@ -820,7 +896,7 @@
         // Name validation
         if (name.length < 3) {
             $('input[name="name"]').next('.error-text')
-                .text('Name must be at least 3 characters');
+                .text('{{ __('lang.website.name_minimum_characters') }}');
             valid = false;
         }
 
@@ -828,29 +904,28 @@
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             $('input[name="email"]').next('.error-text')
-                .text('Enter a valid email address');
+                .text('{{ __('lang.website.enter_valid_email_address') }}');
             valid = false;
         }
 
         // Phone validation (exact 10 digit)
         if (!/^[0-9]{10}$/.test(mobile)) {
             $('input[name="mobile"]').next('.error-text')
-                .text('Phone number must be exactly 10 digits');
+                .text('{{ __('lang.website.phone_number_exact_digits') }}');
             valid = false;
         }
 
         // Password validation
         if (password.length < 8) {
             $('input[name="password"]').next('.error-text')
-                .text('Password must be minimum 8 characters');
-            valid = false;
+                .text('{{ __('lang.website.password_minimum_length') }}');
         }
 
         if (!valid) return;
 
         // Button loading state
         let btn = form.find('.singup-btn');
-        btn.prop('disabled', true).text('Submitting...');
+        btn.prop('disabled', true).text('{{ __('lang.website.submitting') }}');
 
         $.ajax({
             url: form.attr('action'),
@@ -858,7 +933,7 @@
             data: formData,
             success: function (response) {
 
-                btn.prop('disabled', false).text('Signup');
+                btn.prop('disabled', false).text('{{ __('lang.website.signup') }}');
 
                 if (response.status) {
 
@@ -872,7 +947,7 @@
             },
             error: function (xhr) {
 
-                btn.prop('disabled', false).text('Signup');
+                btn.prop('disabled', false).text('{{ __('lang.website.signup') }}');
 
                 if (xhr.status === 422) {
 
@@ -883,7 +958,7 @@
                         toastr.error(value[0]);
                     });
                 } else {
-                    toastr.error('Something went wrong. Please try again.');
+                    toastr.error('{{ __('lang.website.something_went_wrong_try_again') }}');
                 }
             }
         });
@@ -906,7 +981,7 @@
 
                     if (response.exists) {
                         $('input[name="email"]').next('.error-text')
-                            .text('Email already registered');
+                            .text('{{ __('lang.website.email_already_registered') }}');
                     } else {
                         $('input[name="email"]').next('.error-text')
                             .text('');
@@ -933,7 +1008,7 @@
         let formData = form.serialize();
         let btn = form.find('.login-submit-btn');
 
-        btn.prop('disabled', true).text('Logging in...');
+        btn.prop('disabled', true).text('{{ __('lang.website.logging_in') }}');
 
         $.ajax({
             url: form.attr('action'),
@@ -941,7 +1016,7 @@
             data: formData,
             success: function (response) {
 
-                btn.prop('disabled', false).text('Login');
+                btn.prop('disabled', false).text('{{ __('lang.website.login') }}');
 
                 if (response.status) {
 
@@ -956,12 +1031,12 @@
             },
             error: function (xhr) {
 
-                btn.prop('disabled', false).text('Login');
+                btn.prop('disabled', false).text('{{ __('lang.website.login') }}');
 
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     toastr.error(xhr.responseJSON.message);
                 } else {
-                    toastr.error('Something went wrong.');
+                    toastr.error('{{ __('lang.website.something_went_wrong') }}');
                 }
             }
         });
@@ -978,7 +1053,7 @@
         let formData = new FormData(this);
         let btn = form.find('.profile-save-btn');
 
-        btn.prop('disabled', true).text('Saving...');
+        btn.prop('disabled', true).text('{{ __('lang.website.saving_changes') }}');
 
         $.ajax({
             url: form.attr('action'),
@@ -989,7 +1064,7 @@
 
             success: function (response) {
 
-                btn.prop('disabled', false).text('Save changes');
+                btn.prop('disabled', false).text('{{ __('lang.website.save_changes') }}');
 
                 if (response.status) {
                     toastr.success(response.message);
@@ -998,14 +1073,14 @@
 
             error: function (xhr) {
 
-                btn.prop('disabled', false).text('Save changes');
+                btn.prop('disabled', false).text('{{ __('lang.website.save_changes') }}');
 
                 if (xhr.status === 422) {
                     $.each(xhr.responseJSON.errors, function (key, value) {
                         toastr.error(value[0]);
                     });
                 } else {
-                    toastr.error('Something went wrong.');
+                    toastr.error('{{ __('lang.website.something_went_wrong') }}');
                 }
             }
         });
@@ -1118,7 +1193,7 @@
         let formData = new FormData(this);
         let btn = form.find('.upload-btn');
 
-        btn.prop('disabled', true).text('Uploading...');
+btn.prop('disabled', true).text('{{ __('lang.website.uploading') }}');
 
         $.ajax({
             url: form.attr('action'),
@@ -1128,7 +1203,7 @@
             contentType: false,
 
             success: function (response) {
-                btn.prop('disabled', false).text('Submit');
+                btn.prop('disabled', false).text('{{ __('lang.website.submit') }}');
 
                 if (response.status) {
                     toastr.success(response.message);
@@ -1137,14 +1212,14 @@
 
             error: function (xhr) {
 
-                btn.prop('disabled', false).text('Submit');
+                btn.prop('disabled', false).text('{{ __('lang.website.submit') }}');
 
                 if (xhr.status === 422) {
                     $.each(xhr.responseJSON.errors, function (key, value) {
                         toastr.error(value[0]);
                     });
                 } else {
-                    toastr.error('Something went wrong.');
+                    toastr.error('{{ __('lang.website.something_went_wrong') }}');
                 }
             }
         });
@@ -1193,13 +1268,13 @@
                 if (!data.status) return;
 
                 document.getElementById('categoryTitle').innerHTML =
-                    data.category + ' <span>(All Subcategory)</span>';
+                    data.category + ' <span>({{ __('lang.website.all_subcategory') }})</span>';
 
                 let container = document.getElementById('subcategoryContainer');
                 container.innerHTML = '';
 
                 if (data.subcategories.length === 0) {
-                    container.innerHTML = "<p>No subcategories found.</p>";
+                    container.innerHTML = `<p>{{ __('lang.website.no_subcategories_found') }}</p>`;
                     return;
                 }
 
@@ -1240,9 +1315,9 @@
 
             Swal.fire({
                 icon: 'warning',
-                title: 'Login Required',
-                text: 'Please login to add items to your wishlist',
-                confirmButtonText: 'Login',
+                title: '{{ __('lang.website.login_required') }}',
+                text: '{{ __('lang.website.login_to_add_items_wishlist') }}',
+                confirmButtonText: '{{ __('lang.website.login') }}',
                 confirmButtonColor: '#CB6932'
             }).then((result) => {
 
@@ -1703,6 +1778,6 @@
 
         let text = $(this).find('a').text();
 
-        $(this).find('a').text(text == '+ More' ? '- Less' : '+ More');
+        $(this).find('a').text(text == '+ '+"{{ __('lang.website.more') }}" ? '- '+"{{ __('lang.website.more') }}" : '+ '+"{{ __('lang.website.more') }}");
     });
 </script>

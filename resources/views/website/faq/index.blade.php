@@ -4,9 +4,9 @@
 <div class="container">
   <div class="brudcrum brudcrum-defrent">
     <ul>
-      <li>Home</li>
+      <li>{{ __('lang.website.home') }}</li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-      <li><a href="#" class="active">FAQs</a></li>
+      <li><a href="#" class="active">{{ __('lang.website.faqs') }}</a></li>
     </ul>
   </div>
 </div>
@@ -17,8 +17,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2>FAQs</h2>
-
+        <h2>{{ __('lang.website.faqs') }}</h2>
         <div class="row">
           @foreach($data->chunk(ceil($data->count()/2)) as $chunkIndex => $chunk)
             <div class="col-md-6">

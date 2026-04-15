@@ -11,7 +11,7 @@ class NotificationController extends Controller
 {
     public function index(Request $request)
     {
-         return view('website.notification.index');
+        return view('website.notification.index');
     }
    
 }

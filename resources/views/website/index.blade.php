@@ -5,7 +5,7 @@
   @if(count($homeCategories) > 0)
   <div class="container">
     <div class="Explore Popular Categories">
-      <h2 data-aos="fade-up" data-aos-duration="1000">Explore Popular Categories</h2>
+      <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.explore_popular_categories') }}</h2>
       <div class="blaze-slider home-banner-new">
         <div class="blaze-container">
           <div class="blaze-track-container">
@@ -52,8 +52,8 @@
   @if(count($recommendateItemData) > 0)
   <div class="container">
     <div class="recommendations-saction">
-      <h2 data-aos="fade-up" data-aos-duration="1000">Recommendations</h2>
-      <a href="{{url('item/list?type=recommendation')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.recommendations') }}</h2>
+      <a href="{{url('item/list?type=recommendation')}}" data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.view_all') }}</a>
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $recommendateItemData, 'row')
@@ -67,8 +67,8 @@
   @if(count($popularItemData) > 0)
   <div class="container">
     <div class="recommendations-saction">
-      <h2 data-aos="fade-up" data-aos-duration="1000">Popular item</h2>
-      <a href="{{url('item/list?type=popular')}}" data-aos="fade-up" data-aos-duration="1000">View All</a>
+      <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.popular_items') }}</h2>
+      <a href="{{url('item/list?type=popular')}}" data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.view_all') }}</a>
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $popularItemData, 'row')
@@ -88,10 +88,10 @@
   @if(count($allItemData) > 0)
   <div class="container">
     <div class="recommendations-saction all-itmes">
-      <h2 data-aos="fade-up" data-aos-duration="1000">All item</h2>
+      <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.all_item') }}</h2>
       <div class="low-higy-price-box">
         <div class="select">
-          <div class="selectBtn" data-type="firstOption">Category</div>
+          <div class="selectBtn" data-type="firstOption">{{ __('lang.website.category') }}</div>
           <div class="selectDropdown">
             @foreach($homeCategories as $category)
               <div class="option category-option" data-id="{{ $category->id }}">
@@ -101,13 +101,23 @@
           </div>
         </div>
         <div class="select">
-          <div class="selectBtn" data-type="firstOption">Price - Low to High</div>
-            <div class="selectDropdown">
-              <div class="option sort-option" data-sort="low_to_high">Low to High</div>
-              <div class="option sort-option" data-sort="high_to_low">High to Low</div>
-              <div class="option sort-option" data-sort="oldest">Oldest to Newest</div>
-              <div class="option sort-option" data-sort="newest">Newest to Oldest</div>
-            </div>
+          <div class="selectBtn" data-type="firstOption">
+              {{ __('lang.website.price_low_to_high') }}
+          </div>
+          <div class="selectDropdown">
+              <div class="option sort-option" data-sort="low_to_high">
+                  {{ __('lang.website.low_to_high') }}
+              </div>
+              <div class="option sort-option" data-sort="high_to_low">
+                  {{ __('lang.website.high_to_low') }}
+              </div>
+              <div class="option sort-option" data-sort="oldest">
+                  {{ __('lang.website.oldest_to_newest') }}
+              </div>
+              <div class="option sort-option" data-sort="newest">
+                  {{ __('lang.website.newest_to_oldest') }}
+              </div>
+          </div>
         </div>
       </div>
       <div class="recommendations-saction-shop">
@@ -119,7 +129,7 @@
           </div>
           @if($totalItemCount > 8)
             <div class="load-more text-center mt-4">
-              <button class="btn-load btn btn-primary">Load More</button>
+              <button class="btn-load btn btn-primary">{{ __('lang.website.load_more') }}</button>
             </div>
           @endif
         </div>

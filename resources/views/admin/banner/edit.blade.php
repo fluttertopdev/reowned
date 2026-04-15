@@ -42,7 +42,7 @@
                                    accept="image/*" 
                                    onchange="previewImage(event)" />
                         </div>
-                        <p class="text-danger mt-2">Resolution 1236 × 424 px</p>
+                        <p class="text-danger mt-2">{{ __('lang.resolution') }} 1236 × 424</p>
 
                         @error('image')
                             <span class="text-danger">{{ $message }}</span>
@@ -71,10 +71,10 @@
 
                         <select class="form-control select2 form-select" name="status" id="status">
                             <option value="1" {{ isset($data) && $data->status == 1 ? 'selected' : '' }}>
-                                Active
+                                {{ __('lang.active') }}
                             </option>
                             <option value="0" {{ isset($data) && $data->status == 0 ? 'selected' : '' }}>
-                                Inactive
+                                {{ __('lang.deactive') }}
                             </option>
                         </select>
                     </div>

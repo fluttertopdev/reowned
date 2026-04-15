@@ -18,20 +18,6 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
-
-    /*
-     * function for check price response
-     */
-    public static function commonPriceFormate($price = null)
-    {
-        if ($price == '' || $price == null) {
-            return '--';
-        } else {
-            return '$ ' . $price;
-        }
-    }
-
-
     /*
      * function for check price response
      */
@@ -48,20 +34,7 @@ class Helpers
 
     public static function getAssignedPermissions()
     {
-        return Session::get('permissions', []); // Return an empty array if 'permissions' is not set
-    }
-    public static function sellergetAssignedPermissions()
-    {
-        return Session::get('sellerpermissions', []); // Return an empty array if 'permissions' is not set
-    }
-
-    public static function getPriceFormate($price = null)
-    {
-        if ($price == '' || $price == null) {
-            return '$';
-        } else {
-            return '$';
-        }
+        return Session::get('permissions', []);
     }
 
     /*
@@ -146,25 +119,6 @@ class Helpers
                 'message' => $e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile(),
             ];
         }
-    }
-
-    // this is for generate api token
-    public static function generateApiToken()
-    {
-        mt_srand((float)microtime() * 10000);
-        $uuid = rand(1, 99999) . time();
-        $salt = substr(sha1(uniqid(mt_rand(), true)), 0, 40);
-        return substr(sha1($salt) . $salt, 1, 85) . $uuid;
-    }
-
-    // this is for validate api token
-    public static function validateAuthToken($token)
-    {
-        $tokenExist  = User::where('api_token', $token)->first();
-        if ($tokenExist) {
-            return $tokenExist;
-        }
-        return false;
     }
 
 

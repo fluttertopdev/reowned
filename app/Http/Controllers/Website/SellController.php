@@ -200,7 +200,7 @@ class SellController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Listing Posted Successfully');
+            return redirect()->back()->with('success', __('lang.website.listing_posted_successfully'));
 
         } catch (\Exception $e) {
 

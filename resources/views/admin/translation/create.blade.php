@@ -5,12 +5,9 @@
     <div class="container-xxl flex-grow-1 container-p-y">
 
         <div class="card mb-6">
-
             <h5 class="card-header">{{ isset($data) ? __('lang.edit') : __('lang.add') }}</h5>
             <form class="card-body" action="{{route('translation.store') }}" method="POST">
                 @csrf
-
-
                 <div class="row g-6">
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-price">{{__('lang.group')}}</label>

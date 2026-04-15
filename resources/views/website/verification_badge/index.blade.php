@@ -4,11 +4,11 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home_appliances') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
         <li>Setting</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">User Verification</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.user_verification') }}</a></li>
       </ul>
     </div>
   </div>
@@ -21,7 +21,7 @@
         <div class="col-md-9">
           <div class="edit-profile-saction-right">
             <div class="user-verification">
-              <h3>User verification</h3>
+              <h3>{{ __('lang.website.user_verification') }}</h3>
 
               <form id="verificationForm" enctype="multipart/form-data" action="{{ route('verification.upload') }}"
                 method="POST">
@@ -36,8 +36,8 @@
                             <input type="file" class="form-control" name="id_proof_front" id="frontInput"
                               accept=".jpg,.jpeg,.png,.svg,.pdf">
                             <img src="{{asset('website_assets/images/upload-button.png')}}">
-                            <span>ID Proof (Front)</span>
-                            <p>Allowed file types: PNG,JPG,JPEG,SVG,PDF</p>
+                            <span>{{ __('lang.website.id_proof_front') }}</span>
+                            <p>{{ __('lang.website.allowed_file_types') }}</p>
                           </label>
                         </div>
                         @if($user->id_proof_front)
@@ -54,8 +54,8 @@
                             <input type="file" class="form-control" name="id_proof_back" id="backInput"
                               accept=".jpg,.jpeg,.png,.svg,.pdf">
                             <img src="{{asset('website_assets/images/upload-button.png')}}">
-                            <span>ID Proof (Back)</span>
-                            <p>Allowed file types: PNG,JPG,JPEG,SVG,PDF</p>
+                            <span>{{ __('lang.website.id_proof_back') }}</span>
+                            <p>{{ __('lang.website.allowed_file_types') }}</p>
                           </label>
                         </div>
                         @if($user->id_proof_back)
@@ -66,7 +66,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="verify-buuton"><button type="submit" class="upload-btn">Verify</button></div>
+                  <div class="verify-buuton"><button type="submit" class="upload-btn">{{ __('lang.website.verify') }}</button></div>
                 </div>
 
               </form>

@@ -13,5 +13,5 @@ class ReasonTranslation extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = "reportreasonstranslations";
+    protected $table = "report_reason_translations";
 }

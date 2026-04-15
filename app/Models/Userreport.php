@@ -27,40 +27,41 @@ class Userreport extends Model
     {
         return $this->belongsTo(Item::class, 'item_id');
     }
+    
 
     public function reportReason()
     {
         return $this->belongsTo(Reportreason::class, 'reason_id');
     }
 
+    
     public static function getLists($search)
     {
         try {
             return self::query()
-                ->with(['user', 'item', 'reportReason']) // Eager load related models
+                ->selectRaw('item_id, COUNT(*) as total_reports, MAX(created_at) as created_at')
+                ->with(['item.user']) // item + user
+                ->groupBy('item_id')
+                
                 ->when(
                     !empty($search['name']),
                     fn($query) =>
-                    $query->where(function ($q) use ($search) {
-                        $q->whereHas('user', function ($uq) use ($search) {
-                            $uq->where('name', 'like', "%" . trim($search['name']) . "%");
-                        })
-                        ->orWhereHas('item', function ($iq) use ($search) {
-                            $iq->where('name', 'like', "%" . trim($search['name']) . "%");
-                        });
+                    $query->whereHas('item', function ($q) use ($search) {
+                        $q->where('title', 'like', "%" . trim($search['name']) . "%");
                     })
                 )
-                ->latest('id')
+
+                ->latest()
                 ->paginate($search['pageno'] ?? config('constant.pagination'))
                 ->withQueryString();
+
         } catch (\Exception $e) {
             return [
                 'status'  => false,
-                'message' => "{$e->getMessage()} at line {$e->getLine()} in file {$e->getFile()}"
+                'message' => "{$e->getMessage()} at line {$e->getLine()}"
             ];
         }
     }
-
 
     public static function deleteRecord($id)
     {

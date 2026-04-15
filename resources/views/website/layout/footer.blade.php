@@ -15,17 +15,17 @@
       </div>
       <div class="col-md-2">
         <div class="footer-box">
-          <h3>Quick links</h3>
+          <h3>{{ __('lang.website.quick_links') }}</h3>
           <ul>
-            <li><a href="{{url('contact-us')}}">Contact us</a></li>
-            <li><a href="{{url('subscriptions')}}">Subscription</a></li>
-            <li><a href="{{url('faqs')}}">FAQs</a></li>
+            <li><a href="{{url('contact-us')}}">{{ __('lang.website.contact_us') }}</a></li>
+            <li><a href="{{url('subscriptions')}}">{{ __('lang.website.subscription') }}</a></li>
+            <li><a href="{{url('faqs')}}">{{ __('lang.website.faqs') }}</a></li>
           </ul>
         </div>
       </div>
       <div class="col-md-2">
         <div class="footer-box">
-          <h3>Legal</h3>
+          <h3>{{ __('lang.website.legal') }}</h3>
           <ul>
             @php $cmsList = \Helpers::getCmsForSite(); @endphp
             @if(isset($cmsList) && count($cmsList))
@@ -38,7 +38,7 @@
       </div>
       <div class="col-md-4">
         <div class="footer-box">
-          <h3>Get in touch</h3>
+          <h3>{{ __('lang.website.get_in_touch') }}</h3>
           <ul class="get-in-tuch">
             @if(setting('facebook')!='')
             <li><a target="_blank" href="{{setting('facebook')}}"><img src="{{asset('website_assets/images/icon-svg-3.svg')}}"></a></li>
@@ -53,16 +53,39 @@
             <li><a target="_blank" href="{{setting('linkedin')}}"><img src="{{asset('website_assets/images/icon-svg-6.svg')}}"></a></li>
             @endif
           </ul>
-          <div class="news-later">
-            <input type="email" placeholder="Enter email address" />
-            <button class="search-btn">Subscribe</button>
-          </div>
         </div>
       </div>
     </div>
     <div class="copy-right">
-      <p>Copyright© {{setting('name')}} {{date('Y')}}. All Rights Reserved.</p>
-      <a href="#"><img src="{{asset('website_assets/images/languge.png')}}"></a>
+      <p>{{ __('lang.website.copyright') }} {{setting('name')}} {{date('Y')}}. {{ __('lang.website.all_rights_reserved') }}.</p>
+
+      @php
+          $langList = \Helpers::getAllLangList();
+
+          $langCode = Session()->has('website_locale') 
+              ? Session()->get('website_locale') 
+              : config('app.fallback_locale');
+
+          $currentLang = collect($langList)->firstWhere('code', $langCode);
+      @endphp
+
+      <div class="lang-dropdown">
+          <div class="lang-btn" onclick="toggleLangDropdown()">
+              <span>{{ strtoupper($currentLang->code) }}</span>
+              <i class="arrow-down"></i>
+          </div>
+
+          <ul class="lang-menu" id="langMenu">
+              @foreach($langList as $langRow)
+                  <li>
+                      <a href="{{ route('setlang') }}?lang={{ $langRow->code }}"
+                         class="{{ $langCode == $langRow->code ? 'active' : '' }}">
+                          {{ $langRow->name }}
+                      </a>
+                  </li>
+              @endforeach
+          </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -72,7 +95,7 @@
     <div class="modal-content location-modal">
 
       <div class="modal-header">
-        <h2>Edit location</h2>
+        <h2>{{ __('lang.website.edit_location') }}</h2>
         <button class="close-btn" id="closeModalBtn">
           <img src="{{asset('website_assets/images/close.svg')}}">
         </button>
@@ -81,12 +104,12 @@
       <div class="location-top">
         <button class="curont-loc">
           <img src="{{asset('website_assets/images/crunt.png')}}">
-          Current location
+          {{ __('lang.website.current_location') }}
         </button>
       </div>
 
       <div class="map-search">
-        <input type="text" id="mapLocationSearch" placeholder="Search city / area">
+        <input type="text" id="mapLocationSearch" placeholder="{{ __('lang.website.search_city_area') }}">
       </div>
 
       <div class="map-wrapper">
@@ -95,14 +118,14 @@
 
       <div class="slider-container">
         <div class="slider-labels">
-          <label>KM Range</label>
+          <label>{{ __('lang.website.km_range') }}</label>
           <label id="rangeValue">20KM</label>
         </div>
         <input type="range" id="kmRange" min="0" max="100" value="20">
       </div>
 
       <div class="save-button">
-        <button>Save</button>
+        <button>{{ __('lang.website.save') }}</button>
       </div>
 
     </div>
@@ -139,6 +162,17 @@
       toastr.error("{{ session('error') }}");
   </script>
   @endif
+  <script>
+    function toggleLangDropdown() {
+        document.getElementById("langMenu").classList.toggle("show");
+    }
+
+    window.onclick = function(e) {
+        if (!e.target.closest('.lang-dropdown')) {
+            document.getElementById("langMenu").classList.remove("show");
+        }
+    }
+  </script>
 </body>
 
 </html>

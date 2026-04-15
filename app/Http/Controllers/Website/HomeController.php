@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Session;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Item;
@@ -13,6 +12,10 @@ use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -86,7 +89,7 @@ class HomeController extends Controller
         }
 
 
-        $recentCategories = \DB::table('user_recent_views')
+        $recentCategories = DB::table('user_recent_views')
             ->where('user_id', $userId)
             ->orderBy('id','DESC')
             ->limit(10)
@@ -95,7 +98,7 @@ class HomeController extends Controller
             ->unique()
             ->values();
 
-        $recentItemIds = \DB::table('user_recent_views')
+        $recentItemIds = DB::table('user_recent_views')
             ->where('user_id', $userId)
             ->whereNotNull('item_id')
             ->latest()
@@ -256,6 +259,16 @@ class HomeController extends Controller
         }
 
         return response()->json(['exists' => false]);
+    }
+
+    public function setLanguage(Request $request){
+        $post = $request->all();
+            if (isset($post['lang'])) {
+                App::setLocale($post['lang']);
+                Session::put('website_locale', $post['lang']);
+                setcookie('website_lang_code',$post['lang'],time()+60*60*24*365);
+            }
+        return redirect()->back();
     }
    
 }

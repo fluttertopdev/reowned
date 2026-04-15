@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Packages</title>
+    <title>{{ __('lang.user_packages') }}</title>
     <style>
         table {
             width: 100%;
@@ -22,21 +22,21 @@
 </head>
 <body>
 
-<h2>User Packages</h2>
+<h2>{{ __('lang.user_packages') }}</h2>
 
 <table>
     <thead>
         <tr>
             <th>#</th>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Package</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Total Limit</th>
-            <th>Used Limit</th>
-            <th>Status</th>
-            <th>Created At</th>
+            <th>{{ __('lang.user_name') }}</th>
+            <th>{{ __('lang.user_email') }}</th>
+            <th>{{ __('lang.package') }}</th>
+            <th>{{ __('lang.start_date') }}</th>
+            <th>{{ __('lang.end_date') }}</th>
+            <th>{{ __('lang.total_limit') }}</th>
+            <th>{{ __('lang.used_limit') }}</th>
+            <th>{{ __('lang.status') }}</th>
+            <th>{{ __('lang.created_at') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -47,10 +47,11 @@
                     ?? $row->adPackage->name 
                     ?? '--';
 
-                $status = 'Expired';
+                $status = __('lang.expired');
+
                 if (!$row->end_date || now()->lte($row->end_date)) {
                     if ($row->is_active == 1) {
-                        $status = 'Active';
+                        $status = __('lang.active');
                     }
                 }
             @endphp
@@ -64,22 +65,26 @@
 
                 <td>{{ $packageName }}</td>
 
-                <td>{{ \Carbon\Carbon::parse($row->start_date)->format('d-m-Y') }}</td>
+                <td>
+                    {{ \Carbon\Carbon::parse($row->start_date)->format('d-m-Y') }}
+                </td>
 
                 <td>
                     {{ $row->end_date 
                         ? \Carbon\Carbon::parse($row->end_date)->format('d-m-Y') 
-                        : 'Unlimited' 
+                        : __('lang.unlimited') 
                     }}
                 </td>
 
-                <td>{{ $row->total_limit ?? 'Unlimited' }}</td>
+                <td>{{ $row->total_limit ?? __('lang.unlimited') }}</td>
 
                 <td>{{ $row->used_limit }}</td>
 
                 <td>{{ $status }}</td>
 
-                <td>{{ \Carbon\Carbon::parse($row->created_at)->format('d-m-Y') }}</td>
+                <td>
+                    {{ \Carbon\Carbon::parse($row->created_at)->format('d-m-Y') }}
+                </td>
             </tr>
         @endforeach
     </tbody>

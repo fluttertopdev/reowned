@@ -16,7 +16,6 @@ class CmsController extends Controller
 
     public function index(Request $request)
     {
-
         try {
             $data['result'] = Cms::getLists($request->all());
 
@@ -28,11 +27,8 @@ class CmsController extends Controller
     }
 
 
-
     public function create(Request $request)
     {
-
-
         return view('admin.cms.create');
     }
 
@@ -46,12 +42,9 @@ class CmsController extends Controller
 
         ]);
 
-
-
         // **Sanitize Inputs**
         $validatedData['page_name'] = htmlspecialchars(strip_tags($validatedData['page_name']), ENT_QUOTES, 'UTF-8'); // Prevent XSS
         $validatedData['slug'] = Str::slug(filter_var($validatedData['slug'], FILTER_SANITIZE_STRING)); // Ensure clean slug
-
 
         try {
             // Save the sanitized data
@@ -88,8 +81,6 @@ class CmsController extends Controller
 
     public function update(Request $request)
     {
-
-
         $validatedData = $request->validate([
             'page_name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
@@ -142,9 +133,7 @@ class CmsController extends Controller
     }
 
 
-
-
-        public function translation($id)
+    public function translation($id)
     {
         $cms = Cms::find($id);
         $languages = Language::where('status',1)->get();
@@ -172,58 +161,49 @@ class CmsController extends Controller
     }
 
 
+    public function updateTranslate($id, Request $request)
+    {
+        $customMessages = [];
 
-
-
-   public function updateTranslate($id, Request $request)
-{
-    $customMessages = [];
-
-    foreach ($request->input('language_code', []) as $index => $languageCode) {
-        $customMessages["page_name.$index.required"] = "The page name for language ($languageCode) is required.";
-        $customMessages["description.$index.required"] = "The description for language ($languageCode) is required.";
-    }
-
-    $request->validate([
-        'language_code' => 'required|array',
-        'language_code.*' => 'required|string',
-        'page_name' => 'required|array',
-        'page_name.*' => 'required|string|max:255',
-        'description' => 'required|array',
-        'description.*' => 'required|string',
-    ], $customMessages);
-
-    $input = $request->all();
-
-    for ($i = 0; $i < count($input['language_code']); $i++) {
-        $translationId = $input['translation_id'][$i] ?? null;
-
-        $pageName = trim(strip_tags($input['page_name'][$i]));  // Remove extra spaces & HTML tags
-        $description = trim(htmlspecialchars($input['description'][$i], ENT_QUOTES, 'UTF-8')); // Prevent XSS
-
-        $cmsTranslationData = [
-            'language_code' => $input['language_code'][$i],
-            'page_name' => $pageName,
-            'description' => $description,
-            'updated_at' => now(),
-        ];
-
-        if ($translationId) {
-            CmsTranslation::where('id', $translationId)->update($cmsTranslationData);
-        } else {
-            $cmsTranslationData['cms_id'] = $id;
-            CmsTranslation::create($cmsTranslationData);
+        foreach ($request->input('language_code', []) as $index => $languageCode) {
+            $customMessages["page_name.$index.required"] = "The page name for language ($languageCode) is required.";
+            $customMessages["description.$index.required"] = "The description for language ($languageCode) is required.";
         }
+
+        $request->validate([
+            'language_code' => 'required|array',
+            'language_code.*' => 'required|string',
+            'page_name' => 'required|array',
+            'page_name.*' => 'required|string|max:255',
+            'description' => 'required|array',
+            'description.*' => 'required|string',
+        ], $customMessages);
+
+        $input = $request->all();
+
+        for ($i = 0; $i < count($input['language_code']); $i++) {
+            $translationId = $input['translation_id'][$i] ?? null;
+
+            $pageName = trim(strip_tags($input['page_name'][$i]));  // Remove extra spaces & HTML tags
+            $description = trim(htmlspecialchars($input['description'][$i], ENT_QUOTES, 'UTF-8')); // Prevent XSS
+
+            $cmsTranslationData = [
+                'language_code' => $input['language_code'][$i],
+                'page_name' => $pageName,
+                'description' => $description,
+                'updated_at' => now(),
+            ];
+
+            if ($translationId) {
+                CmsTranslation::where('id', $translationId)->update($cmsTranslationData);
+            } else {
+                $cmsTranslationData['cms_id'] = $id;
+                CmsTranslation::create($cmsTranslationData);
+            }
+        }
+
+        return redirect(url('admin/cms'))->with('success', __('lang.admin_translation_updated'));
     }
-
-    return redirect(url('admin/cms'))->with('success', 'Translation updated successfully.');
-}
-
-
-
-
-
-
 
 
 }

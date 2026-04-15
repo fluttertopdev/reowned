@@ -4,16 +4,16 @@
   <div class="container">
     <div class="brudcrum">
       <ul>
-        <li><a href="{{url('/')}}">Home</a></li>
+        <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
         <li>
           <a href="#" class="active">
             @if($type == 'recommendation')
-                Recommended for you
+                {{ __('lang.website.recommended_for_you') }}
             @elseif($type == 'popular')
-                Popular in your area
+                {{ __('lang.website.popular_in_your_area') }}
             @else
-                All Items
+                {{ __('lang.website.all_items') }}
             @endif
           </a>
         </li>
@@ -25,7 +25,7 @@
           <div class="desginer-right-box home-apliances-right recommendations-page">
             <div class="tabs">
               <div class="tab-left-right">
-                <h5>Item Lists</h5>
+                <h5>{{ __('lang.website.item_lists') }}</h5>
                 <div class="tab-right-box">
                   <div class="grid-list-button">
                     <button class="list-view on"><img src="{{asset('website_assets/images/list-btn.png')}}"></button>

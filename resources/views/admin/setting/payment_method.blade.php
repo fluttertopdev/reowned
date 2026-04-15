@@ -40,26 +40,30 @@
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">Razorpay Key</label>
+                        <label class="col-form-label">{{ __('lang.razorpay_key') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="razorpay_key"
-                            value="{{ setting('razorpay_key') }}" placeholder="Razorpay Key" required>
+                            value="{{ setting('razorpay_key') }}"
+                            placeholder="{{ __('lang.enter_razorpay_key') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">Razorpay Secret</label>
+                        <label class="col-form-label">{{ __('lang.razorpay_secret') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="razorpay_secret"
-                            value="{{ setting('razorpay_secret') }}" placeholder="Razorpay Secret" required>
+                            value="{{ setting('razorpay_secret') }}"
+                            placeholder="{{ __('lang.enter_razorpay_secret') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group mb-0 text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        {{ __('lang.save') }}
+                    </button>
                 </div>
             </div>
         </form>
@@ -100,26 +104,30 @@
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">Stripe Key</label>
+                        <label class="col-form-label">{{ __('lang.stripe_key') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="stripe_key"
-                            value="{{ setting('stripe_key') }}" placeholder="Stripe Key" required>
+                            value="{{ setting('stripe_key') }}"
+                            placeholder="{{ __('lang.enter_stripe_key') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">Stripe Secret Key</label>
+                        <label class="col-form-label">{{ __('lang.stripe_secret_key') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="stripe_secret_key"
-                            value="{{ setting('stripe_secret_key') }}" placeholder="Stripe Secret Key" required>
+                            value="{{ setting('stripe_secret_key') }}"
+                            placeholder="{{ __('lang.enter_stripe_secret_key') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group mb-0 text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        {{ __('lang.save') }}
+                    </button>
                 </div>
             </div>
         </form>
@@ -159,26 +167,30 @@
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">PayPal Client ID</label>
+                        <label class="col-form-label">{{ __('lang.paypal_client_id') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="paypal_client_id"
-                            value="{{ setting('paypal_client_id') }}" placeholder="PayPal Client ID" required>
+                            value="{{ setting('paypal_client_id') }}"
+                            placeholder="{{ __('lang.enter_paypal_client_id') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group row mt-3">
                     <div class="col-md-4">
-                        <label class="col-form-label">PayPal Secret Key</label>
+                        <label class="col-form-label">{{ __('lang.paypal_secret_key') }}</label>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="paypal_secret_key"
-                            value="{{ setting('paypal_secret_key') }}" placeholder="PayPal Secret Key" required>
+                            value="{{ setting('paypal_secret_key') }}"
+                            placeholder="{{ __('lang.enter_paypal_secret_key') }}" required>
                     </div>
                 </div>
 
                 <div class="form-group mb-0 text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        {{ __('lang.save') }}
+                    </button>
                 </div>
             </div>
         </form>
@@ -217,7 +229,7 @@
                 <input type="hidden" name="payment_method" value="cod">
 
                 <div class="form-group mb-0 text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">{{ __('lang.save') }}</button>
                 </div>
             </div>
         </form>

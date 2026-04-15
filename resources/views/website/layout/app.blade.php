@@ -1,5 +1,15 @@
 <!doctype html>
-<html lang="en">
+<?php
+if (Session()->has('website_locale')) {
+    $langCode = Session()->get('website_locale');
+} else {
+    $langCode = config('app.fallback_locale');
+}
+
+$direction = \Helpers::getLanguageDirection($langCode);
+?>
+<html lang="{{$langCode}}">
+<!-- dir="{{$direction }}" -->
 
 <head>
   <meta charset="utf-8">
@@ -16,7 +26,7 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css'>
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-  <title>Reowned</title>
+  <title>{{setting('name') ?? 'Reowned'}}</title>
   <script>
     var base_url = "{{url('')}}";
   </script>

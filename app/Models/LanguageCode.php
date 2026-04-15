@@ -17,18 +17,3 @@ class LanguageCode extends Model
     protected $table = "language_codes";
 
 }
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-

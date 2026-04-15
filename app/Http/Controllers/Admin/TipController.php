@@ -181,6 +181,6 @@ class TipController extends Controller
             }
         }
 
-        return redirect(url('admin/tips'))->with('success', 'Translation updated successfully.');
+        return redirect(url('admin/tips'))->with('success', __('lang.admin_translation_updated'));
     }
 }

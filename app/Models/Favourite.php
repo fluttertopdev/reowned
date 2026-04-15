@@ -11,19 +11,6 @@ class Favourite extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = " favourites
-";
-
-
-   
-
-   
-  
-
-
-
-
-  
-
-
+    protected $table = " favourites";
+    
 }

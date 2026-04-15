@@ -28,9 +28,9 @@
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
                             <select name="type" class="form-control form-select select2">
-                                <option value="">All</option>
-                                <option value="item">Item</option>
-                                <option value="ads">Ads</option>
+                                <option value="">{{__('lang.all')}}</option>
+                                <option value="item">{{__('lang.item')}}</option>
+                                <option value="ads">{{__('lang.ads')}}</option>
                             </select>
                         </div>
                         <div class="col-sm-4 display-inline-block mt-3">
@@ -39,14 +39,14 @@
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('userpackage.index') }}">{{__('lang.reset')}}</a>
 
                             <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="ti ti-download"></i> Export
+                                <i class="ti ti-download"></i> {{__('lang.export')}}
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('user-query.export.excel') }}">
-                                    Export to Excel
+                                    {{__('lang.export_to_excel')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('user-query.export.pdf') }}">
-                                    Export to PDF
+                                    {{__('lang.export_to_pdf')}}
                                 </a>
                             </div>
                         </div>

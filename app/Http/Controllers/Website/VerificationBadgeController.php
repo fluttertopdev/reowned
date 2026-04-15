@@ -24,8 +24,8 @@ class VerificationBadgeController extends Controller
             'id_proof_front' => 'nullable|mimes:jpg,jpeg,png,svg,pdf|max:4096',
             'id_proof_back'  => 'nullable|mimes:jpg,jpeg,png,svg,pdf|max:4096',
         ],[
-            'mimes' => 'Allowed file types: JPG, JPEG, PNG, SVG, PDF',
-            'max'   => 'File size must not exceed 4MB'
+            'mimes' => __('lang.website.allowed_file_types'),
+            'max'   => __('lang.website.file_size_must_not_exceed_4mb')
         ]);
 
         if ($request->hasFile('id_proof_front')) {
@@ -50,7 +50,7 @@ class VerificationBadgeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Documents uploaded successfully.'
+            'message' => __('lang.website.documents_uploaded_successfully')
         ]);
     }
    

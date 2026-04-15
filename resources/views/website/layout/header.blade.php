@@ -12,7 +12,7 @@
           <div class="header-right">
             <div class="search-loaction-box">
               <button id="openModalBtn">
-                  <span id="currentLocation">Select Location</span>
+                  <span id="currentLocation">{{ __('lang.website.select_location') }}</span>
                   <img src="{{asset('website_assets/images/icons-outline.svg')}}" class="icon-map">
               </button>
             </div>
@@ -24,19 +24,19 @@
                   @endphp
                   <div class="selectBtn option" data-type="{{ $currentSlug }}">
                     @if($currentSlug == 'all')
-                        All Categories
+                        {{ __('lang.website.all_categories') }}
                     @else
-                        {{ optional($headerCategories->firstWhere('slug', $currentSlug))->name ?? 'All Categories' }}
+                        {{ optional($headerCategories->firstWhere('slug', $currentSlug))->name ?? __('lang.website.all_categories') }}
                     @endif
                   </div>
                   <div class="selectDropdown">
                     <!-- ALL -->
                     <div class="option {{ $currentSlug == 'all' ? 'active' : '' }}" data-type="all">
-                        <a>All Categories</a>
+                        <a>{{ __('lang.website.all_categories') }}</a>
                     </div>
 
                     <!-- FIRST 6 -->
-                    @foreach($mainCategories as $category)
+                    @foreach($headerCategories as $category)
                         <div class="option {{ $currentSlug == $category->slug ? 'active' : '' }}" 
                              data-type="{{ $category->slug }}">
                             <a>{{ $category->name }}</a>
@@ -44,9 +44,9 @@
                     @endforeach
 
                     <!-- MORE BUTTON -->
-                    @if($otherCategories->count())
+                    @if($otherCategories->count() > 6)
                         <div class="more-toggle" id="moreBtn">
-                            <a>+ More</a>
+                            <a>+ {{ __('lang.website.more') }}</a>
                         </div>
 
                         <!-- REMAINING -->
@@ -67,7 +67,7 @@
                   <input 
                     type="text" 
                     name="search" 
-                    placeholder="Search..." 
+                    placeholder="{{ __('lang.website.search_placeholder') }}" 
                     value="{{ request('search') }}"
                   />
                   <img src="{{asset('website_assets/images/uil_search.svg')}}" class="search-button">
@@ -77,11 +77,11 @@
             @if(!Auth::guard('web')->check())
 
               <div class="sell-button">
-                  <a href="#" class="login-btn">Login</a>
+                  <a href="#" class="login-btn">{{ __('lang.website.login') }}</a>
               </div>
 
               <div class="sell-button">
-                  <a href="#" class="register-btn">Register</a>
+                  <a href="#" class="register-btn">{{ __('lang.website.register') }}</a>
               </div>
 
             @else
@@ -92,7 +92,7 @@
                   </a>
               </div>
 
-              <div class="sell-button"><a href="{{url('sell')}}">Sell 
+              <div class="sell-button"><a href="{{url('sell')}}">{{ __('lang.website.sell') }} 
                 <img src="{{asset('website_assets/images/pluse.svg')}}"></a>
               </div>
             @endif
@@ -104,7 +104,7 @@
 </div>
 
 <!--Sacend-Header-->
-
+@if(count($mainCategories) > 0)
 <div class="nav-bar-saction">
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -154,7 +154,7 @@
           <li class="nav-item dropdown dropdown-hover position-static">
 
             <span class="nav-link other-trigger">
-                Other <strong> > </strong>
+                {{ __('lang.website.other') }} <strong> > </strong>
             </span>
 
             <div class="dropdown-menu dropdown-niv3 border-0 shadow">
@@ -192,3 +192,4 @@
     </nav>
   </div>
 </div>
+@endif

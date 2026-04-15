@@ -23,7 +23,7 @@ class ChatController extends Controller
 
         // prevent self chat
         if($item->user_id == Auth::id()){
-            return redirect()->back()->with('error','You cannot chat on your own item');
+            return redirect()->back()->with('error', __('lang.website.cannot_chat_on_own_item'));
         }
 
         // find or create conversation

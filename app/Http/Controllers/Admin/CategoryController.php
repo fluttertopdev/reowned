@@ -40,7 +40,7 @@ class CategoryController extends Controller
 
     public function form(Request $request, $id = null)
     {
-        $data = $id ? Category::findOrFail($id) : null; // Pass NULL for create form
+        $data = $id ? Category::findOrFail($id) : null;
 
         return view('admin.category.create', compact('data'));
     }
@@ -349,7 +349,7 @@ class CategoryController extends Controller
             }
         }
 
-        return redirect(url('admin/category'))->with('success', 'Translation updated successfully.');
+        return redirect(url('admin/category'))->with('success', __('lang.admin_translation_updated'));
     }
 
 
@@ -367,7 +367,7 @@ class CategoryController extends Controller
 
             return response([
                 'status' => true,
-                'message' => 'Category order updated successfully',
+                'message' => __('lang.admin_category_order_updated'),
                 'data' => []
             ]);
 
@@ -393,6 +393,6 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return redirect()->back()->with('success', 'Featured status updated');
+        return redirect()->back()->with('success', __('lang.admin_featured_status_updated'));
     }
 }

@@ -16,7 +16,7 @@ class Reportreason extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
-    protected $table = "reportreasons";
+    protected $table = "report_reasons";
 
     public static function getLists($search)
     {
@@ -83,8 +83,6 @@ class Reportreason extends Model
         }
     }
 
-
-
     public static function updateStatus($id)
     {
         try {
@@ -99,37 +97,35 @@ class Reportreason extends Model
     }
 
     // this is for staff for get ads packages 
-
-
     public static function staffGetLists($search)
-{
-    try {
-        // Get the logged-in user's ID using the 'staff' guard
-        $userId = Auth::guard('staff')->id(); // use 'staff' guard
-        
-        return self::query()
-            ->when(
-                !empty($search['name']),
-                fn($query) => $query->where('name', 'like', "%" . trim($search['name']) . "%")
-            )
-            ->when(
-                isset($search['status']) && $search['status'] !== '',
-                fn($query) => $query->where('status', $search['status'])
-            )
-            // Add condition to filter by logged-in user's ID
-            ->when(
-                $userId,
-                fn($query) => $query->where('user_id', $userId) // assuming 'user_id' is the column you want to filter by
-            )
-            ->latest('id')
-            ->paginate($search['pageno'] ?? config('constant.pagination'))
-            ->withQueryString();
-    } catch (\Exception $e) {
-        return [
-            'status'  => false,
-            'message' => "{$e->getMessage()} at line {$e->getLine()} in file {$e->getFile()}"
-        ];
+    {
+        try {
+            // Get the logged-in user's ID using the 'staff' guard
+            $userId = Auth::guard('staff')->id(); // use 'staff' guard
+            
+            return self::query()
+                ->when(
+                    !empty($search['name']),
+                    fn($query) => $query->where('name', 'like', "%" . trim($search['name']) . "%")
+                )
+                ->when(
+                    isset($search['status']) && $search['status'] !== '',
+                    fn($query) => $query->where('status', $search['status'])
+                )
+                // Add condition to filter by logged-in user's ID
+                ->when(
+                    $userId,
+                    fn($query) => $query->where('user_id', $userId) // assuming 'user_id' is the column you want to filter by
+                )
+                ->latest('id')
+                ->paginate($search['pageno'] ?? config('constant.pagination'))
+                ->withQueryString();
+        } catch (\Exception $e) {
+            return [
+                'status'  => false,
+                'message' => "{$e->getMessage()} at line {$e->getLine()} in file {$e->getFile()}"
+            ];
+        }
     }
-}
 
 }

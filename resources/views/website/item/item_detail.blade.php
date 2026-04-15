@@ -5,7 +5,7 @@
   <div class="container">
     <div class="brudcrum">
       <ul>
-        <li><a href="{{url('/')}}">Home</a></li>
+        <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
         <li><a href="#" class="active">{{ $item->title }}</a></li>
       </ul>
@@ -42,9 +42,9 @@
           <div class="description-highlights-box">
             <div class="tabs">
               <ul id="tabs-nav">
-                <li><a href="#tab1">Description</a></li>
+                <li><a href="#tab1">{{ __('lang.website.description') }}</a></li>
                 @if(count($item->customFields) > 0)
-                <li><a href="#tab2">Highlights</a></li>
+                <li><a href="#tab2">{{ __('lang.website.highlights') }}</a></li>
                 @endif
               </ul>
               <!-- END tabs-nav -->
@@ -91,9 +91,7 @@
                         data-item="{{ $item->id }}"
                         data-add="{{ asset('website_assets/images/hart-red.png') }}"
                         data-remove="{{ asset('website_assets/images/hart.svg') }}">
-
                         <img src="{{ asset('website_assets/images/'.$icon) }}" class="favorite-img">
-
                       </a>
                     </button>
                 </li>
@@ -113,28 +111,28 @@
                             <!-- Facebook -->
                             <li>
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-1.png')}}"> Facebook
+                                    <img src="{{asset('website_assets/images/solor-icon-1.png')}}"> {{ __('lang.website.facebook') }}
                                 </a>
                             </li>
 
                             <!-- X (Twitter) -->
                             <li>
                                 <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-2.png')}}"> X
+                                    <img src="{{asset('website_assets/images/solor-icon-2.png')}}"> {{ __('lang.website.x') }}
                                 </a>
                             </li>
 
                             <!-- WhatsApp -->
                             <li>
                                 <a href="https://wa.me/?text={{ $shareText }} {{ $shareUrl }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-3.png')}}"> WhatsApp
+                                    <img src="{{asset('website_assets/images/solor-icon-3.png')}}"> {{ __('lang.website.whatsApp') }}
                                 </a>
                             </li>
 
                             <!-- Copy Link -->
                             <li>
                                 <a href="javascript:void(0)" onclick="copyShareLink()">
-                                    <img src="{{asset('website_assets/images/solor-icon-4.png')}}"> Copy link
+                                    <img src="{{asset('website_assets/images/solor-icon-4.png')}}"> {{ __('lang.website.copy_link') }}
                                 </a>
                             </li>
 
@@ -145,7 +143,7 @@
               <span class="price">
                 {{ \Helpers::commonCurrencyFormate().$item->price }}
               </span>
-              <div class="date-box"><img src="{{asset('website_assets/images/date.svg')}}">Posted on : {{ $item->created_at->format('M d, Y') }}</div>
+              <div class="date-box"><img src="{{asset('website_assets/images/date.svg')}}">{{ __('lang.website.posted_on') }} {{ $item->created_at->format('M d, Y') }}</div>
               <div class="designer-box">
                 <a href="{{ $item->user ? route('account-detail', $item->user->id) : '#' }}">
                   <div class="designer-box-image">
@@ -159,14 +157,14 @@
                 </a>
               </div>
               <div class="start-chate-call">
-                <a href="{{ route('chat.start', $item->id) }}" class="start-chate"><img src="{{asset('website_assets/images/chate.svg')}}">Start chat</a>
-                <a href="tel:{{$item->user ? $item->user->phone : '--'}}" class="call-button"><img src="{{asset('website_assets/images/call.svg')}}">Call</a>
+                <a href="{{ route('chat.start', $item->id) }}" class="start-chate"><img src="{{asset('website_assets/images/chate.svg')}}">{{ __('lang.website.start_chat') }}</a>
+                <a href="tel:{{$item->user ? $item->user->phone : '--'}}" class="call-button"><img src="{{asset('website_assets/images/call.svg')}}">{{ __('lang.website.call') }}</a>
               </div>
             </div>
 
           </div>
           @if($item->area!=null)
-          <div class="posted-in-box"> <span>Posted in</span>
+          <div class="posted-in-box"> <span>{{ __('lang.website.posted_in') }}</span>
             <p><img src="{{asset('website_assets/images/map-small.svg')}}">
               {{ $item->area }}, {{ $item->city }}, {{ $item->state }}
             </p>
@@ -180,20 +178,23 @@
                   style="border:0;"
                   loading="lazy"
                   allowfullscreen
-                  src="https://maps.google.com/maps?q={{ urlencode($location) }}&t=&z=13&ie=UTF8&iwloc=&output=embed">
+                  src="https://maps.google.com/maps?q={{ urlencode($location) }}&t=&z=15&ie=UTF8&iwloc=&output=embed">
               </iframe>
             </div>
           </div>
           <div class="view-on-google-map">
             <a target="_blank"
                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($location) }}">
-               View on Google map
+               {{ __('lang.website.view_on_google_map') }}
             </a>
           </div>
           @endif
           <div class="did-you-box">
-            <p><img src="{{asset('website_assets/images/red-icon.png')}}">Did you find any problem with this item?</p>
-            <span>Ad id#652</span> <button class="report-button" id="openModalBtn1">Report this ad</button>
+            <p><img src="{{asset('website_assets/images/red-icon.png')}}">{{ __('lang.website.did_you_find_problem') }}</p>
+            <span>{{ __('lang.website.ad_name') }} #{{$item->title}}</span>
+            @if(count($reportReasons) > 0)
+            <button class="report-button" id="openModalBtn1">{{ __('lang.website.report_this_ad') }}</button>
+            @endif
           </div>
         </div>
       </div>
@@ -204,7 +205,7 @@
 
 <div class="related-ads-saction">
   <div class="container">
-    <h2>Related Ads</h2>
+    <h2>{{ __('lang.website.related_ads') }}</h2>
     <div class="recommendations-saction-shop">
       <div class="row">
         @each('website.partial.item_list', $relatedItems, 'row')
@@ -220,39 +221,26 @@
             <div class="not-fill-bg-image-login">
                 <div class="login-all-screen">
                     <div class="login-all-screen-inner">
-
-                        <!-- Close Button -->
-                        <button type="button" class="close-btn" data-bs-dismiss="modal">
-                            <img src="{{asset('website_assets/images/tage-close.png')}}">
-                        </button>
-
-                        <h2>Report</h2>
-
-                        <form id="registerForm" method="POST" action="{{ route('user.do-signup') }}">
-                            @csrf
-
-                            <div class="form-group">
-                              <ul class="custom_radio">
-                                  <li><input type="radio" id="featured-1" name="featured" checked><label for="featured-1">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-2" name="featured" checked><label for="featured-2">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-3" name="featured" checked><label for="featured-3">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-4" name="featured" checked><label for="featured-4">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-5" name="featured" checked><label for="featured-5">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-6" name="featured" checked><label for="featured-6">Custom Radio Button
-                                      1</label></li>
-                                  <li><input type="radio" id="featured-7" name="featured" checked><label for="featured-7">Custom Radio Button
-                                      1</label></li>
-                                </ul>
-                            </div>
-
-                            <button type="submit" class="singup-btn">Report</button>
-                        </form>
-
+                      <!-- Close Button -->
+                      <button type="button" class="close-btn" data-bs-dismiss="modal">
+                          <img src="{{asset('website_assets/images/tage-close.png')}}">
+                      </button>
+                      <h2>{{ __('lang.website.report') }}</h2>
+                      <form id="reportForm">
+                        @csrf
+                        <div class="form-group">
+                          <ul class="custom_radio">
+                              @foreach($reportReasons as $each)
+                                  <li>
+                                      <input type="radio" id="featured-{{$each->id}}" name="reason_id" value="{{$each->id}}">
+                                      <label for="featured-{{$each->id}}">{{$each->reason}}</label>
+                                  </li>
+                              @endforeach
+                          </ul>
+                          <input type="hidden" name="item_id" value="{{$item->id}}">
+                        </div>
+                        <button type="submit" class="singup-btn">{{ __('lang.website.report') }}</button>
+                      </form>
                     </div>
                 </div>
             </div>
@@ -263,8 +251,8 @@
 
 <script>
   $(document).on('click', '.report-button', function () {
-        $('#reportModal').modal('show');
-    });
+    $('#reportModal').modal('show');
+  });
 </script>
 
 <script>
@@ -282,8 +270,8 @@ function copyShareLink() {
     navigator.clipboard.writeText(url).then(function() {
       Swal.fire({
           icon: 'success',
-          title: 'Copied!',
-          text: 'Link copied to clipboard',
+          title: "{{ __('lang.website.copied') }}",
+          text: "{{ __('lang.website.link_copied_to_clipboard') }}",
           timer: 1500,
           showConfirmButton: false
       });
@@ -292,5 +280,33 @@ function copyShareLink() {
     });
 
 }
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('#reportForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: "{{ route('item.report') }}",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                if (response.status === true) {
+                    toastr.success(response.message);
+                    $('#reportForm')[0].reset();
+                    $('#reportModal').modal('hide');
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (xhr) {
+                toastr.error('{{ __('lang.website.something_went_wrong') }}');
+            }
+        });
+    });
+  });
 </script>
 @endsection

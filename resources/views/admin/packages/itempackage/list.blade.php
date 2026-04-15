@@ -58,14 +58,14 @@
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('item-listing-package.index') }}">{{__('lang.reset')}}</a>
 
                             <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="ti ti-download"></i> Export
+                                <i class="ti ti-download"></i> {{__('lang.export')}}
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('item-package.export.excel') }}">
-                                    Export to Excel
+                                    {{__('lang.export_to_excel')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('item-package.export.pdf') }}">
-                                    Export to PDF
+                                    {{__('lang.export_to_pdf')}}
                                 </a>
                             </div>
                         </div>

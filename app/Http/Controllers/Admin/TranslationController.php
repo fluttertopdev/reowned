@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Models\Translation;
 use App\Models\Language;
@@ -12,7 +11,6 @@ use App\Http\Requests\Translation\UpdateTranslationRequest;
 
 class TranslationController extends Controller
 {
-
 
     public function index(Request $request, $language_id = null)
     {
@@ -35,10 +33,9 @@ class TranslationController extends Controller
 
     public function create(Request $request, $id)
     {
-
-
         return view('admin.translation.create');
     }
+
     public function store(Request $request)
     {
 
@@ -64,27 +61,24 @@ class TranslationController extends Controller
     }
 
 
-
-
-
     public function update(Request $request)
-{
-    try {
-        $updated = Translation::addUpdate($request->all(), $request->input('id'));
+    {
+        try {
+            $updated = Translation::addUpdate($request->all(), $request->input('id'));
 
-        if ($updated['status']) {
-            return response()->json(['success' => true, 'message' => 'Translation updated successfully.']);
-        } else {
-            return response()->json(['success' => false, 'message' => $updated['message']], 400); // Return JSON instead of redirect
+            if ($updated['status']) {
+                return response()->json(['success' => true, 'message' => __('lang.admin_translation_updated')]);
+            } else {
+                return response()->json(['success' => false, 'message' => $updated['message']], 400); // Return JSON instead of redirect
+            }
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => __('lang.admin_error_prefix') . $ex->getMessage(),
+                'line' => $ex->getLine(),
+                'file' => $ex->getFile()
+            ], 500); // Return JSON error instead of redirect
         }
-    } catch (\Exception $ex) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error: ' . $ex->getMessage(),
-            'line' => $ex->getLine(),
-            'file' => $ex->getFile()
-        ], 500); // Return JSON error instead of redirect
     }
-}
 
 }

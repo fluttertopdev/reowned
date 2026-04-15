@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reportreason;
-
-
-
 use Session;
 
 class ReportreasonController extends Controller
@@ -72,10 +69,6 @@ class ReportreasonController extends Controller
     }
 
 
-
-
-
-
     public function update(Request $request)
     {
 
@@ -126,12 +119,5 @@ class ReportreasonController extends Controller
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
         }
     }
-
-
-   
-
-    
-
-
     
 }

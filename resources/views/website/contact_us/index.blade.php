@@ -4,12 +4,9 @@
 <div class="container">
   <div class="brudcrum brudcrum-defrent">
     <ul>
-      <li>Home</li>
+      <li>{{ __('lang.website.home') }}</li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-      <li><a href="#" class="active">Contact us</a></li>
-    </ul>
-  </div>
-</div>
+      <li><a href="#" class="active">{{ __('lang.website.contact_us') }}</a></li>
 
 
 
@@ -18,9 +15,8 @@
     <div class="row">
       <div class="col-md-6">
         <div class="contact-saction-left">
-          <h2>Contact us</h2>
-          <p>Get in touch with us! whether you have questions, feedback, or just want to hello, our contact page is the
-            gateway to reaching our team.</p>
+          <h2>{{ __('lang.website.contact_us') }}</h2>
+          <p>{{ __('lang.website.contact_description') }}</p>
           <ul>
             <li><a href="#"><img src="{{asset('website_assets/images/contact-icon-1.png')}}"></a></li>
             <li><a href="#"><img src="{{asset('website_assets/images/contact-icon-2.png')}}"></a></li>
@@ -40,27 +36,27 @@
               @csrf
 
               <div class="contact-from-row">
-                  <label>Name</label>
-                  <input type="text" name="name" placeholder="Enter name" />
+                  <label>{{ __('lang.website.enter_name') }}</label>
+                  <input type="text" name="name" placeholder="{{ __('lang.website.enter_name') }}" />
               </div>
 
               <div class="contact-from-row">
-                  <label>Email</label>
-                  <input type="text" name="email" placeholder="Enter email" />
+                  <label>{{ __('lang.website.enter_email') }}</label>
+                  <input type="text" name="email" placeholder="{{ __('lang.website.enter_email') }}" />
               </div>
 
               <div class="contact-from-row">
-                  <label>Subject</label>
-                  <input type="text" name="subject" placeholder="Enter subject" />
+                  <label>{{ __('lang.website.enter_subject') }}</label>
+                  <input type="text" name="subject" placeholder="{{ __('lang.website.enter_subject') }}" />
               </div>
 
               <div class="contact-from-row">
-                  <label>Message</label>
-                  <textarea name="message" placeholder="Enter message"></textarea>
+                  <label>{{ __('lang.website.enter_message') }}</label>
+                  <textarea name="message" placeholder="{{ __('lang.website.enter_message') }}"></textarea>
               </div>
 
               <div class="submit-btn">
-                  <button type="submit">Submit</button>
+                  <button type="submit">{{ __('lang.website.submit') }}</button>
               </div>
 
           </form>
@@ -89,31 +85,31 @@
       let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if(name == ''){
-          toastr.error('Name is required');
+          toastr.error("{{ __('lang.website.name_required') }}");
           e.preventDefault();
           return false;
       }
 
       if(email == ''){
-          toastr.error('Email is required');
+          toastr.error("{{ __('lang.website.email_required') }}");
           e.preventDefault();
           return false;
       }
 
       if(!emailPattern.test(email)){
-          toastr.error('Enter valid email');
+          toastr.error("{{ __('lang.website.enter_valid_email') }}");
           e.preventDefault();
           return false;
       }
 
       if(subject == ''){
-          toastr.error('Subject is required');
+          toastr.error("{{ __('lang.website.subject_required') }}");
           e.preventDefault();
           return false;
       }
 
       if(message == ''){
-          toastr.error('Message is required');
+          toastr.error("{{ __('lang.website.message_required') }}");
           e.preventDefault();
           return false;
       }

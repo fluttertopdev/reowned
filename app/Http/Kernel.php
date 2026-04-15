@@ -65,13 +65,12 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin-language' => \App\Http\Middleware\CheckAdminLanguage::class,
         'staff-language' => \App\Http\Middleware\CheckStaffLanguage::class,
+        'website-language' => \App\Http\Middleware\CheckWebsiteLanguage::class,
     ];
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-
         'auth.admin' => \App\Http\Middleware\AdminAuthenticate::class,
-        'auth.staff' => \App\Http\Middleware\StaffAuthenticate::class,
         'auth.webuser' => \App\Http\Middleware\WebUserAuthenticate::class,
     ];
 }

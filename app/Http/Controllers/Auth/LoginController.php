@@ -40,10 +40,10 @@ class LoginController extends Controller
 
             Auth::guard('admin')->logout();
 
-            return back()->with('error', 'Access denied. Only admins can log in.');
+            return back()->with('error', __('lang.admin_access_denied'));
         }
 
-        return back()->with('error', 'The provided credentials do not match our records.');
+        return back()->with('error', __('lang.admin_invalid_crendetails'));
     }
 
     public function getForgotpasswordView(Request $request)
@@ -69,7 +69,7 @@ class LoginController extends Controller
         if ($user['status'] == true) {
             return redirect()->route('password.resetShow')->with('success', $user['message']);
         } else {
-            return redirect()->back()->with('error', $user['message'] ?? 'Something went wrong. Please try again.');
+            return redirect()->back()->with('error', $user['message'] ?? __('lang.something_went_wrong'));
         }
     }
 
@@ -99,7 +99,7 @@ class LoginController extends Controller
         $data = User::adminResetpassword($request->all());
 
         if ($data['status'] == true) {
-            return redirect()->route('login.index')->with('success', 'Password reset successfully');
+            return redirect()->route('login.index')->with('success', __('lang.admin_password_reset_success'));
         } else {
             return redirect()->back()
                 ->with('error', $data['message']);

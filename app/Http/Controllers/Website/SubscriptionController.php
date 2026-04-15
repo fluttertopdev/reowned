@@ -44,7 +44,7 @@ class SubscriptionController extends Controller
             }
 
             if (!$package) {
-                return response()->json(['error' => 'Invalid package'], 400);
+                return response()->json(['error' => __('lang.website.invalid_package')], 400);
             }
 
             $amount = $package->final_price * 100;
@@ -72,7 +72,7 @@ class SubscriptionController extends Controller
             Log::error('Razorpay Order Error: '.$e->getMessage());
 
             return response()->json([
-                'error' => 'Unable to create order'
+                'error' => __('lang.website.unable_to_create_order')
             ], 500);
         }
     }
@@ -147,7 +147,7 @@ class SubscriptionController extends Controller
             if (setting('currency') !== '$') {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Stripe not available for this currency'
+                    'message' => __('lang.website.stripe_not_available_for_this_currency')
                 ], 400);
             }
 
@@ -168,7 +168,7 @@ class SubscriptionController extends Controller
             if (!$package) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid package'
+                    'message' => __('lang.website.invalid_package')
                 ]);
             }
 
@@ -211,7 +211,7 @@ class SubscriptionController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => 'Payment initialization failed'
+                'message' => __('lang.website.payment_initialization_failed')
             ], 500);
         }
     }
@@ -240,7 +240,7 @@ class SubscriptionController extends Controller
                 }
 
                 if (!$package) {
-                    return redirect()->route('subscriptions')->with('error', 'Invalid package');
+                    return redirect()->route('subscriptions')->with('error', __('lang.website.invalid_package'));
                 }
 
                 // Calculate expiry
@@ -259,16 +259,16 @@ class SubscriptionController extends Controller
 
                 $this->assignUserPackage($userId, $package, $type);
 
-                return redirect()->route('subscriptions')->with('success', 'Payment successful');
+                return redirect()->route('subscriptions')->with('success', __('lang.website.payment_successful'));
             }
 
-            return redirect()->route('subscriptions')->with('error', 'Payment not completed');
+            return redirect()->route('subscriptions')->with('error', __('lang.website.payment_not_completed'));
 
         } catch (\Exception $e) {
 
             Log::error('Stripe Verify Error: '.$e->getMessage());
 
-            return redirect()->route('subscriptions')->with('error', 'Payment verification failed');
+            return redirect()->route('subscriptions')->with('error', __('lang.website.payment_verification_failed'));
         }
     }
 
@@ -295,7 +295,7 @@ class SubscriptionController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Stripe Webhook Error: '.$e->getMessage());
-            return response()->json(['error' => 'Webhook failed'], 400);
+            return response()->json(['error' => __('lang.website.webhook_failed')], 400);
         }
     }
 
@@ -319,7 +319,7 @@ class SubscriptionController extends Controller
             if (!$package) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid package'
+                    'message' => __('lang.website.invalid_package')
                 ]);
             }
 
@@ -415,13 +415,13 @@ class SubscriptionController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'message' => 'Payment successful'
+                    'message' => __('lang.website.payment_successful')
                 ]);
             }
 
             return response()->json([
                 'status' => false,
-                'message' => 'Payment failed'
+                'message' => __('lang.website.payment_failed')
             ]);
 
         } catch (\Exception $e) {

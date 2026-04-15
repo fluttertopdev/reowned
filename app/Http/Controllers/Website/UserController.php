@@ -27,14 +27,14 @@ class UserController extends Controller
 
         if($userId == $user_id){
            return redirect('/')
-                ->with('error', 'Account not exists');
+                ->with('error', __('lang.website.account_not_exists'));
         }
 
         $profileUser = User::find($userId);
 
         if(!$profileUser){
            return redirect('/')
-                ->with('error', 'Account not exists');
+                ->with('error', __('lang.website.account_not_exists'));
         }
 
         $query = Item::where('status',1)
@@ -101,8 +101,8 @@ class UserController extends Controller
             'mobile'   => 'required|digits:10|regex:/^[0-9]+$/|unique:users,phone',
             'password' => 'required|min:8'
         ],[
-            'mobile.digits' => 'Phone number must be exactly 10 digits.',
-            'mobile.regex'  => 'Phone number must contain only numbers.'
+            'mobile.digits' => __('lang.website.phone_number_must_be_exactly_10_digits'),
+            'mobile.regex'  => __('lang.website.phone_number_must_contain_only_numbers')
         ]);
 
         DB::beginTransaction();
@@ -141,7 +141,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Registration successful! Please check your email.'
+                'message' => __('lang.website.registration_successful_check_email')
             ]);
 
         } catch (\Exception $e) {
@@ -152,7 +152,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => 'Registration failed! Email sending failed. Please try again later.'
+                'message' => __('lang.website.registration_failed_email_sending_failed')
             ], 500);
         }
     }
@@ -172,15 +172,15 @@ class UserController extends Controller
         $user = User::where('email_verification_token', $token)->first();
 
         if (!$user) {
-            return redirect('/')->with('error', 'Invalid verification link.');
+            return redirect('/')->with('error', __('lang.website.invalid_verification_link'));
         }
 
         if ($user->email_verification_expires_at < now()) {
-            return redirect('/')->with('error', 'Verification link expired.');
+            return redirect('/')->with('error', __('lang.website.verification_link_expired'));
         }
 
         if ($user->is_verified == 1) {
-            return redirect('/')->with('success', 'Account already verified.');
+            return redirect('/')->with('success', __('lang.website.account_already_verified'));
         }
 
         $user->update([
@@ -191,7 +191,7 @@ class UserController extends Controller
             'email_verification_expires_at' => null,
         ]);
 
-        return redirect('/')->with('success', 'Your account has been verified successfully!');
+        return redirect('/')->with('success', __('lang.website.account_verified_successfully'));
     }
 
 
@@ -207,35 +207,35 @@ class UserController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'Email not registered.'
+                'message' => __('lang.website.email_not_registered')
             ], 422);
         }
 
         if ($user->deleted_at != null) {
             return response()->json([
                 'status' => false,
-                'message' => 'This account has been deleted.'
+                'message' => __('lang.website.account_has_been_deleted')
             ], 403);
         }
 
         if ($user->type !== 'user') {
             return response()->json([
                 'status' => false,
-                'message' => 'Unauthorized access.'
+                'message' => __('lang.website.unauthorized_access')
             ], 403);
         }
 
         if ($user->is_verified != 1) {
             return response()->json([
                 'status' => false,
-                'message' => 'Please verify your email first.'
+                'message' => __('lang.website.please_verify_your_email_first')
             ], 403);
         }
 
         if (!Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Incorrect password.'
+                'message' => __('lang.website.incorrect_password')
             ], 422);
         }
 
@@ -243,7 +243,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Login successful!'
+            'message' => __('lang.website.login_successful')
         ]);
     }
 
@@ -251,7 +251,7 @@ class UserController extends Controller
     {
         Auth::logout();
 
-        return redirect('/')->with('success', 'Logged out successfully.');
+        return redirect('/')->with('success', __('lang.website.logged_out_successfully'));
     }
 
 
@@ -260,7 +260,7 @@ class UserController extends Controller
         $user = Auth::guard('web')->user();
 
         if (!$user) {
-            return redirect('/')->with('error', 'User not found.');
+            return redirect('/')->with('error', __('lang.website.user_not_found'));
         }
 
         // Soft delete
@@ -273,14 +273,14 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', 'Your account has been deleted successfully.');
+        return redirect('/')->with('success', __('lang.website.account_deleted_successfully'));
     }
 
 
     public function redirectToGoogle()
     {
         if(setting('enable_google_login') != 1){
-            abort(403, 'Google login disabled');
+            abort(403, __('lang.website.google_login_disabled'));
         }
 
         return Socialite::driver('google')->redirect();
@@ -347,13 +347,13 @@ class UserController extends Controller
 
             Auth::guard('web')->login($user);
 
-            return redirect('/')->with('success','Login successful');
+            return redirect('/')->with('success', __('lang.website.login_successful'));
 
         } catch (\Exception $e) {
 
             \Log::error('Google Login Error: '.$e->getMessage());
 
-            return redirect('/')->with('error','Google login failed');
+            return redirect('/')->with('error', __('lang.website.google_login_failed'));
         }
     }
    

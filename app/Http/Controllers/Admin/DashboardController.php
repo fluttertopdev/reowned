@@ -34,47 +34,36 @@ class DashboardController extends Controller
     {
         try {
             $data['row'] = User::getProfile();
-
-
             return view('admin.dashboard.profile', $data);
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
         }
     }
 
-  public function updateAdminProfile(Request $request)
-{
-    try {
-        // Sanitize input fields
-        $data = $request->all();
-        $data['name'] = trim(strip_tags($data['name'])); // Remove HTML tags and trim spaces
+    public function updateAdminProfile(Request $request)
+    {
+        try {
+            // Sanitize input fields
+            $data = $request->all();
+            $data['name'] = trim(strip_tags($data['name'])); // Remove HTML tags and trim spaces
 
-        // Update profile with sanitized data
-        $profileUpdated = User::updateProfile($data, $request->input('id'));
+            // Update profile with sanitized data
+            $profileUpdated = User::updateProfile($data, $request->input('id'));
 
-        if ($profileUpdated['status'] == true) {
-            return redirect()->back()->with('success', $profileUpdated['message']);
-        } else {
-            return redirect()->back()->with('error', $profileUpdated['message']);
+            if ($profileUpdated['status'] == true) {
+                return redirect()->back()->with('success', $profileUpdated['message']);
+            } else {
+                return redirect()->back()->with('error', $profileUpdated['message']);
+            }
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
         }
-    } catch (\Exception $ex) {
-        return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
     }
-}
-
-
-
-
-
-
 
     public function adminLogout(Request $request): RedirectResponse
     {
-          Auth::guard('web')->logout();
-
-       
-
-       return redirect()->route('login.index')->with('success', 'You have been logged out.');
+        Auth::guard('web')->logout();
+       return redirect()->route('login.index')->with('success', __('lang.admin_logged_out'));
 
     }
 }

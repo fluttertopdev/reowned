@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home_appliances') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Chat</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.chat') }}</a></li>
       </ul>
     </div>
   </div>
@@ -21,10 +21,10 @@
             <div class="user-chat">
 
               <div class="user-chat-left-side">
-                <h4>Chat</h4>
+                <h4>{{ __('lang.website.chat') }}</h4>
                 <div class="chat-icon"><button class="block-user"><img src="{{asset('website_assets/images/chat-icon.png')}}"></button>
                   <div class="block-user-list">
-                    <span>Blocked Users</span>
+                    <span>{{ __('lang.website.blocked_users') }}</span>
                     <ul>
                       @forelse($blockedUsers as $b)
                       <li>
@@ -32,19 +32,19 @@
                         <div class="name">{{ $b->blockedUser->name }}</div>
 
                         <button type="button" class="unblock-user" data-id="{{ $b->blocked_user_id }}">
-                            Unblock
+                            {{ __('lang.website.unblock') }}
                         </button>
                       </li>
                       @empty
-                      <li class="no-user">No user found...</li>
+                      <li class="no-user">{{ __('lang.website.no_user_found') }}</li>
                       @endforelse
                     </ul>
                   </div>
                 </div>
                 <div class="tabs">
                   <ul id="tabs-nav">
-                    <li class="active"><a href="#tab1">Selling</a></li>
-                    <li><a href="#tab2">Buying</a></li>
+                    <li class="active"><a href="#tab1">{{ __('lang.website.selling') }}</a></li>
+                    <li><a href="#tab2">{{ __('lang.website.buying') }}</a></li>
                   </ul>
                   <div id="tabs-content">
                     <div id="tab1" class="tab-content">
@@ -69,7 +69,7 @@
                                         <span>{{ $chat->buyer->name }}</span>
                                         <p>{{ $chat->item->title }}</p>
                                         <p class="last-msg-load">
-                                        {{ $chat->lastMessage->message ?? 'No message yet' }}
+                                        {{ $chat->lastMessage->message ?? __('lang.website.no_message_yet') }}
                                         </p>
                                         
                                     </div>
@@ -82,7 +82,7 @@
                                 </a>
                               </li>
                             @empty
-                            <li>No selling users found...</li>
+                            <li>{{ __('lang.website.no_selling_users_found') }}</li>
                             @endforelse
                           </ul>
                       </div>
@@ -109,7 +109,7 @@
                                       <span>{{ $chat->seller->name }}</span>
                                       <p>{{ $chat->item->title }}</p>
                                       <p class="last-msg-load">
-                                        {{ $chat->lastMessage->message ?? 'No message yet' }}
+                                        {{ $chat->lastMessage->message ?? __('lang.website.no_message_yet') }}
                                       </p>
                                   </div>
 
@@ -121,7 +121,7 @@
                               </a>
                             </li>
                           @empty
-                          <li>No buying users found...</li>
+                          <li>{{ __('lang.website.no_buying_users_found') }}</li>
                           @endforelse
                         </ul>
                       </div>
@@ -133,8 +133,8 @@
               <div class="chat-right-box">
                 <div class="no-chat-content">
                   <img src="{{asset('website_assets/images/no-chat-icon.png')}}">
-                  <span>No Chat data found</span>
-                  <p>Start conversation</p>
+                  <span>{{ __('lang.website.no_chat_data_found') }}</span>
+                  <p>{{ __('lang.website.start_conversation') }}</p>
                 </div>
                 <div class="meassage-box-right d-none">
                   <div class="meassage-box-header">
@@ -146,18 +146,18 @@
                         <span id="chat-user-name"></span>
                         <p id="chat-item-title"></p>
                         <div class="typing-indicator" id="typing-box" style="display:none;">
-                          <span>Typing...</span>
+                          <span>{{ __('lang.website.typing') }}</span>
                         </div>
                       </div>
                     </div>
                     <div class="meassage-box-header-right">
-                      <button id="blockBtn">Block</button>
+                      <button id="blockBtn">{{ __('lang.website.block') }}</button>
                     </div>
                   </div>
                   <div class="chat-meassge-box" id="chat-box"></div>
                   <input type="hidden" id="conversation_id">
                   <div class="type-meassge-box">
-                      <textarea class="type-your" id="message" placeholder="Type a message..."></textarea>
+                      <textarea class="type-your" id="message" placeholder="{{ __('lang.website.type_a_message') }}"></textarea>
                       <button class="send-meassge" id="sendBtn">➤</button>
                   </div>
                 </div>
@@ -227,7 +227,7 @@
 
         // SET HEADER
         $('#chat-user-name').text($(this).data('user'));
-        $('#chat-item-title').html('Item Name :- ' + $(this).data('item-url'));
+        $('#chat-item-title').html("{{ __('lang.website.item_name') }}" + $(this).data('item-url'));
         $('#chat-user-image').attr('src', $(this).data('image'));
 
         $('.no-chat-content').hide();
@@ -427,15 +427,15 @@
           if(res.blocked_by_me){
 
               // I blocked → show Unblock
-              $('#blockBtn').text('Unblock').addClass('unblock-btn');
+              $('#blockBtn').text('{{ __('lang.website.unblock') }}').addClass('unblock-btn');
 
               // cannot send
-              $('.type-meassge-box').html('<p style="line-height: 4px;margin-top: 12px;">You blocked this user</p>');
+              $('.type-meassge-box').html('<p style="line-height: 4px;margin-top: 12px;">{{ __('lang.website.you_blocked_this_user') }}</p>');
 
           } else {
 
               // I did not block → show Block
-              $('#blockBtn').text('Block').removeClass('unblock-btn');
+              $('#blockBtn').text('{{ __('lang.website.block') }}').removeClass('unblock-btn');
 
               // BUT if other blocked me → still cannot send
               if(res.blocked_by_other){
@@ -507,10 +507,10 @@
       },function(){
 
           if(isUnblock){
-              toastr.success('User unblocked!!');
+              toastr.success('{{ __('lang.website.user_unblocked') }}');
               setTimeout(() => location.reload(), 2000);
           } else {
-              toastr.success('User blocked!!');
+              toastr.success('{{ __('lang.website.user_blocked') }}');
               setTimeout(() => location.reload(), 2000);
           }
       });

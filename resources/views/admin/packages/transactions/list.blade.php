@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
                             <select class="form-control form-select select2" name="payment_gateway">
-                                <option value="">All Gateways</option>
+                                <option value="">{{__('lang.all_gateways')}}</option>
                                 @foreach($paymentMethods as $key => $value)
                                     <option value="{{ $key }}" {{ request('payment_gateway') == $key ? 'selected' : '' }}>
                                         {{ $value }}
@@ -72,11 +72,11 @@
                                     </td>
                                     <td>
                                         @if($row->payment_status == 'success')
-                                            <span class="badge bg-success">Paid</span>
+                                            <span class="badge bg-success">{{__('lang.paid')}}</span>
                                         @elseif($row->payment_status == 'failed')
-                                            <span class="badge bg-danger">Failed</span>
+                                            <span class="badge bg-danger">{{__('lang.failed')}}</span>
                                         @else
-                                            <span class="badge bg-warning">Pending</span>
+                                            <span class="badge bg-warning">{{__('lang.pending')}}</span>
                                         @endif
                                     </td>
                                     <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
@@ -84,7 +84,7 @@
                             @endforeach
                             @else
                                 <tr>
-                                    <td colspan="5" class="record-not-found">
+                                    <td colspan="7" class="record-not-found">
                                         <span>{{__('lang.no_record_found')}}</span>
                                     </td>
                                 </tr>

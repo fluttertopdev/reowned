@@ -17,7 +17,7 @@
             fill="#7367F0" />
         </svg>
       </span>
-      <span class="app-brand-text demo menu-text fw-bold">Admin</span>
+      <span class="app-brand-text demo menu-text fw-bold">{{ __('lang.admin') }}</span>
     </a>
 
 
@@ -116,15 +116,6 @@
       </li>
     @endcan
 
-    @can('reviews')
-      <li class="menu-item {{ Request::routeIs('reviews.index', 'reviews.form') ? 'active' : '' }}">
-        <a href="{{ route('reviews.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-eye-check"></i>
-          <div data-i18n="{{__('lang.reviews')}}">{{__('lang.reviews')}}</div>
-        </a>
-      </li>
-    @endcan
-
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.package_management')}}">{{__('lang.package_management')}}</span>
@@ -195,37 +186,6 @@
     @endcan
 
 
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text" data-i18n="{{__('lang.queries')}}">{{__('lang.queries')}}</span>
-    </li>
-
-
-    @can('user-queries')
-      <li class="menu-item {{ Request::routeIs('userqueries.index', 'userqueries.form') ? 'active' : '' }}">
-        <a href="{{ route('userqueries.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-message-circle"></i>
-
-          <div data-i18n="{{__('lang.userqueries')}}">{{__('lang.userqueries')}}</div>
-        </a>
-      </li>
-    @endcan
-
-
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text"
-        data-i18n="{{__('lang.promotional_management')}}">{{__('lang.promotional_management')}}</span>
-    </li>
-
-
-    @can('notification')
-      <li class="menu-item {{ Request::routeIs('notification.index', 'notification.form') ? 'active' : '' }}">
-        <a href="{{ route('notification.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-bell"></i>
-          <div data-i18n="{{__('lang.send_notification')}}">{{__('lang.send_notification')}}</div>
-        </a>
-      </li>
-    @endcan
-
 
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text" data-i18n="{{__('lang.staff_management')}}">{{__('lang.staff_management')}}</span>
@@ -253,7 +213,7 @@
 
     <li class="menu-item {{ Request::is('admin/banner/edit*') ? 'active' : '' }}">
       <a href="{{ url('admin/banner/edit') }}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
+        <i class="menu-icon tf-icons ti ti-layout"></i>
         <div data-i18n="{{__('lang.banner')}}">{{__('lang.banner')}}</div>
       </a>
     </li>
@@ -276,53 +236,6 @@
           <i class="menu-icon tf-icons ti ti-help-circle"></i>
           <div data-i18n="{{__('lang.faq')}}">{{__('lang.faq')}}</div>
         </a>
-      </li>
-    @endcan
-
-    @can('slider')
-      <li class="menu-item {{ Request::routeIs('slider.index') || Request::routeIs('slider.form') ? 'active' : '' }}">
-        <a href="{{ route('slider.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-carousel-horizontal"></i>
-          <div data-i18n="{{ __('lang.slider') }}">{{ __('lang.slider') }}</div>
-        </a>
-      </li>
-    @endcan
-
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text"
-        data-i18n="{{__('lang.place_location_management')}}">{{__('lang.place_location_management')}}</span>
-    </li>
-    @can('location')
-      <li
-        class="menu-item {{(Request::is('admin/country*', 'admin/state*', 'admin/city*', 'admin/area*')) ? 'active open' : ''}}"
-        style="">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="tf-icons ti ti-navigation"></i>
-          <div data-i18n="{{__('lang.place_location')}}">{{__('lang.place_location')}}</div>
-          <div class="badge bg-primary rounded-pill ms-auto"></div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item {{ Request::is('admin/country*') ? 'active' : '' }}">
-            <a href="{{ route('country.index') }}" class="menu-link">
-              <div data-i18n="{{__('lang.country')}}">{{__('lang.country')}}</div>
-            </a>
-          </li>
-          <li class="menu-item {{ Request::is('admin/state*') ? 'active' : '' }}">
-            <a href="{{ route('state.index') }}" class="menu-link">
-              <div data-i18n="{{__('lang.state')}}">{{__('lang.state')}}</div>
-            </a>
-          </li>
-          <li class="menu-item {{ Request::is('admin/city*') ? 'active' : '' }}">
-            <a href="{{ route('city.index') }}" class="menu-link">
-              <div data-i18n="{{__('lang.city')}}">{{__('lang.city')}}</div>
-            </a>
-          </li>
-          <li class="menu-item {{ Request::is('admin/area*') ? 'active' : '' }}">
-            <a href="{{ route('area.index') }}" class="menu-link">
-              <div data-i18n="{{__('lang.area')}}">{{__('lang.area')}}</div>
-            </a>
-          </li>
-        </ul>
       </li>
     @endcan
 

@@ -207,6 +207,6 @@ class FaqController extends Controller
             }
         }
 
-        return redirect(url('admin/faq'))->with('success', 'Translation updated successfully.');
+        return redirect(url('admin/faq'))->with('success', __('lang.admin_translation_updated'));
     }
 }

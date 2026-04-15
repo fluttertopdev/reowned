@@ -59,24 +59,21 @@
   }
 
 
-
-
   function showDeleteConfirmation(pagename, itemId) {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "{{ __('lang.are_you_sure') }}",
+      text: "{{ __('lang.you_wont_be_able_to_revert_this') }}",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "{{ __('lang.yes_delete_it') }}",
+      cancelButtonText: "{{ __('lang.cancel') }}",
       customClass: {
         confirmButton: 'swal-confirm-button-class'
       }
     }).then((result) => {
       if (result.isConfirmed) {
-
-
 
         if (pagename == 'category') {
           window.location.href = "{{ route('category.destroy', '') }}/" + itemId;
@@ -88,28 +85,12 @@
           window.location.href = "{{ route('cms.destroy', '') }}/" + itemId;
         } else if (pagename == 'faq') {
           window.location.href = "{{ route('faq.destroy', '') }}/" + itemId;
-        } else if (pagename == 'slider') {
-          window.location.href = "{{ route('slider.destroy', '') }}/" + itemId;
         } else if (pagename == 'tip') {
           window.location.href = "{{ route('tips.destroy', '') }}/" + itemId;
-        } else if (pagename == 'country') {
-          window.location.href = "{{ route('country.destroy', '') }}/" + itemId;
-        } else if (pagename == 'state') {
-          window.location.href = "{{ route('state.destroy', '') }}/" + itemId;
-        } else if (pagename == 'city') {
-          window.location.href = "{{ route('city.destroy', '') }}/" + itemId;
-        } else if (pagename == 'area') {
-          window.location.href = "{{ route('area.destroy', '') }}/" + itemId;
         } else if (pagename == 'language') {
           window.location.href = "{{ route('language.destroy', '') }}/" + itemId;
         } else if (pagename == 'staff') {
           window.location.href = "{{ route('staff.destroy', '') }}/" + itemId;
-        } else if (pagename == 'notification') {
-          window.location.href = "{{ route('notification.destroy', '') }}/" + itemId;
-        } else if (pagename == 'userqueries') {
-          window.location.href = "{{ route('userqueries.destroy', '') }}/" + itemId;
-        } else if (pagename == 'userqueries') {
-          window.location.href = "{{ route('userqueries.destroy', '') }}/" + itemId;
         } else if (pagename == 'reportreason') {
           window.location.href = "{{ route('reportreason.destroy', '') }}/" + itemId;
         } else if (pagename == 'userreport') {
@@ -213,67 +194,6 @@
     document.getElementById('item-unlimited').addEventListener('change', function () {
       toggleInput('item', false);
     });
-  });
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function () {
-    function loadStates(selectedState = null) {
-      var country_id = $('#country').val();
-      if (country_id) {
-        $.ajax({
-          url: "{{ route('get.states') }}",
-          type: "GET",
-          data: {
-            country_id: country_id
-          },
-          success: function (data) {
-            $('#state').empty().append('<option value="">Select State</option>');
-            $.each(data, function (key, value) {
-              $('#state').append('<option value="' + key + '"' + (selectedState == key ? ' selected' : '') + '>' + value + '</option>');
-            });
-            if (selectedState) loadCities(selectedState, $('#selected_city').val());
-          }
-        });
-      } else {
-        $('#state').empty().append('<option value="">Select State</option>');
-      }
-    }
-
-    function loadCities(state_id, selectedCity = null) {
-      if (state_id) {
-        $.ajax({
-          url: "{{ route('get.cities') }}",
-          type: "GET",
-          data: {
-            state_id: state_id
-          },
-          success: function (data) {
-            $('#city').empty().append('<option value="">Select City</option>');
-            $.each(data, function (key, value) {
-              $('#city').append('<option value="' + key + '"' + (selectedCity == key ? ' selected' : '') + '>' + value + '</option>');
-            });
-          }
-        });
-      } else {
-        $('#city').empty().append('<option value="">Select City</option>');
-      }
-    }
-
-    $('#country').change(function () {
-      loadStates();
-    });
-
-    $('#state').change(function () {
-      loadCities($(this).val());
-    });
-
-    if ($('#selected_country').val()) {
-      $('#country').val($('#selected_country').val()).trigger('change');
-      setTimeout(() => {
-        loadStates($('#selected_state').val());
-      }, 500);
-    }
   });
 </script>
 
@@ -685,7 +605,6 @@
 </script>
 
 
-
 <script>
   $(document).ready(function () {
     // Capture row ID when opening the modal
@@ -735,7 +654,7 @@
       let userId = $('input[name="user_ids[]"]').val();
 
       if (!selectedPackage) {
-        alert('Please select one package.');
+        toastr.warning("{{__('lang.select_package_msg')}}");
         return;
       }
 
@@ -767,7 +686,7 @@
       let userId = $('input[name="user_ids[]"]').val();
 
       if (!selectedPackage) {
-        alert('Please select one package.');
+        toastr.warning("{{__('lang.select_package_msg')}}");
         return;
       }
 
@@ -946,62 +865,5 @@
   // Select All
   $('#selectAll').on('change', function () {
     $('.rowCheckbox').prop('checked', $(this).prop('checked'));
-  });
-
-  // Bulk Delete
-  $('#bulkDeleteBtn').on('click', function () {
-
-    let selected = [];
-
-    $('.rowCheckbox:checked').each(function () {
-      selected.push($(this).val());
-    });
-
-    // If nothing selected
-    if (selected.length === 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: "{{ __('lang.warning') }}",
-        text: "{{ __('lang.please_select_at_least_one_record') }}",
-        confirmButtonText: "{{ __('lang.ok') }}"
-      });
-      return;
-    }
-
-    // Confirmation
-    Swal.fire({
-      title: "{{ __('lang.are_you_sure') }}",
-      text: "{{ __('lang.you_wont_be_able_to_revert_this') }}",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: "{{ __('lang.yes_delete_it') }}",
-      cancelButtonText: "{{ __('lang.cancel') }}"
-    }).then((result) => {
-      if (result.isConfirmed) {
-
-        $.ajax({
-          url: "{{ route('notification.bulkDelete') }}",
-          type: "POST",
-          data: {
-            ids: selected,
-            _token: "{{ csrf_token() }}"
-          },
-          success: function (response) {
-
-            Swal.fire({
-              icon: 'success',
-              title: "{{ __('lang.deleted') }}",
-              text: response.message,
-              confirmButtonText: "{{ __('lang.ok') }}"
-            }).then(() => {
-              location.reload();
-            });
-
-          }
-        });
-
-      }
-    });
-
   });
 </script>

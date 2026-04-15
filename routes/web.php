@@ -9,19 +9,13 @@ use App\Http\Controllers\Admin\TipController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\HomepageController;
-use App\Http\Controllers\Admin\CountryController;
-use App\Http\Controllers\Admin\StateController;
-use App\Http\Controllers\Admin\CityController;
-use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\TranslationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\ItemController;
-use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\QueriesController;
 use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\ReportreasonController;
 use App\Http\Controllers\Admin\CustomersController;
@@ -48,6 +42,13 @@ Route::get('/clear', function () {
   Artisan::call('view:clear');
   Artisan::call('route:clear');
   return "Cache is cleared";
+});
+
+// Route for migrate
+Route::get('/execute-queries', function () {
+    // Artisan::call('migrate', ['--force' => true]);
+    Artisan::call('db:seed', ['--class' => 'DatabaseSeeder', '--force' => true]);
+    return "Migration run successfully";
 });
 
 Route::prefix('admin')->group(function () {
@@ -196,69 +197,6 @@ Route::middleware('admin-language')->group(function () {
     // tips routing end here
 
 
-    // slider routing start here
-    Route::prefix('slider')->controller(HomepageController::class)->group(function () {
-      Route::get('/', 'index')->name('slider.index');
-      Route::get('/form/{id?}', 'form')->name('slider.form');
-      Route::post('/save', 'store')->name('slider.store');
-      Route::get('/edit/{id}', 'edit')->name('slider.edit');
-      Route::post('/update', 'update')->name('slider.update');
-      Route::get('/status/{id}', 'updateStatus')->name('slider.updateStatus');
-      Route::get('/delete/{id}', 'destroy')->name('slider.destroy');
-    });
-
-    // country management routing start here 
-    Route::prefix('country')->controller(CountryController::class)->group(function () {
-      Route::get('/', 'index')->name('country.index');
-      Route::get('/form/{id?}', 'form')->name('country.form');
-      Route::post('/store', 'store')->name('country.store');
-      Route::post('/bulkUpload', 'bulkUpload')->name('country.bulkUpload');
-      Route::post('/update', 'update')->name('country.update');
-      Route::get('/status/{id}', 'updateStatus')->name('country.updateStatus');
-      Route::get('/delete/{id}', 'destroy')->name('country.destroy');
-    });
-    // country management routing end  here 
-
-    // State management routing start here 
-    Route::prefix('state')->controller(StateController::class)->group(function () {
-      Route::get('/', 'index')->name('state.index');
-      Route::get('/form/{id?}', 'form')->name('state.form');
-      Route::post('/store', 'store')->name('state.store');
-      Route::post('/update', 'update')->name('state.update');
-      Route::post('/bulkUpload', 'bulkUpload')->name('state.bulkUpload');
-      Route::get('/status/{id}', 'updateStatus')->name('state.updateStatus');
-      Route::get('/delete/{id}', 'destroy')->name('state.destroy');
-    });
-    // State management routing end  here 
-
-    // City management routing start here 
-    Route::prefix('city')->controller(CityController::class)->group(function () {
-      Route::get('/', 'index')->name('city.index');
-      Route::get('/form/{id?}', 'form')->name('city.form');
-      Route::get('get-states', 'getStates')->name('get.states');
-      Route::post('/update', 'update')->name('city.update');
-      Route::post('/store', 'store')->name('city.store');
-      Route::post('/bulkUpload', 'bulkUpload')->name('city.bulkUpload');
-      Route::get('/status/{id}', 'updateStatus')->name('city.updateStatus');
-      Route::get('/delete/{id}', 'destroy')->name('city.destroy');
-    });
-    // City management routing end  here
-
-    // Area management routing start here 
-    Route::prefix('area')->controller(AreaController::class)->group(function () {
-      Route::get('/', 'index')->name('area.index');
-      Route::get('/form/{id?}', 'form')->name('area.form');
-      Route::get('get-cities', 'getCities')->name('get.cities');
-      Route::get('get-states', 'getStates')->name('get.states');
-      Route::post('/update', 'update')->name('area.update');
-      Route::post('/store', 'store')->name('area.store');
-      Route::post('/bulkUpload', 'bulkUpload')->name('area.bulkUpload');
-      Route::get('/status/{id}', 'updateStatus')->name('area.updateStatus');
-      Route::get('/delete/{id}', 'destroy')->name('area.destroy');
-    });
-    // Area management routing end  here
-
-
     // setting management routing start here 
     Route::prefix('setting')->controller(SettingController::class)->group(function () {
       Route::get('/', 'index')->name('setting.index');
@@ -312,19 +250,6 @@ Route::middleware('admin-language')->group(function () {
     });
     // item management routing end here
 
-
-    //  notification routing start here
-    Route::prefix('notification')->controller(NotificationController::class)->group(function () {
-      Route::get('/', 'index')->name('notification.index');
-      Route::get('/form/{id?}', 'form')->name('notification.form');
-      Route::post('/store', 'store')->name('notification.store');
-      Route::post('/update', 'update')->name('notification.update');
-      Route::get('/delete/{id}', 'destroy')->name('notification.destroy');
-      Route::get('/status/{id}', 'updateStatus')->name('notification.updateStatus');
-      Route::post('/bulk-delete', 'bulkDelete')->name('notification.bulkDelete');
-    });
-    //  notification routing end here
-
     // role  routing start here
     Route::prefix('role')->controller(RoleController::class)->group(function () {
       Route::get('/', 'index')->name('role.index');
@@ -333,14 +258,6 @@ Route::middleware('admin-language')->group(function () {
       Route::get('/delete/{id}', 'destroy')->name('role.destroy');
     });
     // role notification routing end here
-
-    // userquries routing start here
-    Route::prefix('userqueries')->controller(QueriesController::class)->group(function () {
-      Route::get('/', 'index')->name('userqueries.index');
-      Route::get('/form/{id?}', 'form')->name('userqueries.form');
-      Route::get('/delete/{id}', 'destroy')->name('userqueries.destroy');
-    });
-    // userquries routing end here
 
     // userreport routing start here
     Route::prefix('userreport')->controller(UserReportController::class)->group(function () {
@@ -361,13 +278,6 @@ Route::middleware('admin-language')->group(function () {
     });
     // seller managemnt routing end here
 
-    // reviews management routing start here
-    Route::prefix('reviews')->controller(ReviewsController::class)->group(function () {
-      Route::get('/', 'index')->name('reviews.index');
-      Route::get('/form/{id?}', 'form')->name('reviews.form');
-      Route::get('/delete/{id}', 'destroy')->name('reviews.destroy');
-    });
-    // reviews management routing end  here
 
     // report-reason managemnt routing start here 
     Route::prefix('report-reason')->controller(ReportreasonController::class)->group(function () {

@@ -13,7 +13,7 @@
                         <div class="col-md-6">
                             <h5>
                                 @if(request()->has('category'))
-                                Subcategory List - <span class="text-primary">({{ $result->first()?->parent?->name ?? 'N/A' }})</span>
+                                {{__('lang.subcategory_list')}} - <span class="text-primary">({{ $result->first()?->parent?->name ?? 'N/A' }})</span>
                                 @else
                                 {{__('lang.category_list')}}
                                 @endif
@@ -148,7 +148,7 @@
                                 <td>
                                     <a href="{{ route('category.updateFeatured', $row->id) }}">
                                         <span class="badge {{ $row->is_featured == 1 ? 'bg-success' : 'bg-warning' }}">
-                                            {{ $row->is_featured == 1 ? 'Yes' : 'No' }}
+                                            {{ $row->is_featured == 1 ? __('lang.yes') : __('lang.no') }}
                                         </span>
                                     </a>
                                 </td>

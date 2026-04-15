@@ -4,7 +4,7 @@
         <form method="get">
             <div class="row ">
                 <div class="col-md-12">
-                    <h5>Item List</h5>
+                    <h5>{{__('lang.item_list')}}</h5>
                 </div>
                 <div class="col-sm-3 display-inline-block mb-3">
                     <select class="form-control select2 form-select" name="pageno">

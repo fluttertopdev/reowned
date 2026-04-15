@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home_appliances') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Add</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.add') }}</a></li>
       </ul>
     </div>
   </div>
@@ -21,7 +21,7 @@
             <div class="add-box-saction">
               <div class="header-add-box">
                 <div class="header-add-box-left">
-                  <h4>Total ads</h4>
+                  <h4>{{ __('lang.website.total_ads') }}</h4>
                 </div>
                 <div class="header-add-box-right">
                   <form method="GET" id="filterForm">
@@ -32,13 +32,16 @@
                       <div class="news-oldst-box">
                           <div class="select" id="sortSelect">
                               <div class="selectBtn">
-                                  {{ request('sort') == 'oldest' ? 'Oldest to Newest' : (request('sort') == 'price_high' ? 'Price High → Low' : (request('sort') == 'price_low' ? 'Price Low → High' : 'Newest')) }}
+                                  {{ request('sort') == 'oldest' ? __('lang.website.oldest_to_newest') 
+                                  : (request('sort') == 'price_high' ? __('lang.website.price_high_to_low') 
+                                  : (request('sort') == 'price_low' ? __('lang.website.price_low_to_high') 
+                                  : __('lang.website.newest'))) }}
                               </div>
                               <div class="selectDropdown">
-                                  <div class="option" data-value="">Newest</div>
-                                  <div class="option" data-value="oldest">Oldest to Newest</div>
-                                  <div class="option" data-value="price_high">Price High → Low</div>
-                                  <div class="option" data-value="price_low">Price Low → High</div>
+                                  <div class="option" data-value="">{{ __('lang.website.newest') }}</div>
+                                  <div class="option" data-value="oldest">{{ __('lang.website.oldest_to_newest') }}</div>
+                                  <div class="option" data-value="price_high">{{ __('lang.website.price_high_to_low') }}</div>
+                                  <div class="option" data-value="price_low">{{ __('lang.website.price_low_to_high') }}</div>
                               </div>
                           </div>
                       </div>
@@ -47,14 +50,18 @@
                       <div class="all-totle-add">
                           <div class="select" id="statusSelect">
                               <div class="selectBtn">
-                                  {{ request('status') == 'under_review' ? 'Under Review' : (request('status') == 'live' ? 'Live' : (request('status') == 'rejected' ? 'Rejected' : (request('status') == 'sold' ? 'Sold' : 'All'))) }}
+                                  {{ request('status') == 'under_review' ? __('lang.website.under_review') 
+                                  : (request('status') == 'live' ? __('lang.website.live') 
+                                  : (request('status') == 'rejected' ? __('lang.website.rejected') 
+                                  : (request('status') == 'sold' ? __('lang.website.sold') 
+                                  : __('lang.website.all')))) }}
                               </div>
                               <div class="selectDropdown">
-                                  <div class="option" data-value="">All</div>
-                                  <div class="option" data-value="under_review">Under Review</div>
-                                  <div class="option" data-value="live">Live</div>
-                                  <div class="option" data-value="rejected">Rejected</div>
-                                  <div class="option" data-value="sold">Sold</div>
+                                  <div class="option" data-value="">{{ __('lang.website.all') }}</div>
+                                  <div class="option" data-value="under_review">{{ __('lang.website.under_review') }}</div>
+                                  <div class="option" data-value="live">{{ __('lang.website.live') }}</div>
+                                  <div class="option" data-value="rejected">{{ __('lang.website.rejected') }}</div>
+                                  <div class="option" data-value="sold">{{ __('lang.website.sold') }}</div>
                               </div>
                           </div>
                       </div>
@@ -74,7 +81,7 @@
                   <div class="product-box">
                     @if($items->count() > 6)
                       <div class="load-more text-center mt-4">
-                          <button class="btn-load" id="loadMoreBtn">Load More</button>
+                          <button class="btn-load" id="loadMoreBtn">{{ __('lang.website.load_more') }}</button>
                       </div>
                     @endif
                   </div>
@@ -83,8 +90,8 @@
               @else
               <div class="no-ads-found">
                 <img src="{{asset('website_assets/images/no-chat-icon.png')}}">
-                <span>No ads found</span>
-                <p>There are currently no ads available. Start by creating your first ad now!</p>
+                <span>{{ __('lang.website.not_ads_found') }}</span>
+                <p>{{ __('lang.website.not_ads_found_description') }}</p>
               </div>
               @endif
             </div>

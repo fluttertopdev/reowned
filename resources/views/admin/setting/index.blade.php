@@ -33,7 +33,7 @@
                             role="tab"
                             aria-selected="false"
                             >
-                            Payment Method
+                            {{__('lang.payment_method')}}
                             </button>
                         </li>
 

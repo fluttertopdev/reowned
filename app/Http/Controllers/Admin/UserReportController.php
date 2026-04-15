@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Userquerie;
 use App\Models\Userreport;
-
 use Session;
 
 class UserReportController extends Controller
@@ -14,13 +13,8 @@ class UserReportController extends Controller
 
     public function index(Request $request)
     {
-
         try {
             $data['result'] = Userreport::getLists($request->all());
-
-            
-
-
             return view('admin.userreport.list', $data);
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
@@ -29,12 +23,14 @@ class UserReportController extends Controller
 
 
     public function form(Request $request, $id = null)
-{
-    $data = Userreport::with(['user', 'item', 'reportReason'])->find($id);
+    {
+        $result = Userreport::with(['user', 'reportReason'])
+            ->where('item_id', $id)
+            ->latest()
+            ->paginate(config('constant.pagination'));
 
-
-    return view('admin.userreport.view', compact('data'));
-}
+        return view('admin.userreport.view', compact('result', 'id'));
+    }
 
     public function destroy($id)
     {
@@ -51,39 +47,4 @@ class UserReportController extends Controller
         }
     }
 
-
-    
-
-
-   
-
-    
-
-
-
-
-    
-
-
-
-
-   
-
-
-
-
-
-
-
-   
-
-
-
-
-    
-
-
-
- 
-    
 }

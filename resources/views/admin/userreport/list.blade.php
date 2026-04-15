@@ -12,7 +12,7 @@
             <div class="card-header">
                 <form method="get">
                     <div class="row ">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <h5>{{__('lang.userreport')}}</h5>
                         </div>
                         <div class="col-sm-2 display-inline-block mt-3">
@@ -39,54 +39,71 @@
 
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                       <table class="table">
+                    <table class="table">
                         <thead class="table-light">
                             <tr class="text-nowrap">
                                 <th>#</th>
-                                <th>{{__('lang.name')}}</th>
-                                <th>{{__('lang.item')}}</th>
-                                <th>{{__('lang.reason')}}</th>
-                                <th>{{__('lang.created_at')}}</th>
-                                <th>{{__('lang.actions')}}</th>
+                                <th>{{__('lang.ad_id')}}</th>
+                                <th>{{__('lang.image')}}</th>
+                                <th>{{__('lang.title')}}</th>
+                                <th>{{__('lang.user_name')}}</th>
+                                <th>{{__('lang.created_date')}}</th>
+                                <th>{{__('lang.reported_no')}}</th>
+                                <th>{{__('lang.status')}}</th>
+                                <th>{{__('lang.action')}}</th>
                             </tr>
+                        </thead>
 
                         <tbody>
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
                             <tr>
                                 <td>{{ $result->firstItem() + $index }}</td>
-                                <td>{{ $row->user ? $row->user->name : '--' }}</td>
-                                <td>{{ $row->item ? $row->item->title : '--'}}</td>
-                                <td>{{$row->reportReason->reason}}</td>
-                                <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+
+                                <!-- Ad ID -->
+                                <td>{{ $row->item_id }}</td>
+
+                                <!-- Image -->
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                              @can('user-report-view') 
-                                            <a href="{{ route('userreport.form', $row->id) }}" class="dropdown-item">
-                                                <i class="ti ti-eye me-1"></i>{{__('lang.view')}}
-                                            </a>
-                                              @endcan
-                                               
-                                                  @can('user-report-delete')
-                                            <a onclick="showDeleteConfirmation('userreport', {{ $row->id }})" class="dropdown-item">
-                                                <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
-                                            </a>
-                                                @endcan
-                                            
-                                          
-                                        </div>
-                                    </div>
+                                    <img src="{{ $row->item && $row->item->latestImage 
+                                        ? url($row->item->latestImage?->image) 
+                                        : url('uploads/Image-not-found.png') }}" 
+                                        width="50">
+                                </td>
+
+                                <!-- Title -->
+                                <td>{{ $row->item->title ?? '--' }}</td>
+
+                                <!-- Username -->
+                                <td>{{ $row->item->user->name ?? '--' }}</td>
+
+                                <!-- Created Date -->
+                                <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+
+                                <!-- Report Count -->
+                                <td>{{ $row->total_reports }}</td>
+
+                                <!-- Status -->
+                                <td>
+                                    @if($row->item && $row->item->status == 1)
+                                        <span class="badge bg-success">{{__('lang.active')}}</span>
+                                    @else
+                                        <span class="badge bg-danger">{{__('lang.deactive')}}</span>
+                                    @endif
+                                </td>
+
+                                <!-- Action -->
+                                <td>
+                                    <a href="{{ route('userreport.form', $row->item_id) }}" class="btn btn-sm btn-primary">
+                                        {{__('lang.view_detail')}}
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
                             @else
                             <tr>
-                                <td colspan="5" class="record-not-found">
-                                    <span>{{__('lang.no_record_found')}}</span>
+                                <td colspan="9" class="record-not-found">
+                                   <span>{{__('lang.no_record_found')}}</span>
                                 </td>
                             </tr>
                             @endif

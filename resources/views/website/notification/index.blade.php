@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home_appliances') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Notifications</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.notifications') }}</a></li>
       </ul>
     </div>
   </div>
@@ -22,8 +22,8 @@
               <table>
                 <tbody>
                   <tr>
-                    <th>Notifications</th>
-                    <th>Date</th>
+                    <th>{{ __('lang.website.notifications') }}</th>
+                    <th>{{ __('lang.website.date') }}</th>
                   </tr>
                   <tr>
                     <td>

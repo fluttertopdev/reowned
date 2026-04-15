@@ -10,11 +10,10 @@
             <div class="card-header">
                 <form method="get">
                     <div class="row ">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <h5>{{__('lang.sellerverification')}}</h5>
                         </div>
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value=""> {{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -51,26 +50,24 @@
                             <!-- Export Dropdown -->
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="bi bi-download"></i> Export
+                                    <i class="bi bi-download"></i> {{__('lang.export')}}
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item"
                                             href="{{ route('seller.export.excel') }}">
-                                            Export to Excel
+                                            {{__('lang.export_to_excel')}}
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item"
                                             href="{{ route('seller.export.pdf') }}">
-                                            Export to PDF
+                                            {{__('lang.export_to_pdf')}}
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -91,7 +88,6 @@
                                 @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
-
                         <tbody>
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
@@ -141,7 +137,7 @@
                                             <a href="javascript:void(0);"
                                                 class="dropdown-item"
                                                 onclick="openVerificationModal('{{ $row->id_proof_front }}','{{ $row->id_proof_back }}')">
-                                                <i class="ti ti-eye me-1"></i> View
+                                                <i class="ti ti-eye me-1"></i> {{__('lang.view')}}
                                             </a>
 
                                         </div>
@@ -189,7 +185,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Verification Details</h5>
+                <h5 class="modal-title">{{__('lang.verification_details')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -197,7 +193,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h6>ID Proof (Front)</h6>
+                        <h6>{{__('lang.id_proff')}} ({{__('lang.front')}})</h6>
                         <img id="idFrontImage"
                             src=""
                             class="img-fluid img-thumbnail"
@@ -205,7 +201,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <h6>ID Proof (Back)</h6>
+                        <h6>{{__('lang.id_proff')}} ({{__('lang.back')}})</h6>
                         <img id="idBackImage"
                             src=""
                             class="img-fluid img-thumbnail"
@@ -218,6 +214,5 @@
         </div>
     </div>
 </div>
-
 
 @endsection

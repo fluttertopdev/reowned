@@ -32,7 +32,7 @@ class ContactusController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->back()->with('success','Message sent successfully');
+        return redirect()->back()->with('success', __('lang.website.message_sent_successfully'));
 
     }
    

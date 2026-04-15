@@ -4,9 +4,9 @@
 <div class="container">
   <div class="brudcrum brudcrum-defrent">
     <ul>
-      <li>Home appliances</li>
+      <li>{{ __('lang.website.home_appliances') }}</li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-      <li><a href="{{route('sell.index')}}">Sell</a></li>
+      <li><a href="{{route('sell.index')}}">{{ __('lang.website.sell') }}</a></li>
       <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
       <li><a href="#" class="active">{{ $subcategory->name }}</a></li>
     </ul>
@@ -23,7 +23,7 @@
       <input type="hidden" name="subcategory_id" value="{{ $subcategory->id }}">
 
       <div class="sell-add-listing-inner">
-        <h2>Ad Listing</h2>
+        <h2>{{ __('lang.website.ad_listing') }}</h2>
 
         @if ($errors->any())
           <div class="alert alert-danger">
@@ -36,26 +36,26 @@
         @endif
 
         <div class="select-cetagory-box">
-          <h4>Selected category</h4>
+          <h4>{{ __('lang.website.selected_category') }}</h4>
           <span>{{ $subcategory->name }}</span>
         </div>
 
         <div class="add-listing-one-box">
-          <h4>Include some details</h4>
+          <h4>{{ __('lang.website.include_some_details') }}</h4>
           <div class="full-text-area">
-            <label>Ad title *</label>
+            <label>{{ __('lang.website.ad_title') }} *</label>
             <div class="word-cont">0/70</div>
             <textarea name="title" class="textarea-1"
-              placeholder="Mention the key features of your item (e.g. brand, model, age, type)"></textarea>
+              placeholder="{{ __('lang.website.ad_title_placeholder') }}"></textarea>
           </div>
           <div class="full-text-area">
-            <label>Description *</label>
+            <label>{{ __('lang.website.description') }} *</label>
             <div class="word-cont">0/4000</div>
             <textarea name="description" class="textarea-2"
-              placeholder="Mention the key features of your item (e.g. brand, model, age, type)"></textarea>
+              placeholder="{{ __('lang.website.description_placeholder') }}"></textarea>
           </div>
 
-          <h4 class="mt-4">Include some details</h4>
+          <h4 class="mt-4">{{ __('lang.website.include_some_details') }}</h4>
 
           @foreach($customFields as $field)
 
@@ -97,7 +97,7 @@
                   {{-- SELECT --}}
                   @elseif($field->field_type == 'dropdown')
                       <select name="custom_fields[{{ $field->id }}]" class="form-control form-select" {{ $field->is_required ? 'required' : '' }}>
-                          <option value="">Select {{ $field->field_name }}</option>
+                          <option value="">{{ __('lang.website.select') }} {{ $field->field_name }}</option>
                           @foreach($field->options as $option)
                               <option value="{{ $option->option_value }}">
                                   {{ $option->option_value }}
@@ -136,10 +136,10 @@
         </div>
 
         <div class="add-listing-one-box">
-          <h4>Set a price</h4>
+          <h4>{{ __('lang.website.set_a_price') }}</h4>
           <div class="brand-year-box brand-year-box-full">
             <div class="brand-year-box-right">
-              <label>Price *</label>
+              <label>{{ __('lang.website.price') }} *</label>
               <input type="number" name="price" class="input-text" min="1">
             </div>
           </div>
@@ -147,15 +147,15 @@
 
 
         <div class="add-listing-one-box">
-          <h4>Upload up to 20 photos</h4>
+          <h4>{{ __('lang.website.upload_photos') }}</h4>
           <div class="multi-image">
             <div class="upload__box">
               <div class="upload__btn-box">
                 <label class="form-label upload__btn">
                   <img src="{{asset('website_assets/images/multiimage.png')}}">
-                  <h6>Main picture</h6>
-                  <p class="mb-1">Drag & Drop your files or</p>
-                  <span>Upload</span>
+                  <h6>{{ __('lang.website.main_picture') }}</h6>
+                  <p class="mb-1">{{ __('lang.website.drag_drop') }}</p>
+                  <span>{{ __('lang.website.upload') }}</span>
                   <input type="file" name="images[]" multiple accept="image/*" data-max_length="20" class="form-control upload__inputfile">
                 </label>
               </div>
@@ -164,10 +164,10 @@
           </div>
         </div>
         <div class="add-listing-one-box confirom-box">
-          <h4>Confirm your location</h4>
+          <h4>{{ __('lang.website.confirm_location') }}</h4>
           <div class="confirm-row">
-            <label>Area *</label>
-            <input type="text" id="listing_area" name="area" class="form-control" placeholder="Enter your area">
+            <label>{{ __('lang.website.area') }} *</label>
+            <input type="text" id="listing_area" name="area" class="form-control" placeholder="{{ __('lang.website.enter_area') }}">
           </div>
           <input type="hidden" name="city" id="listing_city">
           <input type="hidden" name="state" id="listing_state">
@@ -177,7 +177,7 @@
           <input type="hidden" name="longitude" id="listing_longitude">
         </div>
         <div class="post-now">
-          <button>Post Now</button>
+          <button>{{ __('lang.website.post_now') }}</button>
         </div>
       </div>
 

@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum brudcrum-defrent">
       <ul>
-        <li>Home appliances</li>
+        <li>{{ __('lang.website.home') }}</li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Edit profile</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.edit_profile') }}</a></li>
       </ul>
     </div>
   </div>
@@ -48,32 +48,28 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="personal-info-box-left">
-                      <h4>Personal Info</h4>
-                      <p>Edit your Personal Information</p>
+                      <h4>{{ __('lang.website.personal_info') }}</h4>
+                      <p>{{ __('lang.website.edit_your_personal_information') }}</p>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="personal-info-box-right">
                       <div class="row-input">
-                        <label>Name <span>*</span></label>
-                        <input type="text" name="name" placeholder="Esther Howard" value="{{ $user->name }}" required />
+                        <label>{{ __('lang.website.name') }} <span>*</span></label>
+                        <input type="text" name="name" placeholder="{{ __('lang.website.name_placeholder') }}" value="{{ $user->name }}" required />
                       </div>
                       <div class="row-input">
-                        <label>Email<span>*</span></label>
-                        <input type="email" name="email" placeholder="estherhaward@gmail.com" value="{{ $user->email }}" required />
+                        <label>{{ __('lang.website.email') }}<span>*</span></label>
+                        <input type="email" name="email" placeholder="{{ __('lang.website.email_placeholder') }}" value="{{ $user->email }}" required />
                       </div>
                       <div class="row-input">
-                        <label>Phone<span>*</span></label>
-                        <input type="phone" name="phone" placeholder="98765 43210" value="{{ $user->phone }}" required />
+                        <label>{{ __('lang.website.phone') }}<span>*</span></label>
+                        <input type="phone" name="phone" placeholder="{{ __('lang.website.phone_placeholder') }}" value="{{ $user->phone }}" required />
                       </div>
 
                       <div class="row-input">
                         <div class="card-body">
-                          <span>Notification</span>
-                          <label class="switch" for="checkbox">
-                            <input type="checkbox" id="checkbox" name="enable_notificaton" {{ $user->enable_notificaton ? 'checked' : '' }}/>
-                            <div class="slider round"></div>
-                          </label>
+                          <span>{{ __('lang.website.notification') }}</span>
                         </div>
                       </div>
                     </div>
@@ -85,16 +81,16 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="personal-info-box-left">
-                      <h4>Address</h4>
-                      <p>Edit your address</p>
+                      <h4>{{ __('lang.website.address') }}</h4>
+                      <p>{{ __('lang.website.edit_your_address') }}</p>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="personal-info-box-right">
                       <form>
                         <div class="row-input">
-                          <label>Address <span>*</span></label>
-                          <textarea name="address" placeholder="Gurunanak Society, Than">{{ $user->address }}</textarea>
+                          <label>{{ __('lang.website.address') }} <span>*</span></label>
+                          <textarea name="address" placeholder="{{ __('lang.website.address_placeholder') }}">{{ $user->address }}</textarea>
                         </div>
                       </form>
                     </div>
@@ -103,7 +99,7 @@
               </div>
 
               <div class="from-save-button">
-                <button type="submit" class="profile-save-btn">Save changes</button>
+                <button type="submit" class="profile-save-btn">{{ __('lang.website.save_changes') }}</button>
               </div>
             </div>
           </form>

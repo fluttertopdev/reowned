@@ -50,7 +50,7 @@
                     onerror="this.onerror=null;this.src='{{ asset('uploads/no-image.png') }}'" />
                 <div class="mt-75 ms-1">
                     <label class="btn btn-primary me-75 mb-0" for="change-site-logo">
-                        Upload Logo
+                        {{__('lang.upload')}}
                         <input type="file" name="logo" id="change-site-logo" hidden accept="image/*"
                             onchange="showImagePreview(this, 'site-logo-preview');" />
                     </label>
@@ -68,7 +68,7 @@
                     onerror="this.onerror=null;this.src='{{ asset('uploads/no-image.png') }}'" />
                 <div class="mt-75 ms-1">
                     <label class="btn btn-primary me-75 mb-0" for="change-site-footer-logo">
-                        Upload Logo
+                        {{__('lang.upload')}}
                         <input type="file" name="footer_logo" id="change-site-footer-logo" hidden accept="image/*"
                             onchange="showImagePreview(this, 'site-footer-logo-preview');" />
                     </label>
@@ -86,9 +86,8 @@
                     onerror="this.onerror=null;this.src='{{ asset('uploads/no-image.png') }}'" />
                 <div class="mt-75 ms-1">
                     <label class="btn btn-primary me-75 mb-0" for="change-favicon">
-                        Upload Favicon
-                        <input type="file" name="favicon" id="change-favicon" hidden accept="image/*"
-                            onchange="showImagePreview(this, 'favicon-preview');" />
+                        {{__('lang.upload')}}
+                        <input type="file" name="favicon" id="change-favicon" hidden accept="image/*" onchange="showImagePreview(this, 'favicon-preview');" />
                     </label>
                 </div>
             </div>
@@ -101,7 +100,7 @@
         <div class="col-md-6 mt-3">
             <label class="form-label">{{__('lang.currency')}}</label>
             <span class=" text-danger">*</span>
-            <input type="text" class="form-control" name="currency" value="{{ $row->value }}" placeholder="Currency" required>
+            <input type="text" class="form-control" name="currency" value="{{ $row->value }}" placeholder="{{__('lang.currency')}}" required>
         </div>
         @endif
     @endforeach

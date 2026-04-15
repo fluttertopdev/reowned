@@ -28,10 +28,10 @@ class ProfileController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'address' => 'nullable|string|max:500',
         ], [
-            'phone.digits' => 'Phone must be exactly 10 digits',
-            'phone.regex'  => 'Phone must contain only numbers',
-            'image.mimes'  => 'Image must be jpg, jpeg or png only',
-            'image.max'    => 'Image size must not exceed 2MB'
+            'phone.digits' => __('lang.website.phone_must_be_exactly_10_digits'),
+            'phone.regex'  => __('lang.website.phone_must_contain_only_numbers'),
+            'image.mimes'  => __('lang.website.image_must_be_jpg_jpeg_or_png_only'),
+            'image.max'    => __('lang.website.image_size_must_not_exceed_2mb')
         ]);
 
         // Handle image upload
@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Profile updated successfully.'
+            'message' => __('lang.website.profile_updated_successfully')
         ]);
     }
    

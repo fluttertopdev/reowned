@@ -110,14 +110,14 @@ class CustomersController extends Controller
             $userId = $request->input('user_ids')[0] ?? null;
 
             if (!$selectedPackageId || !$userId) {
-                return redirect()->back()->with('error', 'Invalid data provided.');
+                return redirect()->back()->with('error', __('lang.admin_invalid_data_provided'));
             }
 
             // Get package
             $package = \DB::table('adpackages')->where('id', $selectedPackageId)->first();
 
             if (!$package) {
-                return redirect()->back()->with('error', 'Package not found.');
+                return redirect()->back()->with('error', __('lang.admin_package_not_found'));
             }
 
             // Assign package
@@ -128,7 +128,7 @@ class CustomersController extends Controller
             
 
             return redirect()->route('customer.index')
-                ->with('success', 'Package assigned successfully.');
+                ->with('success', __('lang.admin_package_assigned_successfully'));
 
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage());
@@ -155,14 +155,14 @@ class CustomersController extends Controller
             $userId = $request->input('user_ids')[0] ?? null;
 
             if (!$selectedPackageId || !$userId) {
-                return redirect()->back()->with('error', 'Invalid data provided.');
+                return redirect()->back()->with('error', __('lang.admin_invalid_data_provided'));
             }
 
             // Get Item Package
             $package = \DB::table('item_packages')->where('id', $selectedPackageId)->first();
 
             if (!$package) {
-                return redirect()->back()->with('error', 'Item package not found.');
+                return redirect()->back()->with('error', __('lang.admin_item_package_not_found'));
             }
 
             \DB::beginTransaction();
@@ -176,7 +176,7 @@ class CustomersController extends Controller
             \DB::commit();
 
             return redirect()->route('customer.index')
-                ->with('success', 'Item package assigned successfully.');
+                ->with('success', __('lang.admin_item_package_assigned_successfully'));
 
         } catch (\Exception $ex) {
             \DB::rollBack();

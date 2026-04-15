@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\File;
 
 class BannerController extends Controller
 {
-
-
     public function edit(Request $request, $id = null)
     {
         $data = Banner::first();

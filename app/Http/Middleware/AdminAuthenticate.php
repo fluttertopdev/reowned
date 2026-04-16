@@ -15,7 +15,7 @@ class AdminAuthenticate
         }
 
         // Extra protection
-        if (Auth::guard('admin')->user()->type !== 'admin') {
+        if (Auth::guard('admin')->user()->type === 'user') {
             Auth::guard('admin')->logout();
             return redirect()->route('login.index');
         }

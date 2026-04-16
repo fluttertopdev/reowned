@@ -15,7 +15,7 @@
                             <h5>{{__('lang.item_listing_package')}}</h5>
                         </div>
                         <div class="col-md-6">
-                            @can('add-itempackage')
+                            @can('item-listing-package.store')
                             <div class="table-btn-css">
                                 <a href="{{route('item-listing-package.form')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -23,9 +23,8 @@
                                     </button>
                                 </a>
                             </div>
-                              @endcan
+                            @endcan
                         </div>
-
                         <div class="col-sm-2 display-inline-block mt-3">
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value="">{{__('lang.page')}}</option>
@@ -87,7 +86,9 @@
                                 <th>{{__('lang.days')}}</th>
                                 <th>{{__('lang.item')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('item-listing-package.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
                         <tbody>
@@ -124,7 +125,7 @@
                                     @endif
                                 </td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                   @can('status')
+                                @can('item-listing-package.updateStatus')
                                 <td>
                                     <a href="{{ route('item-listing-package.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -132,24 +133,24 @@
                                         </span>
                                     </a>
                                 </td>
-                                 @endcan
+                                @endcan
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                             @can('update-itempackage')
+                                            @can('item-listing-package.update')
                                             <a href="{{ route('item-listing-package.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
-                                              @endcan
-                                                @can('delete-itempackage')
+                                            @endcan
+                                            @can('item-listing-package.destroy')
                                             <a onclick="showDeleteConfirmation('listingpackages', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
-                                             @endcan
-                                           @can('itempackage-translation')
+                                            @endcan
+                                            @can('item-listing-package.translation')
                                             <a href="{{ route('item-listing-package.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i>{{__('lang.translation')}}
                                             </a>

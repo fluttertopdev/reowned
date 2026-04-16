@@ -12,12 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       // $this->call(TranslationAdminSeeder::class);
-       // $this->call(TranslationAdminArabicSeeder::class);
+       $this->call(TranslationAdminSeeder::class);
+       $this->call(TranslationAdminArabicSeeder::class);
        // $this->call(TranslationWebsiteSeeder::class);
        // $this->call(TranslationWebsiteArabicSeeder::class);
-
-       $this->call(PermissionSeeder::class);
-       $this->call(RoleHasPermissionSeeder::class);
+       // $this->call(RoleHasPermissionSeeder::class);
     }
 }

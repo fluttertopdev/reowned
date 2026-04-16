@@ -93,8 +93,6 @@
           window.location.href = "{{ route('staff.destroy', '') }}/" + itemId;
         } else if (pagename == 'reportreason') {
           window.location.href = "{{ route('reportreason.destroy', '') }}/" + itemId;
-        } else if (pagename == 'userreport') {
-          window.location.href = "{{ route('userreport.destroy', '') }}/" + itemId;
         } else if (pagename == 'role') {
           window.location.href = "{{ route('role.destroy', '') }}/" + itemId;
         }

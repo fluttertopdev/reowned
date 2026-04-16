@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Staff;
+use App\Models\User;
+use App\Models\Role;
 use Session;
 
 class StaffController extends Controller
@@ -12,11 +13,8 @@ class StaffController extends Controller
 
     public function index(Request $request)
     {
-
         try {
-            $data['result'] = Staff::getLists($request->all());
-
-
+            $data['result'] = User::getStaffLists($request->all());
             return view('admin.staff.list', $data);
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
@@ -27,12 +25,12 @@ class StaffController extends Controller
     public function form(Request $request, $id = null)
     {
         $data = null;
-
+        $roles = Role::where('status',1)->where('name','!=','admin')->orWhere('name','!=','admin')->get();
         if ($id) {
-            $data = Staff::find($id);
+            $data = User::find($id);
         }
 
-        return view('admin.staff.create', compact('data'));
+        return view('admin.staff.create', compact('data','roles'));
     }
 
 
@@ -59,7 +57,7 @@ class StaffController extends Controller
 
         try {
             // Save the sanitized data
-            $added = Staff::addUpdate($validatedData);
+            $added = User::addUpdateStaff($validatedData);
 
             if ($added['status'] == true) {
                 Session::flash('success', $added['message']);
@@ -71,10 +69,6 @@ class StaffController extends Controller
             return redirect()->back()->with('error', $ex->getMessage() . ' at line ' . $ex->getLine() . ' in ' . $ex->getFile());
         }
     }
-
-
-
-
 
 
     public function update(Request $request)
@@ -105,7 +99,7 @@ class StaffController extends Controller
         $validatedData['name'] = htmlspecialchars(strip_tags($validatedData['name']), ENT_QUOTES, 'UTF-8'); // Prevent XSS
 
         try {
-            $updated = Staff::addUpdate($validatedData, $request->input('id'));
+            $updated = User::addUpdateStaff($validatedData, $request->input('id'));
             if ($updated['status'] == true) {
                 return redirect()->route('staff.index')->with('success', $updated['message']);
             } else {
@@ -120,7 +114,7 @@ class StaffController extends Controller
     public function destroy($id)
     {
         try {
-            $deleted = Staff::deleteRecord($id);
+            $deleted = User::deleteRecord($id);
 
             if ($deleted['status'] == true) {
                 return redirect()->back()->with('success', $deleted['message']);
@@ -136,7 +130,7 @@ class StaffController extends Controller
     public function updateStatus($id)
     {
         try {
-            $updated = Staff::updateStatus($id);
+            $updated = User::updateStatus($id);
 
             return redirect()->back()->with($updated['status'] ? 'success' : 'error', $updated['message']);
         } catch (\Exception $ex) {

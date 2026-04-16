@@ -14,6 +14,7 @@
                             <h5>{{__('lang.translation_list')}}</h5>
                         </div>
                         <div class="col-md-6">
+                            @can('translation.store')
                             <div class="table-btn-css">
                                 <a href="{{ route('translation.create', Request::segment(4)) }}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -21,8 +22,8 @@
                                     </button>
                                 </a>
                             </div>
+                            @endcan
                         </div>
-
                         <div class="col-sm-2 display-inline-block mt-3">
                             <select class="form-control select2 form-select" name="perpage" onchange="this.form.submit()">
                                 <option value="">{{__('lang.page')}}</option>
@@ -86,7 +87,6 @@
                     </table>
                 </div>
             </div>
-
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <h6>

@@ -1,0 +1,382 @@
+@extends('website.layout.app')
+@section('content')
+
+@php
+    use Illuminate\Support\Facades\Crypt;
+@endphp
+
+<div class="container">
+  <div class="brudcrum brudcrum-defrent">
+    <ul>
+      <li>{{ __('lang.website.home_appliances') }}</li>
+      <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
+      <li><a href="{{route('sell.index')}}">{{ __('lang.website.sell') }}</a></li>
+      <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
+      <li><a href="#" class="active">{{ $subcategory->name }}</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="sell-add-listing">
+  <div class="container">
+        <form id="sellForm" action="{{ route('sell.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <input type="hidden" name="id" value="{{ Crypt::encrypt($item->id) }}">
+            <input type="hidden" name="category_id" value="{{ $subcategory->parent_id }}">
+            <input type="hidden" name="subcategory_id" value="{{ $subcategory->id }}">
+
+            <div class="sell-add-listing-inner">
+
+                <h2>{{ __('lang.website.edit_listing') }}</h2>
+
+                {{-- CATEGORY --}}
+                <div class="select-cetagory-box">
+                    <h4>{{ __('lang.website.selected_category') }}</h4>
+                    <span>{{ $subcategory->name }}</span>
+                </div>
+
+                {{-- DETAILS --}}
+                <div class="add-listing-one-box">
+
+                    <h4>{{ __('lang.website.include_some_details') }}</h4>
+
+                    {{-- TITLE --}}
+                    <div class="full-text-area">
+                        <label>{{ __('lang.website.ad_title') }} *</label>
+                        <div class="word-cont">0/70</div>
+                        <textarea name="title" class="textarea-1">{{ old('title', $item->title) }}</textarea>
+                    </div>
+
+                    {{-- DESCRIPTION --}}
+                    <div class="full-text-area">
+                        <label>{{ __('lang.website.description') }} *</label>
+                        <div class="word-cont">0/4000</div>
+                        <textarea name="description" class="textarea-2">{{ old('description', $item->description) }}</textarea>
+                    </div>
+
+                    {{-- CUSTOM FIELDS --}}
+                    <h4 class="mt-4">{{ __('lang.website.include_some_details') }}</h4>
+
+                    @foreach($customFields as $field)
+
+                        @php
+                            $value = old('custom_fields.'.$field->id, $field->value);
+
+                            // Normalize values
+                            if (is_array($value)) {
+                                $valueArray = $value;
+                            } elseif (!empty($value)) {
+                                $decoded = json_decode($value, true);
+                                $valueArray = is_array($decoded) ? $decoded : [$value];
+                            } else {
+                                $valueArray = [];
+                            }
+                        @endphp
+
+                        <div class="mb-4 mt-3">
+
+                            <label>
+                                {{ $field->field_name }}
+                                @if($field->is_required)*@endif
+                            </label>
+
+                            {{-- TEXT / NUMBER --}}
+                            @if(in_array($field->field_type, ['number','textbox']))
+                                <input type="text"
+                                    name="custom_fields[{{ $field->id }}]"
+                                    value="{{ $value }}"
+                                    class="form-control">
+
+                            {{-- TEXTAREA --}}
+                            @elseif($field->field_type == 'textarea')
+                                <textarea name="custom_fields[{{ $field->id }}]" class="form-control">{{ $value }}</textarea>
+
+                            {{-- DROPDOWN --}}
+                            @elseif($field->field_type == 'dropdown')
+                                <select name="custom_fields[{{ $field->id }}]" class="form-control form-select">
+                                    <option value="">Select</option>
+                                    @foreach($field->options as $option)
+                                        <option value="{{ $option->option_value }}"
+                                            {{ (string)$value === (string)$option->option_value ? 'selected' : '' }}>
+                                            {{ $option->option_value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                            {{-- RADIO --}}
+                            @elseif($field->field_type == 'radio')
+                                @foreach($field->options as $option)
+                                    <div class="form-check">
+                                        <input type="radio"
+                                            name="custom_fields[{{ $field->id }}]"
+                                            value="{{ $option->option_value }}"
+                                            {{ (string)$value === (string)$option->option_value ? 'checked' : '' }}>
+                                        <label>{{ $option->option_value }}</label>
+                                    </div>
+                                @endforeach
+
+                            {{-- CHECKBOX --}}
+                            @elseif($field->field_type == 'checkbox')
+                                @foreach($field->options as $option)
+                                    <div class="form-check">
+                                        <input type="checkbox"
+                                            name="custom_fields[{{ $field->id }}][]"
+                                            value="{{ $option->option_value }}"
+                                            {{ in_array((string)$option->option_value, array_map('strval', $valueArray)) ? 'checked' : '' }}>
+                                        <label>{{ $option->option_value }}</label>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+                {{-- PRICE --}}
+                <div class="add-listing-one-box">
+                    <h4>{{ __('lang.website.set_a_price') }}</h4>
+
+                    <div class="brand-year-box brand-year-box-full">
+                        <div class="brand-year-box-right">
+                            <label>{{ __('lang.website.price') }} *</label>
+                            <input type="number" name="price"
+                                value="{{ old('price', $item->price) }}"
+                                class="input-text" min="1">
+                        </div>
+                    </div>
+                </div>
+
+                {{-- IMAGES --}}
+                <div class="add-listing-one-box">
+                    <h4>{{ __('lang.website.upload_photos') }}</h4>
+
+                    {{-- Existing --}}
+                    <div class="mb-3">
+                        @foreach($item->images as $img)
+                            <img src="{{ asset($img->image) }}" width="80" class="image-thumbnail">
+                        @endforeach
+                    </div>
+
+                    {{-- Upload --}}
+                    <div class="multi-image">
+                        <div class="upload__box">
+                            <div class="upload__btn-box">
+                                <label class="form-label upload__btn">
+                                    <img src="{{asset('website_assets/images/multiimage.png')}}">
+                                    <h6>{{ __('lang.website.main_picture') }}</h6>
+                                    <p class="mb-1">{{ __('lang.website.drag_drop') }}</p>
+                                    <span>{{ __('lang.website.upload') }}</span>
+                                    <input type="file" name="images[]" multiple
+                                           class="form-control upload__inputfile" accept="image/jpeg, image/png, image/jpg">
+                                </label>
+                            </div>
+                            <div class="upload__img-wrap row"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- LOCATION --}}
+                <div class="add-listing-one-box confirom-box">
+                    <h4>{{ __('lang.website.confirm_location') }}</h4>
+
+                    <div class="confirm-row">
+                        <label>{{ __('lang.website.area') }} *</label>
+                        <input type="text" id="listing_area"
+                            name="area"
+                            class="form-control"
+                            value="{{ old('area', $item->area) }}">
+                    </div>
+
+                    <input type="hidden" name="city" value="{{ $item->city }}">
+                    <input type="hidden" name="state" value="{{ $item->state }}">
+                    <input type="hidden" name="country" value="{{ $item->country }}">
+                    <input type="hidden" name="pincode" value="{{ $item->pincode }}">
+                    <input type="hidden" name="latitude" value="{{ $item->latitude }}">
+                    <input type="hidden" name="longitude" value="{{ $item->longitude }}">
+                </div>
+
+                {{-- BUTTON --}}
+                <div class="post-now">
+                    <button>{{ __('lang.website.update_listing') }}</button>
+                </div>
+
+            </div>
+        </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+
+<script>
+  jQuery(document).ready(function () {
+    ImgUpload();
+  });
+
+  function ImgUpload() {
+    let imgArray = [];
+
+    $('.upload__inputfile').on('change', function (e) {
+      const imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+      const maxLength = parseInt($(this).attr('data-max_length'), 10) || 20;
+      const files = e.target.files;
+      const filesArr = Array.from(files);
+
+      filesArr.forEach((f) => {
+        if (!f.type.match('image.*')) return;
+        if (imgArray.length >= maxLength) return;
+
+        imgArray.push(f);
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const html = `
+          <div class="col-auto">
+            <div class="upload__img-box" style="background-image: url('${e.target.result}')">
+              <div class="upload__img-close" data-file="${f.name}">&times;</div>
+            </div>
+          </div>
+        `;
+          imgWrap.append(html);
+        };
+
+        reader.readAsDataURL(f);
+      });
+    });
+
+    $('body').on('click', '.upload__img-close', function () {
+      const file = $(this).attr('data-file');
+      imgArray = imgArray.filter(f => f.name !== file);
+      $(this).closest('.col-auto').remove();
+    });
+  }
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $("#sellForm").on("submit", function(e){
+
+        let valid = true;
+        $(".error").remove();
+
+        // Title
+        let title = $("textarea[name='title']").val().trim();
+        if(title == ""){
+            valid = false;
+            $("textarea[name='title']").after("<span class='error text-danger'>Title is required</span>");
+        }
+
+        // Description
+        let desc = $("textarea[name='description']").val().trim();
+        if(desc == ""){
+            valid = false;
+            $("textarea[name='description']").after("<span class='error text-danger'>Description is required</span>");
+        }
+
+        // Price
+        let price = $("input[name='price']").val();
+        if(price == "" || price <= 0){
+            valid = false;
+            $("input[name='price']").after("<span class='error text-danger'>Valid price required</span>");
+        }
+
+        // Area
+        if($("#listing_area").val().trim() == ""){
+            valid = false;
+            $("#listing_area").after("<span class='error text-danger'>Select valid area</span>");
+        }
+
+        // Custom Fields Required
+        
+
+        // Images validation
+        let files = $(".upload__inputfile")[0].files;
+
+        if(files.length > 20){
+            valid = false;
+            $(".upload__btn-box").after("<span class='error text-danger'>Maximum 20 images allowed</span>");
+        }
+
+        if(!valid){
+            e.preventDefault();
+        }
+
+    });
+
+});
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8lv49sFP9c6gt001S-V4bUMRJflcgxI&libraries=places"></script>
+<script>
+function initAutocomplete() {
+
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('listing_area'),
+        {
+            types: ['geocode'], // important
+            componentRestrictions: { country: "in" } // India only
+        }
+    );
+
+    autocomplete.addListener('place_changed', function () {
+
+      let place = autocomplete.getPlace();
+
+      let lat = place.geometry.location.lat();
+      let lng = place.geometry.location.lng();
+
+      $("#listing_latitude").val(lat);
+      $("#listing_longitude").val(lng);
+
+      let area = '', city = '', state = '', country = '', pincode = '';
+
+      place.address_components.forEach(function(component) {
+
+          let types = component.types;
+
+          if (
+              types.includes("sublocality_level_1") ||
+              types.includes("sublocality") ||
+              types.includes("neighborhood")
+          ) {
+              area = component.long_name;
+          }
+
+          if (!area && types.includes("locality")) {
+              area = component.long_name;
+          }
+
+          if (types.includes("locality")) {
+              city = component.long_name;
+          }
+
+          if (types.includes("administrative_area_level_1")) {
+              state = component.long_name;
+          }
+
+          if (types.includes("country")) {
+              country = component.long_name;
+          }
+
+          if (types.includes("postal_code")) {
+              pincode = component.long_name;
+          }
+      });
+
+      $("#listing_area").val(area);
+      $("#listing_city").val(city);
+      $("#listing_state").val(state);
+      $("#listing_country").val(country);
+      $("#listing_pincode").val(pincode);
+    });
+}
+
+// init
+google.maps.event.addDomListener(window, 'load', initAutocomplete);
+</script>
+
+@endsection

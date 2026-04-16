@@ -35,9 +35,7 @@
                         </div>
                         <div class="col-sm-4 display-inline-block mt-3">
                             <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
-
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('userpackage.index') }}">{{__('lang.reset')}}</a>
-
                             <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="ti ti-download"></i> {{__('lang.export')}}
                             </button>

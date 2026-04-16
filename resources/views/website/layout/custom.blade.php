@@ -271,6 +271,11 @@
     div#moreBtn{
         cursor: pointer;
     }
+    img.image-thumbnail {
+        height: 100px;
+        width: 100px;
+        margin: 5px 5px;
+    }
 </style>
 <!-- filter -->
 <style>

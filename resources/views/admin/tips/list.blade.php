@@ -15,7 +15,7 @@
                             <h5>{{__('lang.tips_list')}}</h5>
                         </div>
                         <div class="col-md-6">
-                            @can('tip-add')
+                            @can('tips.store')
                             <div class="table-btn-css">
                                 <a href="{{route('tips.create')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -25,7 +25,6 @@
                             </div>
                             @endcan
                         </div>
-
 
                         <div class="col-sm-2 display-inline-block mt-3">
                             <select class="form-control select2 form-select" name="pageno">
@@ -63,7 +62,9 @@
                                 <th>#</th>
                                 <th>{{__('lang.description')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('tips.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
                         </thead>
@@ -72,11 +73,9 @@
                             @foreach($result as $index => $row)
                             <tr>
                                 <td>{{ $result->firstItem() + $index }}</td>
-
                                 <td>{!! Str::limit($row->description, 100, '...') !!}</td>
-
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                @can('tip-status')
+                                @can('tips.updateStatus')
                                 <td>
                                     <a href="{{ route('tips.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -91,17 +90,17 @@
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @can('update-tip')
+                                            @can('tips.updateStatus')
                                             <a href="{{ route('tips.edit', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
                                             @endcan
-                                            @can('delete')
+                                            @can('tips.destroy')
                                             <a onclick="showDeleteConfirmation('tip', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
                                             @endcan
-                                            @can('tip-translation')
+                                            @can('tips.translation')
                                             <a href="{{ route('tips.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
                                             </a>
@@ -109,8 +108,6 @@
                                         </div>
                                     </div>
                                 </td>
-
-
                             </tr>
                             @endforeach
                             @else

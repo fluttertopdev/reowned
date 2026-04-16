@@ -15,7 +15,7 @@
                             <h5>{{__('lang.advertisement_package')}}</h5>
                         </div>
                         <div class="col-md-6">
-                            @can('add-advertisementpackage')
+                            @can('advertisement-package.store')
                             <div class="table-btn-css">
                                 <a href="{{route('advertisement-package.form')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -84,7 +84,9 @@
                                 <th>{{__('lang.days')}}</th>
                                 <th>{{__('lang.item')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('advertisement-package.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
 
@@ -116,7 +118,7 @@
                                     @endif
                                 </td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                @can('status')
+                                @can('advertisement-package.updateStatus')
                                 <td>
                                     <a href="{{ route('advertisement-package.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -131,17 +133,17 @@
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @can('delete-advertisementpackage')
+                                            @can('advertisement-package.destroy')
                                             <a href="{{ route('advertisement-package.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
                                             @endcan
-                                            @can('update-advertisementpackage')
+                                            @can('advertisement-package.update')
                                             <a onclick="showDeleteConfirmation('adspackages', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
                                             </a>
                                             @endcan
-                                            @can('advertisementpackage-translation')
+                                            @can('advertisement-package.translation')
                                             <a href="{{ route('advertisement-package.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
                                             </a>

@@ -11,7 +11,6 @@
             <form class="card-body"
                 action="{{ isset($data) ? route('faq.update') : route('faq.store') }}"
                 method="POST"  id="description-form-faq" novalidate>
-
                 @csrf
                 @if(isset($data))
                 <input type="hidden" name="id" value="{{ $data->id }}">

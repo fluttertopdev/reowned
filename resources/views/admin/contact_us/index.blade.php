@@ -49,7 +49,9 @@
                                 <th>{{__('lang.admin_email')}}</th>
                                 <th>{{__('lang.admin_subject')}}</th>
                                 <th>{{__('lang.admin_message')}}</th>
+                                @can('contact_us.reply')
                                 <th>{{__('lang.admin_action')}}</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>    
@@ -63,6 +65,7 @@
                                         <td>{{$row->email}}</td>
                                         <td>{{$row->subject}}</td>
                                         <td>{{$row->message}}</td>
+                                        @can('contact_us.reply')
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" title="{{__('lang.admin_select_action')}}">
@@ -96,6 +99,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcan
                                     </tr> 
                                 @endforeach 
                             @else 

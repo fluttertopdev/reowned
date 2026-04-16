@@ -14,7 +14,7 @@
                         <div class="col-md-6">
                             <h5>{{__('lang.cms_list')}}</h5>
                         </div>
-                         @can('add-cms')
+                        @can('cms.store')
                         <div class="col-md-6">
                             <div class="table-btn-css">
                                 <a href="{{route('cms.create')}}">
@@ -24,10 +24,8 @@
                                 </a>
                             </div>
                         </div>
-                            @endcan
-
+                        @endcan
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value="">{{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -52,9 +50,7 @@
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
                             <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
-
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('cms.index') }}">{{__('lang.reset')}}</a>
-
                         </div>
                     </div>
                 </form>
@@ -68,47 +64,46 @@
                                 <th>#</th>
                                 <th>{{__('lang.page_name')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('cms.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
                         <tbody>
-
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
                             <tr>
                                 <td>{{ $result->firstItem() + $index }}</td>
-
                                 <td>{{ $row->page_name }}</td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+                                @can('cms.updateStatus')
                                 <td>
                                     <a href="{{ route('cms.updateStatus', $row->id) }}">
-                                        <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
-                         {{ $row->status == 1 ? __('lang.active') : __('lang.deactive') }}
-                            </span>
+                                        <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">{{ $row->status == 1 ? __('lang.active') : __('lang.deactive') }}</span>
                                     </a>
                                 </td>
+                                @endcan
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                             @can('update-cms')
+                                            @can('cms.update')
                                             <a href="{{ route('cms.edit', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
-                                             @endcan
-                                              @can('delete-cms')
+                                            @endcan
+                                            @can('cms.destroy')
                                             <a onclick="showDeleteConfirmation('cms', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
-                                             @endcan
-                                             @can('cms-translation')
+                                            @endcan
+                                            @can('cms.translation')
                                             <a href="{{ route('cms.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
                                             </a>
                                             @endcan
-
                                         </div>
                                     </div>
                                 </td>

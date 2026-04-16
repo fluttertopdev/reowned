@@ -156,7 +156,7 @@
                   <h6>{{ __('lang.website.main_picture') }}</h6>
                   <p class="mb-1">{{ __('lang.website.drag_drop') }}</p>
                   <span>{{ __('lang.website.upload') }}</span>
-                  <input type="file" name="images[]" multiple accept="image/*" data-max_length="20" class="form-control upload__inputfile">
+                  <input type="file" name="images[]" multiple accept="image/*" data-max_length="20" class="form-control upload__inputfile" accept="image/jpeg, image/png, image/jpg">
                 </label>
               </div>
               <div class="upload__img-wrap row"></div>

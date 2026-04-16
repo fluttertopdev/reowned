@@ -83,7 +83,7 @@
                                 <th>{{__('lang.email')}}</th>
                                 <th>{{__('lang.phone')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
-                                @can('seller-verification-status')
+                                @can('seller.updateStatus')
                                 <th>{{__('lang.status')}}</th>
                                 @endcan
                                 <th>{{__('lang.actions')}}</th>
@@ -107,7 +107,7 @@
                                 <td>{{ $row->email }}</td>
                                 <td>{{ $row->phone }}</td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                @can('seller-verification-status')
+                                @can('seller.updateStatus')
                                 <td>
                                     <a href="{{ route('seller.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -122,13 +122,13 @@
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @can('seller-verification-view')
+                                            @can('seller.update')
                                             <a href="{{ route('seller.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
                                             @endcan
 
-                                            @can('seller-verification-delete')
+                                            @can('seller.destroy')
                                             <a onclick="showDeleteConfirmation('user', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
                                             </a>

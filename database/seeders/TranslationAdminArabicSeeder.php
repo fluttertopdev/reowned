@@ -1784,6 +1784,34 @@ class TranslationAdminArabicSeeder extends Seeder
                 'value' => 'مميز'
             ),
             
+            array(
+                'keyword' => 'idproofback',
+                'value' => 'إثبات الهوية (الوجه الخلفي)'
+            ),
+            array(
+                'keyword' => 'admin_edit',
+                'value' => 'تعديل'
+            ),
+            array(
+                'keyword' => 'admin_delete',
+                'value' => 'حذف'
+            ),
+            array(
+                'keyword' => 'admin_action',
+                'value' => 'إجراء'
+            ),
+            array(
+                'keyword' => 'admin_role',
+                'value' => 'الدور'
+            ),
+            array(
+                'keyword' => 'admin_select_role',
+                'value' => 'اختر الدور'
+            ),
+            array(
+                'keyword' => 'admin_account_inactive_msg',
+                'value' => 'تم إلغاء تنشيط حسابك بواسطة المشرف!'
+            ),
         );
 
         $languages = Language::where('code','ar')->get();

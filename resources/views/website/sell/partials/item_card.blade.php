@@ -13,6 +13,16 @@
             </div>
             <div class="add-text-right">
                 <ul>
+                    @php
+                        $encryptedId = Crypt::encrypt($item->id);
+                    @endphp
+
+                    <li>
+                        <a href="{{ url('sell/edit-listing/'.$encryptedId) }}">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                    </li>
+
                    <li>
                         <a href="#">
                             <img src="{{asset('website_assets/images/eyea-add-1.png')}}">

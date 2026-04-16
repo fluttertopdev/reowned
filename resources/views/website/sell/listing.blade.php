@@ -79,7 +79,7 @@
                     </div>
                   </div>
                   <div class="product-box">
-                    @if($items->count() > 6)
+                    @if($items->count() > 5)
                       <div class="load-more text-center mt-4">
                           <button class="btn-load" id="loadMoreBtn">{{ __('lang.website.load_more') }}</button>
                       </div>

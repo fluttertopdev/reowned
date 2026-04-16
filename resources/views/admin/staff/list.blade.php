@@ -1,8 +1,6 @@
 @extends('admin.layout.app')
 @section('content')
 
-
-
 <!-- Content wrapper -->
 <div class="content-wrapper">
     <!-- Content -->
@@ -16,6 +14,7 @@
                             <h5>{{__('lang.staff_list')}}</h5>
                         </div>
                         <div class="col-md-6">
+                            @can('staff.store')
                             <div class="table-btn-css">
                                 <a href="{{route('staff.form')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -23,11 +22,9 @@
                                     </button>
                                 </a>
                             </div>
+                            @endcan
                         </div>
-
-
-                        <div class="col-sm-2 display-inline-block mt-3">
-
+                       <div class="col-sm-2 display-inline-block mt-3">
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value="">{{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -70,8 +67,12 @@
                                 <th>{{__('lang.email')}}</th>
                                 <th>{{__('lang.phone')}}</th>
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('staff.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
+                                @canany(['staff.update','staff.destroy'])
                                 <th>{{__('lang.actions')}}</th>
+                                @endcanany
                             </tr>
 
                         <tbody>
@@ -83,28 +84,34 @@
                                 <td>{{ $row->email }}</td>
                                  <td>{{ $row->phone }}</td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+                                @can('staff.updateStatus')
                                 <td>
                                     <a href="{{ route('staff.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">{{ $row->status == 1 ? __('lang.active') : __('lang.deactive') }}</span>
                                     </a>
                                 </td>
+                                @endcan
+                                @canany(['staff.update','staff.destroy'])
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
+                                            @can('staff.update')
                                             <a href="{{ route('staff.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
+                                            @endcan
+                                            @can('staff.destroy')
                                             <a onclick="showDeleteConfirmation('staff', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
-
-
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>
+                                @endcanany
                             </tr>
                             @endforeach
                             @else

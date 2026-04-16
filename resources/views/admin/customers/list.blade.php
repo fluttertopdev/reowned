@@ -12,16 +12,10 @@
             <div class="card-header">
                 <form method="get">
                     <div class="row ">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <h5>{{__('lang.customers')}}</h5>
                         </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-
-
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value=""> {{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -46,14 +40,12 @@
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
                             <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
-
-                            <a type="reset" class="btn btn-outline-secondary" href="{{ route('customer.index') }}">{{__('lang.reset')}}</a>
-
+                            <a type="reset" class="btn btn-outline-secondary" href="{{ route('customer.index') }}">{{__('lang.reset')}}
+                            </a>
                         </div>
                     </div>
                 </form>
             </div>
-
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
                     <table class="table">
@@ -64,14 +56,12 @@
                                 <th>{{__('lang.name')}}</th>
                                 <th>{{__('lang.email')}}</th>
                                 <th>{{__('lang.phone')}}</th>
-                                
                                 <th>{{__('lang.created_at')}}</th>
-                                @can('customer-status')
+                                @can('customer.updateStatus')
                                 <th>{{__('lang.status')}}</th>
-                                 @endcan
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
-
                         <tbody>
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
@@ -89,9 +79,9 @@
                                 </td>
                                 <td>{{ $row->name }}</td>
                                 <td>{{ $row->email }}</td>
-                                 <td>{{ $row->phone }}</td>
-                      <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                 @can('customer-status')
+                                <td>{{ $row->phone }}</td>
+                                <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+                                @can('customer.updateStatus')
                                 <td>
                                     <a href="{{ route('customer.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -106,28 +96,26 @@
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @can('customer-update')
+                                            @can('customer.update')
                                             <a href="{{ route('customer.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
-                                               @endcan
-                                              @can('assign-packages')
-                                               <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assignpackage" data-id="{{ $row->id }}">
-                                      <i class="ti ti-package me-1"></i> {{ __('lang.assignpackage') }}
-                                             </a> 
-                                              @endcan
-                                              @can('view-packages')
-                                              <a href="{{ route('customer.userpackage', $row->id) }}" class="dropdown-item">
+                                            @endcan
+                                            @can('customer.assignpackage')
+                                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assignpackage" data-id="{{ $row->id }}">
+                                                <i class="ti ti-package me-1"></i> {{ __('lang.assignpackage') }}
+                                            </a> 
+                                            @endcan
+                                            @can('customer.userpackage')
+                                            <a href="{{ route('customer.userpackage', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-eye"></i>{{__('lang.viewpackages')}}
                                             </a>
                                              @endcan 
-                                              @can('delete-customer') 
+                                            @can('customer.destroy') 
                                             <a onclick="showDeleteConfirmation('user', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
                                             </a>
-                                             @endcan 
-                                        
-                                          
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>

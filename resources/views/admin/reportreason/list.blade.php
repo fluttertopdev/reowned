@@ -1,8 +1,6 @@
 @extends('admin.layout.app')
 @section('content')
 
-
-
 <!-- Content wrapper -->
 <div class="content-wrapper">
     <!-- Content -->
@@ -16,7 +14,7 @@
                             <h5>{{__('lang.reportreasons')}}</h5>
                         </div>
                         <div class="col-md-6">
-                             @can('add-report-reason')
+                            @can('reportreason.store')
                             <div class="table-btn-css">
                                 <a href="{{route('reportreason.form')}}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
@@ -24,12 +22,10 @@
                                     </button>
                                 </a>
                             </div>
-                               @endcan
+                            @endcan
                         </div>
 
-
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value=""> {{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -54,9 +50,7 @@
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
                             <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
-
                             <a type="reset" class="btn btn-outline-secondary" href="{{ route('reportreason.index') }}">{{__('lang.reset')}}</a>
-
                         </div>
                     </div>
                 </form>
@@ -68,27 +62,21 @@
                         <thead class="table-light">
                             <tr class="text-nowrap">
                                 <th>#</th>
-                               
                                 <th>{{__('lang.reason')}}</th>
-                              
                                 <th>{{__('lang.created_at')}}</th>
-                                     @can('report-reason-status')
+                                @can('reportreason.updateStatus')
                                 <th>{{__('lang.status')}}</th>
-                                 @endcan
+                                @endcan
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
-
                         <tbody>
                             @if($result->count() > 0)
                             @foreach($result as $index => $row)
                             <tr>
                                 <td>{{ $result->firstItem() + $index }}</td>
-                              
                                 <td>{{ $row->reason }}</td>
-                               
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                 @can('report-reason-status')
-
+                                @can('reportreason.updateStatus')
                                 <td>
                                     <a href="{{ route('reportreason.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -103,21 +91,16 @@
                                             <i class="ti ti-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @can('report-reason-update')
+                                            @can('reportreason.update')
                                             <a href="{{ route('reportreason.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
-                                                  @endcan
-                                               
-                                                   @can('report-reason-delete') 
+                                            @endcan   
+                                            @can('reportreason.destroy') 
                                             <a onclick="showDeleteConfirmation('reportreason', {{ $row->id }})" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
                                             </a>
-                                               @endcan
-                                    
-                                         
-                                            
-                                          
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>

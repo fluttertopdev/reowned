@@ -31,16 +31,23 @@ class LoginController extends Controller
 
             $user = Auth::guard('admin')->user();
 
-            if ($user->type === 'admin') {
+            if($user->status == 1){
 
-                $request->session()->regenerate();
+                if ($user->type === 'admin' || $user->type === 'staff') {
 
-                return redirect()->intended(route('dashboard.index'));
+                    $request->session()->regenerate();
+
+                    return redirect()->intended(route('dashboard.index'));
+                }
+
+                Auth::guard('admin')->logout();
+
+                return back()->with('error', __('lang.admin_access_denied'));
+            }else{
+                Auth::guard('admin')->logout();
+
+                return back()->with('error', __('lang.admin_account_inactive_msg'));
             }
-
-            Auth::guard('admin')->logout();
-
-            return back()->with('error', __('lang.admin_access_denied'));
         }
 
         return back()->with('error', __('lang.admin_invalid_crendetails'));

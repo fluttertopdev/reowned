@@ -14,6 +14,7 @@
                             <h5>{{__('lang.rolelist')}}</h5>
                         </div>
                         <div class="col-md-6">
+                            @can('role.store')
                             <div class="table-btn-css">
                                 <button class="btn btn-secondary btn-primary float-right mt-3" type="button" href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal">
                                     <span>
@@ -22,6 +23,7 @@
                                     </span>
                                 </button>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </form>
@@ -47,20 +49,23 @@
                                 <td>{{$i}}</td>
                                 <td>
                                     @if($row->name!='')<a class="cursor-pointer" href="javascript:;" data-bs-toggle="modal" data-bs-target="#editRoleModal_{{$row->id}}" class="role-edit-modal">{{$row->name}}</a>@else -- @endif
-
                                 </td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-
+                                @canany(['role.update','role.destroy'])
                                 <td>
                                     <div class="inline_action_btn">
-                                        <a class="edit_icon role-edit-modal" type="button" href="javascript:;" data-bs-toggle="modal" data-bs-target="#editRoleModal_{{$row->id}}" title="{{__('lang.admin_edit')}}"><i class="ti ti-pencil me-1"></i>
-                                        </a>
-                                        @if($row->name != 'admin' && $row->name != 'staff')
-                                            <a class="delete_icon" href="javascript:void(0);"
-                                                onclick="showDeleteConfirmation('role' , {{ $row->id }})" title="{{__('lang.admin_delete')}}"
-                                                ><i class="ti ti-trash me-1"></i>
+                                        @can('role.update')
+                                            <a class="edit_icon role-edit-modal" type="button" href="javascript:;" data-bs-toggle="modal" data-bs-target="#editRoleModal_{{$row->id}}" title="{{__('lang.admin_edit')}}"><i class="ti ti-pencil me-1"></i>
                                             </a>
-                                        @endif
+                                        @endcan
+                                        @can('role.update')
+                                            @if($row->name != 'admin' && $row->name != 'staff')
+                                                <a class="delete_icon" href="javascript:void(0);"
+                                                    onclick="showDeleteConfirmation('role' , {{ $row->id }})" title="{{__('lang.admin_delete')}}"
+                                                    ><i class="ti ti-trash me-1"></i>
+                                                </a>
+                                            @endif
+                                        @endcan
                                     </div>
                                     <div class="modal fade" id="editRoleModal_{{$row->id}}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-xl modal-dialog-centered modal-add-new-role">
@@ -170,7 +175,7 @@
                                         </div>
                                     </div>
                                 </td>
-
+                                @endcanany
                             </tr>
                             @endforeach
                             @else

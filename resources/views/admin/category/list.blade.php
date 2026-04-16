@@ -18,26 +18,22 @@
                                 {{__('lang.category_list')}}
                                 @endif
                             </h5>
-
                         </div>
 
                         <div class="col-md-6">
-                            @can('add-category')
+                            @can('category.store')
                             <div class="table-btn-css">
                                 <a href="{{ isset(request()->category) ? route('category.form') . '?category=' . request()->category : route('category.form') }}">
                                     <button type="button" class="btn btn-primary waves-effect waves-light">
                                         <span class="ti-xs ti ti-plus me-1"></span>
                                         {{ isset(request()->category) ? __('lang.add_subcategory') : __('lang.add_category') }}
                                     </button>
-
                                 </a>
                             </div>
                             @endcan
                         </div>
 
-
                         <div class="col-sm-2 display-inline-block mt-3">
-
                             <select class="form-control select2 form-select" name="pageno">
                                 <option value="">{{__('lang.page')}}</option>
                                 @foreach (config('constants.pagination_options') as $page)
@@ -91,9 +87,13 @@
                                 <th>{{__('lang.subcategory')}}</th>
                                 @endif
                                 <th>{{__('lang.created_at')}}</th>
+                                @can('category.updateStatus')
                                 <th>{{__('lang.status')}}</th>
+                                @endcan
                                 @if(!isset(request()->category))
+                                @can('category.updateStatus')
                                 <th>{{__('lang.featured')}}</th>
+                                @endcan
                                 @endif
                                 <th>{{__('lang.actions')}}</th>
                             </tr>
@@ -113,9 +113,7 @@
                                         </span>
                                     </span>
                                 </td>
-
                                 <td>{{ $row->name }}</td>
-
                                 @if(!isset(request()->category))
                                 <td>
                                     <a href="{{ route('category.index', ['category' => $row->id]) }}">
@@ -131,27 +129,26 @@
                                     </a>
                                 </td>
                                 @endif
-
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
-                                @can('category-status')
+                                @can('category.updateStatus')
                                 <td>
                                     <a href="{{ route('category.updateStatus', $row->id) }}">
                                         <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
                                             {{ $row->status == 1 ? __('lang.active') : __('lang.deactive') }}
                                         </span>
-
                                     </a>
-
                                 </td>
                                 @endcan
                                 @if(!isset(request()->category))
-                                <td>
-                                    <a href="{{ route('category.updateFeatured', $row->id) }}">
-                                        <span class="badge {{ $row->is_featured == 1 ? 'bg-success' : 'bg-warning' }}">
-                                            {{ $row->is_featured == 1 ? __('lang.yes') : __('lang.no') }}
-                                        </span>
-                                    </a>
-                                </td>
+                                    @can('category.updateStatus')
+                                    <td>
+                                        <a href="{{ route('category.updateFeatured', $row->id) }}">
+                                            <span class="badge {{ $row->is_featured == 1 ? 'bg-success' : 'bg-warning' }}">
+                                                {{ $row->is_featured == 1 ? __('lang.yes') : __('lang.no') }}
+                                            </span>
+                                        </a>
+                                    </td>
+                                    @endcan
                                 @endif
                                 <td>
                                     <div class="dropdown">
@@ -160,33 +157,31 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             @if(!isset(request()->category))
-                                            @can('view-category')
-                                            <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item" type="button">
-                                                <i class="ti ti-eye me-1"></i>{{__('lang.view')}}
-                                            </a>
-                                            @endcan
+                                                @can('category.index')
+                                                <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item" type="button">
+                                                    <i class="ti ti-eye me-1"></i>{{__('lang.view')}}
+                                                </a>
+                                                @endcan
                                             @endif
-                                            @can('update-category')
+                                            @can('category.updateStatus')
                                             <a href="{{ request()->has('category') ? route('category.form', $row->id) . '?category=' . request()->category : route('category.form', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-pencil me-1"></i>{{__('lang.edit')}}
                                             </a>
                                             @endcan
-
-                                            @can('delete-category')
+                                            @can('category.destroy')
                                             <a onclick="showDeleteConfirmation('category', <?= $row->id ?>)" class="dropdown-item">
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
                                             @endcan
-
                                             @if(!isset(request()->category))
-                                            <!-- Show 'Add Subcategory' for Categories only -->
-                                            @can('add-subcategory')
-                                            <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item">
-                                                <i class="ti ti-plus me-1"></i>{{__('lang.add_subcategory')}}
-                                            </a>
-                                            @endcan
+                                                <!-- Show 'Add Subcategory' for Categories only -->
+                                                @can('category.store')
+                                                <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item">
+                                                    <i class="ti ti-plus me-1"></i>{{__('lang.add_subcategory')}}
+                                                </a>
+                                                @endcan
                                             @endif
-                                            @can('category-translation')
+                                            @can('category.translation')
                                             <a href="{{ route('category.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
                                             </a>
@@ -199,7 +194,7 @@
                             @else
                             <tr>
                                 <td colspan="{{ isset(request()->category) ? 5 : 6 }}" class="record-not-found">
-                                    <span>No data found</span>
+                                    <span>{{__('lang.no_record_found')}}</span>
                                 </td>
                             </tr>
                             @endif
@@ -207,7 +202,6 @@
                     </table>
                 </div>
             </div>
-
             <div class="card-footer">
                 <div class="col-md-6">
                     <h6 class="float-left">
@@ -238,7 +232,6 @@
 <!-- 3. YOUR SCRIPT LAST -->
 <script>
 $(document).ready(function(){
-
     $("#category_table").sortable({
         items: "tr.row1[data-featured='1']",
         cursor: 'move',
@@ -247,7 +240,6 @@ $(document).ready(function(){
             sendOrderofCategoryToServer();
         }
     });
-
 });
 
 function sendOrderofCategoryToServer() {
@@ -273,7 +265,7 @@ function sendOrderofCategoryToServer() {
             console.log(response);
         }
     });
-  }
+}
 </script>
 
 @endsection

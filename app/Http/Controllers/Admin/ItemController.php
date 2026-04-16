@@ -28,27 +28,6 @@ class ItemController extends Controller
     }
 
 
-    public function form(Request $request, $id = null)
-    {
-        $countries = Country::pluck('name', 'id');
-        $data = $id ? Item::find($id) : null;
-
-        return view('admin.item.form', compact('data', 'countries'));
-    }
-
-    public function getStates(Request $request)
-    {
-        $states = State::where('country_id', $request->country_id)->pluck('name', 'id');
-        return response()->json($states);
-    }
-
-    public function getCities(Request $request)
-    {
-        $cities = City::where('state_id', $request->state_id)->pluck('name', 'id');
-        return response()->json($cities);
-    }
-
-
     public function updateStatus($id)
     {
         try {

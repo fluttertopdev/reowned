@@ -30,8 +30,8 @@
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-    <!-- Dashboards -->
 
+    <!-- Dashboards -->
     <li class="menu-item {{ Route::is('dashboard.index') ? 'active' : '' }}">
       <a href="{{ route('dashboard.index') }}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
@@ -39,12 +39,7 @@
       </a>
     </li>
 
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text" data-i18n="{{__('lang.ads_listing')}}">{{__('lang.ads_listing')}}</span>
-    </li>
-
-
-    @can('category')
+    @can('category.index')
       <li class="menu-item {{ Request::routeIs('category.index', 'category.form') ? 'active' : '' }}">
         <a href="{{ route('category.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-category-2"></i>
@@ -53,35 +48,37 @@
       </li>
     @endcan
 
+    @canany(['tips.index','item.index'])
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text" data-i18n="{{__('lang.item_management')}}">{{__('lang.item_management')}}</span>
+      </li>
 
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text" data-i18n="{{__('lang.item_management')}}">{{__('lang.item_management')}}</span>
-    </li>
-
-    @can('tip')
-      <li
-        class="menu-item {{ Request::is('admin/tips*') || Request::is('admin/create-tips') || Request::is('admin/edit-tips*') ? 'active' : '' }}">
-        <a href="{{ url('admin/tips') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti  ti-info-circle"></i>
-          <div data-i18n="{{__('lang.tips')}}">{{__('lang.tips')}}</div>
+      @can('tips.index')
+        <li
+          class="menu-item {{ Request::is('admin/tips*') || Request::is('admin/create-tips') || Request::is('admin/edit-tips*') ? 'active' : '' }}">
+          <a href="{{ url('admin/tips') }}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-info-circle"></i>
+            <div data-i18n="{{__('lang.tips')}}">{{__('lang.tips')}}</div>
+          </a>
+        </li>
+      @endcan
+      
+      @can('item.index')
+      <li class="menu-item {{ Request::routeIs('item.index') || Request::routeIs('item.form') ? 'active' : '' }}">
+        <a href="{{ route('item.index') }}" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-package"></i>
+          <div data-i18n="{{ __('lang.item') }}">{{ __('lang.item') }}</div>
         </a>
       </li>
-    @endcan
-
-    <li class="menu-item {{ Request::routeIs('item.index') || Request::routeIs('item.form') ? 'active' : '' }}">
-      <a href="{{ route('item.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-package"></i>
-        <div data-i18n="{{ __('lang.item') }}">{{ __('lang.item') }}</div>
-      </a>
-    </li>
-
+      @endcan
+    @endcanany
+    
+    @canany(['customer.index','contact_us.index'])
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.customersmanagement')}}">{{__('lang.customersmanagement')}}</span>
     </li>
-
-
-    @can('customer')
+    @can('customer.index')
       <li
         class="menu-item {{ Request::routeIs('customer.index', 'customer.form', 'customer.adspackage', 'customer.itempackage', 'customer.userpackage') ? 'active' : '' }}">
         <a href="{{ route('customer.index') }}" class="menu-link">
@@ -91,7 +88,7 @@
       </li>
     @endcan
 
-    @can('customer')
+    @can('contact_us.index')
       <li
         class="menu-item {{ Request::routeIs('contact_us.index') ? 'active' : '' }}">
         <a href="{{ route('contact_us.index') }}" class="menu-link">
@@ -100,14 +97,15 @@
         </a>
       </li>
     @endcan
+    @endcanany
 
-
+    @canany(['seller.index','contact_us.index'])
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text" data-i18n="{{__('lang.sellermanagement')}}">{{__('lang.sellermanagement')}}</span>
     </li>
 
 
-    @can('seller-verification')
+    @can('seller.index')
       <li class="menu-item {{ Request::routeIs('seller.index', 'seller.form') ? 'active' : '' }}">
         <a href="{{ route('seller.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-shield-check"></i>
@@ -115,58 +113,64 @@
         </a>
       </li>
     @endcan
+    @endcanany
+    
+    @canany(['advertisement-package.index','item-listing-package.index','userpackage.index','transactions.index'])
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text"
+          data-i18n="{{__('lang.package_management')}}">{{__('lang.package_management')}}</span>
+      </li>
 
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text"
-        data-i18n="{{__('lang.package_management')}}">{{__('lang.package_management')}}</span>
-    </li>
+      @can('advertisement-package.index')
+        <li
+          class="menu-item {{ Request::routeIs('advertisement-package.index') || Request::routeIs('advertisement-package.form') ? 'active' : '' }}">
+          <a href="{{ route('advertisement-package.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+            <div data-i18n="{{__('lang.advertisement_package')}}">{{__('lang.advertisement_package')}}</div>
+          </a>
+        </li>
+      @endcan
 
-
-    @can('advertisementpackage')
+      @can('item-listing-package.index')
+        <li
+          class="menu-item {{ Request::routeIs('item-listing-package.index') || Request::routeIs('item-listing-package.form') ? 'active' : '' }}">
+          <a href="{{ route('item-listing-package.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-package"></i>
+            <div data-i18n="{{__('lang.item_listing_package')}}">{{__('lang.item_listing_package')}}</div>
+          </a>
+        </li>
+      @endcan
+      
+      @can('userpackage.index')
+        <li
+          class="menu-item {{ Request::routeIs('userpackage.index') || Request::routeIs('userpackage.form') ? 'active' : '' }}">
+          <a href="{{ route('userpackage.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-user-cog"></i>
+            <div data-i18n="{{__('lang.userpackages')}}">{{__('lang.userpackages')}}</div>
+          </a>
+        </li>
+      @endcan
+      
+      @can('transactions.index')
       <li
-        class="menu-item {{ Request::routeIs('advertisement-package.index') || Request::routeIs('advertisement-package.form') ? 'active' : '' }}">
-        <a href="{{ route('advertisement-package.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-chart-bar"></i>
-          <div data-i18n="{{__('lang.advertisement_package')}}">{{__('lang.advertisement_package')}}</div>
+        class="menu-item {{ Request::routeIs('transactions.index') || Request::routeIs('transactions.form') ? 'active' : '' }}">
+        <a href="{{ route('transactions.index') }}" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-credit-card"></i>
+          <div data-i18n="{{__('lang.paymenttransactions')}}">{{__('lang.paymenttransactions')}}</div>
         </a>
       </li>
-    @endcan
+      @endcan
 
-    @can('itempackage')
-      <li
-        class="menu-item {{ Request::routeIs('item-listing-package.index') || Request::routeIs('item-listing-package.form') ? 'active' : '' }}">
-        <a href="{{ route('item-listing-package.index') }}" class="menu-link">
-          <i class="menu-icon tf-icons ti ti-package"></i>
-          <div data-i18n="{{__('lang.item_listing_package')}}">{{__('lang.item_listing_package')}}</div>
-        </a>
-      </li>
-    @endcan
-
-    <li
-      class="menu-item {{ Request::routeIs('userpackage.index') || Request::routeIs('userpackage.form') ? 'active' : '' }}">
-      <a href="{{ route('userpackage.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-user-cog"></i>
-        <div data-i18n="{{__('lang.userpackages')}}">{{__('lang.userpackages')}}</div>
-      </a>
-    </li>
-
-
-    <li
-      class="menu-item {{ Request::routeIs('transactions.index') || Request::routeIs('transactions.form') ? 'active' : '' }}">
-      <a href="{{ route('transactions.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-credit-card"></i>
-        <div data-i18n="{{__('lang.paymenttransactions')}}">{{__('lang.paymenttransactions')}}</div>
-      </a>
-    </li>
-
+    @endcanany
+    
+    @canany(['userreport.index','reportreason.index'])
     <!-- Report -->
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.reports_management')}}">{{__('lang.reports_management')}}</span>
     </li>
 
-
-    @can('report-reason')
+    @can('reportreason.index')
       <li class="menu-item {{ Request::routeIs('reportreason.index', 'reportreason.form') ? 'active' : '' }}">
         <a href="{{ route('reportreason.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-alert-triangle"></i>
@@ -176,7 +180,7 @@
     @endcan
 
 
-    @can('user-report')
+    @can('userreport.index')
       <li class="menu-item {{ Request::routeIs('userreport.index', 'userreport.form') ? 'active' : '' }}">
         <a href="{{ route('userreport.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-user-question"></i>
@@ -185,41 +189,46 @@
       </li>
     @endcan
 
+    @endcanany
 
-
+    @canany(['staff.index','role.index'])
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text" data-i18n="{{__('lang.staff_management')}}">{{__('lang.staff_management')}}</span>
     </li>
 
-
+    @can('staff.index')
     <li class="menu-item {{ Request::routeIs('role.index') ? 'active' : '' }}">
       <a href="{{ route('role.index') }}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-key"></i>
         <div data-i18n="{{__('lang.role_permission')}}">{{__('lang.role_permission')}}</div>
       </a>
     </li>
-
+    @endcan
+    @can('role.index')
     <li class="menu-item {{ Request::routeIs('staff.index') || Request::routeIs('staff.form') ? 'active' : '' }}">
       <a href="{{ route('staff.index') }}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="{{__('lang.staff')}}">{{__('lang.staff')}}</div>
       </a>
     </li>
-
-
+    @endcan
+    @endcanany
+    
+    @canany(['banner.edit','cms.index','faq.index'])
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text" data-i18n="{{__('lang.website_management')}}">{{__('lang.website_management')}}</span>
     </li>
-
+    
+    @can('banner.edit')
     <li class="menu-item {{ Request::is('admin/banner/edit*') ? 'active' : '' }}">
       <a href="{{ url('admin/banner/edit') }}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-layout"></i>
         <div data-i18n="{{__('lang.banner')}}">{{__('lang.banner')}}</div>
       </a>
     </li>
+    @endcan
 
-
-    @can('cms')
+    @can('cms.index')
       <li
         class="menu-item {{ Request::is('admin/cms*') || Request::is('admin/create-cms') || Request::is('admin/edit-cms*') ? 'active' : '' }}">
         <a href="{{ url('admin/cms') }}" class="menu-link">
@@ -229,8 +238,7 @@
       </li>
     @endcan
 
-
-    @can('faq')
+    @can('faq.index')
       <li class="menu-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
         <a href="{{ route('faq.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-help-circle"></i>
@@ -238,13 +246,14 @@
         </a>
       </li>
     @endcan
-
+    @endcanany
+    
+    @canany(['language.index'])
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.language_management')}}">{{__('lang.language_managementlanguage_management')}}</span>
     </li>
-
-    @can('language')
+    @can('language.index')
       <li class="menu-item {{ Request::is('admin/language*') || Request::is('admin/translation*') ? 'active' : '' }}">
         <a href="{{ route('language.index') }}" class="menu-link">
           <i class="menu-icon tf-icons ti ti-language"></i>
@@ -252,8 +261,10 @@
         </a>
       </li>
     @endcan
+    @endcanany
 
 
+    @can('setting.index')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text"
         data-i18n="{{__('lang.setting_management')}}">{{__('lang.setting_management')}}</span>
@@ -267,7 +278,7 @@
       </a>
       <ul class="menu-sub">
 
-        @can('setting')
+        @can('setting.index')
           <li class="menu-item {{ Request::is('admin/setting*') ? 'active' : '' }}">
             <a href="{{ route('setting.index') }}" class="menu-link">
               <div data-i18n="{{__('lang.all_setting')}}">{{__('lang.all_setting')}}</div>
@@ -277,8 +288,7 @@
 
       </ul>
     </li>
-
-
+    @endcan
 
   </ul>
 </aside>

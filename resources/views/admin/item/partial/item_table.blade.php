@@ -41,9 +41,7 @@
                 </div>
                 <div class="col-sm-3 display-inline-block mb-3">
                     <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
-
                     <a type="reset" class="btn btn-outline-secondary" href="{{ route('item.index') }}">{{__('lang.reset')}}</a>
-
                 </div>
             </div>
         </form>
@@ -60,7 +58,9 @@
                         <th>{{__('lang.title')}}</th>
                         <th>{{__('lang.price')}}</th>
                         <th>{{__('lang.created_at')}}</th>
+                        @can('item.updateStatus')
                         <th>{{__('lang.status')}}</th>
+                        @endcan
                     </tr>
                 <tbody>
                     @if($result->count() > 0)
@@ -78,6 +78,7 @@
                         <td>{{ $row->title }}</td>
                         <td>{{ \Helpers::commonCurrencyFormate().$row->price }}</td>
                         <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
+                        @can('item.updateStatus')
                         <td>
                             <a href="{{ route('item.updateStatus', $row->id) }}">
                                 <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
@@ -85,6 +86,7 @@
                                 </span>
                             </a>
                         </td>
+                        @endcan
                     </tr>
                     @endforeach
                     @else

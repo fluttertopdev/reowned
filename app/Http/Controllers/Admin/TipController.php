@@ -17,11 +17,8 @@ class TipController extends Controller
 
     public function index(Request $request)
     {
-
         try {
             $data['result'] = Tips::getLists($request->all());
-
-
             return view('admin.tips.list', $data);
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
@@ -32,8 +29,6 @@ class TipController extends Controller
 
     public function create(Request $request)
     {
-
-
         return view('admin.tips.create');
     }
 
@@ -44,8 +39,6 @@ class TipController extends Controller
             'description' => 'required',
 
         ]);
-
-
 
         try {
             // Save the sanitized data
@@ -60,8 +53,6 @@ class TipController extends Controller
                 return redirect()->back()->with('error', $added['message']);
             }
         } catch (\Exception $ex) {
-
-
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
         }
     }
@@ -82,15 +73,11 @@ class TipController extends Controller
 
     public function update(Request $request)
     {
-
-
         $validatedData = $request->validate([
             'description' => 'required',
-
         ]);
+
         // **Sanitize Inputs**
-
-
         try {
             $updated = Tips::addUpdate($validatedData, $request->input('id'));
             if ($updated['status'] == true) {

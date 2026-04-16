@@ -30,11 +30,13 @@
                                             {{__('lang.description')}}({{ $language->name }})
                                         </label>
                                         <span class=" text-danger">*</span>
-                                         <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
-                         <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">
-                         {!! old('description.' . $loop->index, strip_tags($language->details->description ?? '')) !!}
-                             </textarea>
-                         <span id="error-{{ $language->code }}" class="text-danger"></span>
+                                        <input type="hidden" name="translation_id[]" value="{{ $language->details->id ?? null }}">
+                                        <input type="hidden" name="language_code[]" value="{{ $language->code }}">
+                                        <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
+                                        <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">
+                                        {!! old('description.' . $loop->index, strip_tags($language->details->description ?? '')) !!}
+                                        </textarea>
+                                        <span id="error-{{ $language->code }}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 @endforeach

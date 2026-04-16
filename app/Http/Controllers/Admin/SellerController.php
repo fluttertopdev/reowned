@@ -44,9 +44,9 @@ class SellerController extends Controller
             'email' => 'required|email',
             'phone' => 'required|numeric|digits_between:7,15',
             'address' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'id_proof_front' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'id_proof_back' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id_proof_front' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id_proof_back' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         // **Sanitize Inputs**
         $validatedData['name'] = htmlspecialchars(strip_tags($validatedData['name']), ENT_QUOTES, 'UTF-8'); // Prevent XSS

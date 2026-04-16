@@ -19,6 +19,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,HasRoles,SoftDeletes;
 
+    protected $guard_name = 'admin';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -315,7 +317,6 @@ class User extends Authenticatable
     }
 
 
-
     public static function updateStatus($id)
     {
         try {
@@ -326,6 +327,80 @@ class User extends Authenticatable
         } catch (\Exception $e) {
             \Log::error("Error in updateStatusColumn: {$e->getMessage()}", ['line' => $e->getLine(), 'file' => $e->getFile()]);
             return ['status' => false, 'message' => __('lang.admin_data_error_msg')];
+        }
+    }
+
+    // =============================Staff==============================
+    public static function getStaffLists($search)
+    {
+        try {
+            return self::query()
+                ->where('type', 'staff') // Added condition to filter only 'staff'
+                ->when(
+                    !empty($search['name']),
+                    fn($query) =>
+                    $query->where('name', 'like', "%" . trim($search['name']) . "%")
+                )
+                ->when(
+                    isset($search['status']) && $search['status'] !== '',
+                    fn($query) =>
+                    $query->where('status', $search['status'])
+                )
+                ->latest('id')
+                ->paginate($search['pageno'] ?? config('constant.pagination'))
+                ->withQueryString();
+        } catch (\Exception $e) {
+            return [
+                'status'  => false,
+                'message' => "{$e->getMessage()} at line {$e->getLine()} in file {$e->getFile()}"
+            ];
+        }
+    }
+
+
+    public static function addUpdateStaff($data, $id = 0)
+    {
+        try {
+            unset($data['_token']);
+
+            // Hash password only if it's set
+            if (!empty($data['password'])) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
+
+            $data['type'] = 'staff';
+            $data[$id ? 'updated_at' : 'created_at'] = now();
+
+            if ($id == 0) {
+                $user = self::create($data);
+
+                if (!empty($data['role_id'])) {
+                    $role = \Spatie\Permission\Models\Role::find($data['role_id']);
+                    if ($role) {
+                        $user->assignRole($role);
+                    }
+                }
+                return ['status' => true, 'message' => __('lang.admin_data_add_msg')];
+            }
+
+            $user = self::findOrFail($id);
+            $user->update($data);
+
+            if (!empty($data['role_id'])) {
+                $role = \Spatie\Permission\Models\Role::find($data['role_id']);
+                if ($role) {
+                    $user->syncRoles([$role]);
+                }
+            }
+            return ['status' => true, 'message' => __('lang.admin_data_update_msg')];
+
+        } catch (\Exception $e) {
+            return [
+                'status'  => false,
+                'message' => "{$e->getMessage()} at line {$e->getLine()} in file {$e->getFile()}"
+            ];
         }
     }
 

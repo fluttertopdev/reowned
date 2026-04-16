@@ -79,6 +79,11 @@ Route::middleware(['website-language:web'])->group(function () {
             Route::get('/listing', [SellController::class, 'sellListing'])
                 ->name('listing');
 
+            Route::get('/edit-listing/{id}', [SellController::class, 'sellEditListing'])
+                ->name('edit-listing');
+
+            Route::post('/update', [SellController::class, 'update'])
+                ->name('update');
 
             Route::get('/load-more-items', [SellController::class, 'loadMoreItems'])
             ->name('load.more.items');

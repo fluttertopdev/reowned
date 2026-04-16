@@ -1808,6 +1808,34 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'featured',
                 'value' => 'Featured'
             ),
+            array(
+                'keyword' => 'idproofback',
+                'value' => 'Idproofback'
+            ),
+            array(
+                'keyword' => 'admin_edit',
+                'value' => 'Edit'
+            ),
+            array(
+                'keyword' => 'admin_delete',
+                'value' => 'Delete'
+            ),
+            array(
+                'keyword' => 'admin_action',
+                'value' => 'Action'
+            ),
+            array(
+                'keyword' => 'admin_role',
+                'value' => 'Role'
+            ),
+            array(
+                'keyword' => 'admin_select_role',
+                'value' => 'Select Role'
+            ),
+            array(
+                'keyword' => 'admin_account_inactive_msg',
+                'value' => 'Your account is deactivated by admin!'
+            ),
             
         );
 

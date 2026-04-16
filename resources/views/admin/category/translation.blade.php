@@ -29,7 +29,7 @@
                                         <label for="translated-name-{{ $language->language_code }}" class="form-label">
                                             {{__('lang.name')}} ({{ $language->name }})
                                         </label>
-                                           <span class=" text-danger">*</span>
+                                        <span class=" text-danger">*</span>
                                         <input type="hidden" name="translation_id[]" value="{{ $language->details->id ?? null }}">
                                         <input type="hidden" name="language_code[]" value="{{ $language->code }}">
                                         <input type="text" class="form-control @error('name.' . $loop->index) is-invalid @enderror"

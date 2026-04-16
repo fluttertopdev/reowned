@@ -64,8 +64,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin-language' => \App\Http\Middleware\CheckAdminLanguage::class,
-        'staff-language' => \App\Http\Middleware\CheckStaffLanguage::class,
         'website-language' => \App\Http\Middleware\CheckWebsiteLanguage::class,
+        'permission' => \App\Http\Middleware\CheckPermissions::class,
     ];
 
     protected $routeMiddleware = [

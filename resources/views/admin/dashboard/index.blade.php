@@ -22,20 +22,26 @@
             <div class="w-100">
               <div class="row gy-3">
                 <div class="col-md-3 col-6">
+                  @can('category.index')
                     <a href="{{url('admin/category')}}">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded bg-label-primary me-4 p-2">
-                              <i class="ti ti-category ti-lg"></i>
-                            </div>
-                            <div class="card-info">
-                              <h5 class="mb-0">{{$categoryCount}}</h5>
-                              <small>{{__('lang.categories')}}</small>
-                            </div>
+                  @endcan
+                      <div class="d-flex align-items-center">
+                        <div class="badge rounded bg-label-primary me-4 p-2">
+                          <i class="ti ti-category ti-lg"></i>
                         </div>
+                        <div class="card-info">
+                          <h5 class="mb-0">{{$categoryCount}}</h5>
+                          <small>{{__('lang.categories')}}</small>
+                        </div>
+                      </div>
+                  @can('category.index')
                     </a>
+                  @endcan
                 </div>
                 <div class="col-md-3 col-6">
+                  @can('customer.index')
                     <a href="{{url('admin/customer')}}">
+                  @endcan
                         <div class="d-flex align-items-center">
                             <div class="badge rounded bg-label-info me-4 p-2"><i class="ti ti-users ti-lg"></i></div>
                             <div class="card-info">
@@ -43,33 +49,43 @@
                               <small>{{__('lang.customers')}}</small>
                             </div>
                         </div>
+                  @can('customer.index')
                     </a>
+                  @endcan
                 </div>
                 <div class="col-md-3 col-6">
+                  @can('item.index')
                     <a href="{{url('admin/item')}}">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded bg-label-danger me-4 p-2">
-                              <i class="ti ti-package ti-lg"></i>
-                            </div>
-                            <div class="card-info">
-                              <h5 class="mb-0">{{$itemCount}}</h5>
-                              <small>{{__('lang.item')}}</small>
-                            </div>
+                  @endcan
+                    <div class="d-flex align-items-center">
+                        <div class="badge rounded bg-label-danger me-4 p-2">
+                          <i class="ti ti-package ti-lg"></i>
                         </div>
+                        <div class="card-info">
+                          <h5 class="mb-0">{{$itemCount}}</h5>
+                          <small>{{__('lang.item')}}</small>
+                        </div>
+                    </div>
+                  @can('item.index')
                     </a>
+                  @endcan
                 </div>
                 <div class="col-md-3 col-6">
+                  @can('contact_us.index')
                     <a href="{{url('admin/contact_us')}}">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded bg-label-success me-4 p-2">
-                              <i class=" ti ti-article ti-lg"></i>
-                            </div>
-                            <div class="card-info">
-                              <h5 class="mb-0">{{$contactusCount}}</h5>
-                              <small>{{__('lang.contact_us')}}</small>
-                            </div>
+                  @endcan
+                    <div class="d-flex align-items-center">
+                        <div class="badge rounded bg-label-success me-4 p-2">
+                          <i class=" ti ti-article ti-lg"></i>
                         </div>
+                        <div class="card-info">
+                          <h5 class="mb-0">{{$contactusCount}}</h5>
+                          <small>{{__('lang.contact_us')}}</small>
+                        </div>
+                    </div>
+                  @can('contact_us.index')
                     </a>
+                  @endcan
                 </div>
               </div>
             </div>

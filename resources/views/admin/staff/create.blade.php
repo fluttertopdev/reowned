@@ -13,8 +13,22 @@
                 <input type="hidden" name="id" value="{{ $data->id }}">
                 @endif
                 <input type="hidden" name="type" value="staff">
-                <input type="hidden" name="role_id" value="2">
+        
                 <div class="row g-6">
+                    <div class="col-md-6">
+                        <label class="form-label" for="role_id">{{__('lang.admin_role')}} 
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control form-select select2" id="role_id" name="role_id" required>
+                            <option value="">{{__('lang.admin_select_role')}}</option>
+                            @if(isset($roles) && count($roles))
+                                @foreach($roles as $role)
+                                    <option {{$data!='' ? $data->role_id == $role->id ? 'selected' : '' : ''}} value="{{$role->id}}">{{$role->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-username">{{__('lang.name')}}</label>
                         <span class=" text-danger">*</span>
@@ -36,7 +50,7 @@
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-phone">{{__('lang.phone')}}</label>
                         <span class=" text-danger">*</span>
-                        <input type="text" id="multicol-phone" name="phone" class="form-control" placeholder="{{__('lang.phone')}}" value="{{ old('phone', $data->phone ?? '') }}" />
+                        <input type="number" id="multicol-phone" name="phone" class="form-control" placeholder="{{__('lang.phone')}}" value="{{ old('phone', $data->phone ?? '') }}" />
                         @error('phone')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror

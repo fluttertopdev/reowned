@@ -293,6 +293,48 @@ class TranslationWebsiteSeeder extends Seeder
             ['keyword' => 'grid_view', 'value' => 'Grid View'],
             ['keyword' => 'save', 'value' => 'Save'],
 
+            array(
+                'keyword' => 'edit_listing',
+                'value' => 'Edit Listing'
+            ),
+            array(
+                'keyword' => 'update_listing',
+                'value' => 'Update Listing'
+            ),
+            array(
+                'keyword' => 'category',
+                'value' => 'Category'
+            ),
+            array(
+                'keyword' => 'item_sold_msg',
+                'value' => 'This Item Is Already Sold'
+            ),
+            array(
+                'keyword' => 'item_already_sold_msg',
+                'value' => 'Item Already Marked As Sold'
+            ),
+            array(
+                'keyword' => 'item_marked_sold_success_msg',
+                'value' => 'Item Marked As Sold Successfully'
+            ),
+            array(
+                'keyword' => 'listing_update_success_msg',
+                'value' => 'Listing Updated Successfully'
+            ),
+            array(
+                'keyword' => 'mark_as_sold_swal_msg',
+                'value' => 'You Want To Mark This Item As Sold'
+            ),
+            array(
+                'keyword' => 'mark_as_sold_swal_btn_text',
+                'value' => 'Yes, Mark As Sold!'
+            ),
+            array(
+                'keyword' => 'approved_items_can_be_marked_as_sold',
+                'value' => 'Only Approved Items Can Be Marked As Sold'
+            )
+
+
         ];
 
         $languages = Language::where('code','en')->get();

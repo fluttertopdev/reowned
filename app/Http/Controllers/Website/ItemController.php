@@ -147,6 +147,10 @@ class ItemController extends Controller
 
         if(!$isOwner){
 
+            if ($item->is_sold == 1) {
+                return redirect()->back()->with('error', __('lang.website.item_sold_msg'));
+            }
+
             // LOCATION CHECK
             if($lat && $lng && $item->latitude && $item->longitude){
 

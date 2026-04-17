@@ -7,6 +7,11 @@ return [
         '0'  => 'Deactive',
     ],
 
+    'sold_status_types' => [
+        '1'   => 'Sold',
+        '0'  => 'Available',
+    ],
+
     'slider_type' => [
         'category'  => 'Category',
         'externallink'  => 'External link',

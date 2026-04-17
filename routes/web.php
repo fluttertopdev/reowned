@@ -129,7 +129,7 @@ Route::middleware('admin-language')->group(function () {
       )->name('user-query.export.pdf');
     });
 
-    // Route::middleware(['permission'])->group(function () {
+    Route::middleware(['permission'])->group(function () {
 
       // category routing start
       Route::prefix('category')->controller(CategoryController::class)->group(function () {
@@ -283,7 +283,7 @@ Route::middleware('admin-language')->group(function () {
       // item management routing start here
       Route::prefix('item')->controller(ItemController::class)->group(function () {
         Route::get('/', 'index')->name('item.index');
-        Route::get('/status/{id}', 'updateStatus')->name('item.updateStatus');
+        Route::get('item/status/{id}/{status}', [ItemController::class, 'updateStatus'])->name('item.updateStatus');
       });
       // item management routing end here
 
@@ -350,7 +350,7 @@ Route::middleware('admin-language')->group(function () {
       });
       // reviews management routing end  here
 
-    // });
+    });
     
   });
 

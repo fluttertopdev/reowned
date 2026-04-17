@@ -3,7 +3,7 @@
 
     <div class="container">
         <div class="brudcrum">
-            <ul>
+            <ul class="mt-3">
                 <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
                 <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
                 <li><a href="{{url('categories')}}">{{ __('lang.website.all_categories') }}</a></li>
@@ -11,7 +11,7 @@
                 <li class="active">{{ ucfirst($slug) ?? __('lang.website.search_result')  }}</li>
             </ul>
         </div>
-        <h2 class="title-page">{{ucfirst($slug)}} __('lang.website.category') </h2>
+        <h4 class="title-page">{{ucfirst($slug)}} {{__('lang.website.category')}} </h4>
         <div class="designer-row-box-saction">
             <div class="row">
                 <div class="col-md-4" id="filterContainer">

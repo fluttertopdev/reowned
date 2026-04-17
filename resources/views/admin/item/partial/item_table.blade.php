@@ -40,6 +40,16 @@
                     </select>
                 </div>
                 <div class="col-sm-3 display-inline-block mb-3">
+                    <select class="form-control select2 form-select" name="is_sold">
+                        <option value="" {{ is_null(request('is_sold')) ? 'selected' : '' }}>{{__('lang.select_sold_status')}}</option>
+                        @foreach(config('constants.sold_status_types') as $value => $label)
+                        <option value="{{ $value }}" {{ request('is_sold') !== null && request('is_sold') == $value ? 'selected' : '' }}>
+                            {{ $label }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-3 display-inline-block mb-3">
                     <button type="submit" class="btn btn-primary data-submit">{{__('lang.search')}}</button>
                     <a type="reset" class="btn btn-outline-secondary" href="{{ route('item.index') }}">{{__('lang.reset')}}</a>
                 </div>
@@ -80,11 +90,41 @@
                         <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
                         @can('item.updateStatus')
                         <td>
-                            <a href="{{ route('item.updateStatus', $row->id) }}">
-                                <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
-                                    {{ $row->status == 1 ? __('lang.active') : __('lang.deactive') }}
-                                </span>
-                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-warning dropdown-toggle" data-bs-toggle="dropdown">
+                                    {{ $row->status == 0 
+                                        ? __('lang.under_review') 
+                                        : ($row->status == 1 
+                                            ? __('lang.approved') 
+                                            : __('lang.rejected')) 
+                                    }}
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('item.updateStatus', [$row->id, 0]) }}">
+                                            {{ __('lang.under_review') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('item.updateStatus', [$row->id, 1]) }}">
+                                            {{ __('lang.approve') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="{{ route('item.updateStatus', [$row->id, 2]) }}">
+                                            {{ __('lang.reject') }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-2">
+                                @if($row->is_sold == 1)
+                                    <span class="badge bg-danger">{{ __('lang.sold') }}</span>
+                                @else
+                                    <span class="badge bg-success">{{ __('lang.available') }}</span>
+                                @endif
+                            </div>   
                         </td>
                         @endcan
                     </tr>

@@ -61,17 +61,8 @@
                     @foreach($customFields as $field)
 
                         @php
-                            $value = old('custom_fields.'.$field->id, $field->value);
-
-                            // Normalize values
-                            if (is_array($value)) {
-                                $valueArray = $value;
-                            } elseif (!empty($value)) {
-                                $decoded = json_decode($value, true);
-                                $valueArray = is_array($decoded) ? $decoded : [$value];
-                            } else {
-                                $valueArray = [];
-                            }
+                            $valueArray = old('custom_fields.'.$field->id, $field->value ?? []);
+                            $valueArray = is_array($valueArray) ? $valueArray : [$valueArray];
                         @endphp
 
                         <div class="mb-4 mt-3">
@@ -85,12 +76,14 @@
                             @if(in_array($field->field_type, ['number','textbox']))
                                 <input type="text"
                                     name="custom_fields[{{ $field->id }}]"
-                                    value="{{ $value }}"
+                                    value="{{ $valueArray[0] ?? '' }}"
                                     class="form-control">
 
                             {{-- TEXTAREA --}}
                             @elseif($field->field_type == 'textarea')
-                                <textarea name="custom_fields[{{ $field->id }}]" class="form-control">{{ $value }}</textarea>
+                                <textarea name="custom_fields[{{ $field->id }}]" class="form-control">
+                                    {{ $valueArray[0] ?? '' }}
+                                </textarea>
 
                             {{-- DROPDOWN --}}
                             @elseif($field->field_type == 'dropdown')
@@ -98,7 +91,7 @@
                                     <option value="">Select</option>
                                     @foreach($field->options as $option)
                                         <option value="{{ $option->option_value }}"
-                                            {{ (string)$value === (string)$option->option_value ? 'selected' : '' }}>
+                                            {{ in_array(trim($option->option_value), array_map('trim', $valueArray)) ? 'selected' : '' }}>
                                             {{ $option->option_value }}
                                         </option>
                                     @endforeach
@@ -109,9 +102,9 @@
                                 @foreach($field->options as $option)
                                     <div class="form-check">
                                         <input type="radio"
-                                            name="custom_fields[{{ $field->id }}]"
-                                            value="{{ $option->option_value }}"
-                                            {{ (string)$value === (string)$option->option_value ? 'checked' : '' }}>
+                                        name="custom_fields[{{ $field->id }}]"
+                                        value="{{ $option->option_value }}"
+                                        {{ in_array(trim($option->option_value), array_map('trim', $valueArray)) ? 'checked' : '' }}>
                                         <label>{{ $option->option_value }}</label>
                                     </div>
                                 @endforeach
@@ -121,9 +114,9 @@
                                 @foreach($field->options as $option)
                                     <div class="form-check">
                                         <input type="checkbox"
-                                            name="custom_fields[{{ $field->id }}][]"
-                                            value="{{ $option->option_value }}"
-                                            {{ in_array((string)$option->option_value, array_map('strval', $valueArray)) ? 'checked' : '' }}>
+                                        name="custom_fields[{{ $field->id }}][]"
+                                        value="{{ $option->option_value }}"
+                                        {{ in_array(trim($option->option_value), array_map('trim', $valueArray)) ? 'checked' : '' }}>
                                         <label>{{ $option->option_value }}</label>
                                     </div>
                                 @endforeach

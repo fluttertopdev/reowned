@@ -28,17 +28,15 @@ class ItemController extends Controller
     }
 
 
-    public function updateStatus($id)
+    public function updateStatus($id, $status)
     {
         try {
-            $updated = Item::updateColumn($id);
-            if ($updated['status'] == true) {
-                return redirect()->back()->with('success', $updated['message']);
-            } else {
-                return redirect()->back()->with('error', $updated['message']);
-            }
+            $updated = Item::updateColumn($id, $status);
+
+            return back()->with($updated['status'] ? 'success' : 'error', $updated['message']);
+
         } catch (\Exception $ex) {
-            return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
+            return back()->with('error', $ex->getMessage());
         }
     }
 

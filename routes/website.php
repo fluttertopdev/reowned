@@ -88,6 +88,8 @@ Route::middleware(['website-language:web'])->group(function () {
             Route::get('/load-more-items', [SellController::class, 'loadMoreItems'])
             ->name('load.more.items');
 
+            Route::post('/mark-sold/{id}', [SellController::class, 'markAsSold'])->name('item.markSold');
+
         });
     });
 

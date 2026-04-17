@@ -1836,6 +1836,51 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'admin_account_inactive_msg',
                 'value' => 'Your account is deactivated by admin!'
             ),
+            array(
+                'keyword' => 'under_review',
+                'value' => 'Under Review'
+            ),
+            array(
+                'keyword' => 'rejected',
+                'value' => 'Rejected'
+            ),
+            array(
+                'keyword' => 'approve',
+                'value' => 'Approve'
+            ),
+            array(
+                'keyword' => 'reject',
+                'value' => 'Reject'
+            ),
+            array(
+                'keyword' => 'sold',
+                'value' => 'Sold'
+            ),
+            array(
+                'keyword' => 'available',
+                'value' => 'Available'
+            ),
+            array(
+                'keyword' => 'admin_all_assign_package',
+                'value' => 'All Assign Package'
+            ),
+            array(
+                'keyword' => 'admin_all_user_package',
+                'value' => 'All User Package'
+            ),
+            array(
+                'keyword' => 'admin_all_reply',
+                'value' => 'All Reply'
+            ),
+            array(
+                'keyword' => 'admin_all_translation',
+                'value' => 'All Translation'
+            ),
+            array(
+                'keyword' => 'select_sold_status',
+                'value' => 'Select Sold Status'
+            ),
+               
             
         );
 

@@ -44,6 +44,7 @@ class HomeController extends Controller
         // Base Query (COMMON)
         $baseQuery = Item::where('items.status',1)
             ->where('user_id','!=',$userId)
+            ->where('is_sold', 0)
             ->whereNull('items.deleted_at')
             ->with(['latestImage'])
             ->withExists(['favorites as is_favorite' => function($q) use ($userId){
@@ -166,6 +167,7 @@ class HomeController extends Controller
         // Base Query
         $query = Item::where('items.status',1)
             ->where('user_id','!=',$userId)
+            ->where('is_sold', 0)
             ->whereNull('items.deleted_at')
             ->with('latestImage');
 

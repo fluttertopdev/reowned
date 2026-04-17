@@ -93,34 +93,60 @@
                                                         <div class="col-12 mb-4">
                                                             <h5>{{__('lang.admin_role_permissions')}}</h5>
                                                             <div class="row mb-3">
-                                                                <div class="col">
+                                                                <div class="col-md-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input permission-all-checkbox_List" type="checkbox" value="List" data-permission="List" onclick="selectAllSameData('permission-all-checkbox_List','permission-checkbox_List');" />
                                                                         <label class="form-check-label" for="{{__('lang.admin_all_list')}}">{{__('lang.admin_all_list')}}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
+                                                                <div class="col-md-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input permission-all-checkbox_Add" type="checkbox" value="Add" data-permission="Add" onclick="selectAllSameData('permission-all-checkbox_Add','permission-checkbox_Add');" />
                                                                         <label class="form-check-label" for="{{__('lang.admin_all_add')}}">{{__('lang.admin_all_add')}}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
+                                                                <div class="col-md-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input permission-all-checkbox_Update" type="checkbox" value="Update" data-permission="Update" onclick="selectAllSameData('permission-all-checkbox_Update','permission-checkbox_Update');" />
                                                                         <label class="form-check-label" for="{{__('lang.admin_all_update')}}">{{__('lang.admin_all_update')}}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
+                                                                <div class="col-md-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input permission-all-checkbox_Status" type="checkbox" data-permission="Status" onclick="selectAllSameData('permission-all-checkbox_Status','permission-checkbox_Status');" />
                                                                         <label class="form-check-label" for="{{__('lang.admin_all_status_change')}}">{{__('lang.admin_all_status_change')}}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
+                                                                <div class="col-md-2">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input permission-all-checkbox_Delete" type="checkbox" value="Delete" data-permission="Delete" onclick="selectAllSameData('permission-all-checkbox_Delete','permission-checkbox_Delete');" />
                                                                         <label class="form-check-label" for="{{__('lang.admin_all_delete')}}">{{__('lang.admin_all_delete')}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input permission-all-checkbox_Translation" type="checkbox" value="Translation" data-permission="Translation" onclick="selectAllSameData('permission-all-checkbox_Translation','permission-checkbox_Translation');" />
+                                                                        <label class="form-check-label" for="{{__('lang.admin_all_translation')}}">{{__('lang.admin_all_translation')}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input permission-all-checkbox_Reply" type="checkbox" value="Reply" data-permission="Reply" onclick="selectAllSameData('permission-all-checkbox_Reply','permission-checkbox_Reply');" />
+                                                                        <label class="form-check-label" for="{{__('lang.admin_all_reply')}}">{{__('lang.admin_all_reply')}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input permission-all-checkbox_Assign_Package"type="checkbox" onclick="selectAllSameData('permission-all-checkbox_Assign_Package','permission-checkbox_Assign_Package');" />
+
+
+                                                                        <label class="form-check-label" for="{{__('lang.admin_all_Assign Package')}}">{{__('lang.admin_all_assign_package')}}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input permission-all-checkbox_User_Package"type="checkbox" onclick="selectAllSameData('permission-all-checkbox_User_Package','permission-checkbox_User_Package');" />
+                                                                        <label class="form-check-label" for="{{__('lang.admin_all_userPackage')}}">{{__('lang.admin_all_user_package')}}</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -144,12 +170,18 @@
                                                                                 <div class="d-flex flex-wrap gap-2">
                                                                                     @foreach($value->permission as $detail)
                                                                                     <div class="form-check me-3">
-                                                                                        @if($detail->permission_name == 'Status Change')
-                                                                                        <input class="form-check-input permission-checkbox_Status" type="checkbox" id="{{ $detail->name }}" name="permission[]" value="{{$detail->id}}" {{\Helpers::checkRoleHasPermission($row->id, $detail->id) || $detail->is_default ? 'checked' : ''}} @if($detail->name == 'dashboard') onclick="return false;" @endif/>
-                                                                                        @else
-                                                                                        <input class="form-check-input permission-checkbox_{{ $detail->permission_name }}" type="checkbox" id="{{ $detail->name }}" name="permission[]" value="{{$detail->id}}" {{\Helpers::checkRoleHasPermission($row->id, $detail->id) || $detail->is_default ? 'checked' : ''}} @if($detail->name == 'dashboard') onclick="return false;" @endif
+                                                                                        @php
+                                                                                            $className = str_replace(' ', '_', $detail->permission_name);
+                                                                                        @endphp
+
+                                                                                        <input class="form-check-input permission-checkbox_{{ $className }}"
+                                                                                               type="checkbox"
+                                                                                               id="{{ $detail->name }}"
+                                                                                               name="permission[]"
+                                                                                               value="{{$detail->id}}"
+                                                                                               {{ \Helpers::checkRoleHasPermission($row->id, $detail->id) || $detail->is_default ? 'checked' : '' }}
+                                                                                               @if($detail->name == 'dashboard') onclick="return false;" @endif
                                                                                         />
-                                                                                        @endif
                                                                                         <label class="form-check-label" for="{{ $detail->name }}"> {{ $detail->permission_name }} </label>
                                                                                     </div>
                                                                                     @endforeach
@@ -230,34 +262,60 @@
                         <div class="col-12 mb-4">
                             <h5>{{__('lang.admin_role_permissions')}}</h5>
                             <div class="row mb-3">
-                                <div class="col">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <input class="form-check-input permission-all-checkbox_List" type="checkbox" value="List" data-permission="List" onclick="selectAllSameData('permission-all-checkbox_List','permission-checkbox_List');" />
                                         <label class="form-check-label" for="{{__('lang.admin_all_list')}}">{{__('lang.admin_all_list')}}</label>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <input class="form-check-input permission-all-checkbox_Add" type="checkbox" value="Add" data-permission="Add" onclick="selectAllSameData('permission-all-checkbox_Add','permission-checkbox_Add');" />
                                         <label class="form-check-label" for="{{__('lang.admin_all_add')}}">{{__('lang.admin_all_add')}}</label>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <input class="form-check-input permission-all-checkbox_Update" type="checkbox" value="Update" data-permission="Update" onclick="selectAllSameData('permission-all-checkbox_Update','permission-checkbox_Update');" />
                                         <label class="form-check-label" for="{{__('lang.admin_all_update')}}">{{__('lang.admin_all_update')}}</label>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <input class="form-check-input permission-all-checkbox_Status" type="checkbox" data-permission="Status" onclick="selectAllSameData('permission-all-checkbox_Status','permission-checkbox_Status');" />
                                         <label class="form-check-label" for="{{__('lang.admin_all_status_change')}}">{{__('lang.admin_all_status_change')}}</label>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <input class="form-check-input permission-all-checkbox_Delete" type="checkbox" value="Delete" data-permission="Delete" onclick="selectAllSameData('permission-all-checkbox_Delete','permission-checkbox_Delete');" />
                                         <label class="form-check-label" for="{{__('lang.admin_all_delete')}}">{{__('lang.admin_all_delete')}}</label>
+                                    </div>
+                                </div>                     
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input permission-all-checkbox_Translation" type="checkbox" value="Translation" data-permission="Translation" onclick="selectAllSameData('permission-all-checkbox_Translation','permission-checkbox_Translation');" />
+                                        <label class="form-check-label" for="{{__('lang.admin_all_translation')}}">{{__('lang.admin_all_translation')}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input permission-all-checkbox_Reply" type="checkbox" value="Reply" data-permission="Reply" onclick="selectAllSameData('permission-all-checkbox_Reply','permission-checkbox_Reply');" />
+                                        <label class="form-check-label" for="{{__('lang.admin_all_reply')}}">{{__('lang.admin_all_reply')}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input permission-all-checkbox_Assign_Package"type="checkbox" onclick="selectAllSameData('permission-all-checkbox_Assign_Package','permission-checkbox_Assign_Package');" />
+
+
+                                        <label class="form-check-label" for="{{__('lang.admin_all_Assign Package')}}">{{__('lang.admin_all_assign_package')}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input permission-all-checkbox_User_Package"type="checkbox" onclick="selectAllSameData('permission-all-checkbox_User_Package','permission-checkbox_User_Package');" />
+                                        <label class="form-check-label" for="{{__('lang.admin_all_userPackage')}}">{{__('lang.admin_all_user_package')}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -275,24 +333,41 @@
                                     </thead>
                                     <tbody>
                                         @foreach($permission as $value)
-                                        <tr>
-                                            <td class="fw-semibold">{{$value->permission[0]->module}}</td>
-                                            <td>
-                                                <div class="d-flex flex-wrap gap-2">
-                                                    @foreach($value->permission as $detail)
-                                                    <div class="form-check me-3">
-                                                        <input class="form-check-input permission-checkbox_{{ $detail->permission_name }}" type="checkbox" id="{{ $detail->name }}" name="permission[]" value="{{$detail->id}}" {{ $detail->is_default || $detail->permission_name == 'dashboard' ? 'checked' : '' }}
-                                                            data-permission="{{ $detail->permission_name }}"
-                                                            @if($detail->name == 'dashboard')
-                                                        onclick="return false;"
-                                                        @endif />
-                                                        <label class="form-check-label" for="{{ $detail->name }}"> {{ $detail->permission_name }} </label>
+                                            <tr>
+                                                <td class="fw-semibold">{{$value->permission[0]->module}}</td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        @foreach($value->permission as $detail)
+
+                                                        @php
+                                                            $className = str_replace(' ', '_', $detail->permission_name);
+                                                        @endphp
+
+                                                        <div class="form-check me-3">
+                                                            <input class="form-check-input permission-checkbox_{{ $className }}"
+                                                                   type="checkbox"
+                                                                   id="{{ $detail->name }}"
+                                                                   name="permission[]"
+                                                                   value="{{$detail->id}}"
+                                                                   {{ $detail->is_default || $detail->permission_name == 'dashboard' ? 'checked' : '' }}
+
+                                                                   data-permission="{{ $className }}"
+
+                                                                   @if($detail->name == 'dashboard')
+                                                                   onclick="return false;"
+                                                                   @endif
+                                                            />
+
+                                                            <label class="form-check-label" for="{{ $detail->name }}">
+                                                                {{ $detail->permission_name }}
+                                                            </label>
+                                                        </div>
+
+                                                        @endforeach
                                                     </div>
-                                                    @endforeach
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                     </tbody>
                                 </table>
                             </div>

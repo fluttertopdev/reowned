@@ -290,6 +290,46 @@ class TranslationWebsiteArabicSeeder extends Seeder
             ['keyword' => 'list_view', 'value' => 'عرض القائمة'],
             ['keyword' => 'grid_view', 'value' => 'عرض الشبكة'],
             ['keyword' => 'save', 'value' => 'حفظ'],
+            array(
+                'keyword' => 'edit_listing',
+                'value' => 'تعديل القائمة'
+            ),
+            array(
+                'keyword' => 'update_listing',
+                'value' => 'تحديث القائمة'
+            ),
+            array(
+                'keyword' => 'category',
+                'value' => 'الفئة'
+            ),
+            array(
+                'keyword' => 'item_sold_msg',
+                'value' => 'هذا العنصر قد تم بيعه بالفعل'
+            ),
+            array(
+                'keyword' => 'item_already_sold_msg',
+                'value' => 'تم تحديد العنصر كـ "تم بيعه" بالفعل'
+            ),
+            array(
+                'keyword' => 'item_marked_sold_success_msg',
+                'value' => 'تم تحديد العنصر كـ "تم بيعه" بنجاح'
+            ),
+            array(
+                'keyword' => 'listing_update_success_msg',
+                'value' => 'تم تحديث القائمة بنجاح'
+            ),
+            array(
+                'keyword' => 'mark_as_sold_swal_msg',
+                'value' => 'هل تريد تحديد هذا العنصر كـ "تم بيعه"؟'
+            ),
+            array(
+                'keyword' => 'mark_as_sold_swal_btn_text',
+                'value' => 'نعم، حدد كـ "تم بيعه"!'
+            ),
+            array(
+                'keyword' => 'approved_items_can_be_marked_as_sold',
+                'value' => 'فقط العناصر الموافق عليها يمكن تحديدها كـ "تم بيعه"'
+            ),
         ];
 
         $languages = Language::where('code','ar')->get();

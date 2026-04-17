@@ -1812,6 +1812,51 @@ class TranslationAdminArabicSeeder extends Seeder
                 'keyword' => 'admin_account_inactive_msg',
                 'value' => 'تم إلغاء تنشيط حسابك بواسطة المشرف!'
             ),
+            array(
+                'keyword' => 'under_review',
+                'value' => 'قيد المراجعة'
+            ),
+            array(
+                'keyword' => 'rejected',
+                'value' => 'مرفوض'
+            ),
+            array(
+                'keyword' => 'approve',
+                'value' => 'موافقة'
+            ),
+            array(
+                'keyword' => 'reject',
+                'value' => 'رفض'
+            ),
+            array(
+                'keyword' => 'sold',
+                'value' => 'تم البيع'
+            ),
+            array(
+                'keyword' => 'available',
+                'value' => 'متاح'
+            ),
+            array(
+                'keyword' => 'admin_all_assign_package',
+                'value' => 'جميع الباقات المعينة'
+            ),
+            array(
+                'keyword' => 'admin_all_user_package',
+                'value' => 'جميع باقات المستخدم'
+            ),
+            array(
+                'keyword' => 'admin_all_reply',
+                'value' => 'جميع الردود'
+            ),
+            array(
+                'keyword' => 'admin_all_translation',
+                'value' => 'جميع الترجمات'
+            ),
+            array(
+                'keyword' => 'select_sold_status',
+                'value' => 'اختر حالة البيع'
+            ),
+
         );
 
         $languages = Language::where('code','ar')->get();

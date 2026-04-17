@@ -67,6 +67,9 @@ class Item extends Model
                 ->when(isset($search['status']) && $search['status'] !== '', fn($query) =>
                     $query->where('status', $search['status'])
                 )
+                ->when(isset($search['is_sold']) && $search['is_sold'] !== '', fn($query) =>
+                    $query->where('is_sold', $search['is_sold'])
+                )
                 ->when(isset($search['user_id']) && $search['user_id'] !== '', fn($query) =>
                     $query->where('user_id', $search['user_id'])
                 )
@@ -84,19 +87,19 @@ class Item extends Model
     }
 
 
-    public static function updateColumn($id)
+    public static function updateColumn($id, $status)
     {
         try {
-            $data = self::where('id', $id)->first();
+            $data = self::findOrFail($id);
 
-            // Assuming 'status' is an ENUM column with values '0' and '1'
-            $newStatus = ($data->status == '1') ? '0' : '1';
-
-            $data->update(['status' => $newStatus]);
+            $data->update([
+                'status' => $status
+            ]);
 
             return ['status' => true, 'message' => __('lang.admin_data_change_msg')];
+
         } catch (\Exception $e) {
-            return ['status' => false, 'message' => $e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile()];
+            return ['status' => false, 'message' => $e->getMessage()];
         }
     }
 

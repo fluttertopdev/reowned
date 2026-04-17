@@ -62,7 +62,7 @@ class SellController extends Controller
         ]);
     }
 
-    // add form
+    // Add Listing form
     public function addSellListing($categoryId, $subcategoryId)
     {
         $subcategory = Category::where('id', $subcategoryId)
@@ -86,7 +86,7 @@ class SellController extends Controller
         ));
     }
 
-    // store code
+    // Store Listing
     public function store(Request $request)
     {
         $subcategoryId = $request->subcategory_id;
@@ -170,6 +170,7 @@ class SellController extends Controller
                 'pincode' => $request->pincode,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
+                'status' => 0,
             ]);
 
             // Save Custom Fields
@@ -226,8 +227,29 @@ class SellController extends Controller
             ->where('user_id', Auth::guard('web')->user()->id);
 
         // Status filter
+        // Status filter
         if ($request->status) {
-            $query->where('status', $request->status);
+
+            switch ($request->status) {
+
+                case 'under_review':
+                    $query->where('status', 0);
+                    break;
+
+                case 'live':
+                    $query->where('status', 1)
+                          ->where('is_sold', 0);
+                    break;
+
+                case 'rejected':
+                    $query->where('status', 2);
+                    break;
+
+                case 'sold':
+                    $query->where('status', 1)
+                          ->where('is_sold', 1);
+                    break;
+            }
         }
 
         // Sorting
@@ -268,7 +290,7 @@ class SellController extends Controller
         return view('website.sell.partials.item_card', compact('items'))->render();
     }
 
-    // edit
+    // Edit
     public function sellEditListing($id)
     {
         try {
@@ -287,23 +309,34 @@ class SellController extends Controller
             ->get();
 
         foreach ($customFields as $field) {
+
             $field->options = CategoryCustomFieldOption::where('custom_field_id', $field->id)
                 ->orderBy('sort_order')
                 ->get();
 
-            // attach existing value
-           $existing = ItemCustomField::where('item_id', $item->id)
+            $existing = ItemCustomField::where('item_id', $item->id)
                 ->where('custom_field_id', $field->id)
                 ->first();
 
             if ($existing) {
+
                 $decoded = json_decode($existing->value, true);
 
-                $field->value = (json_last_error() === JSON_ERROR_NONE)
-                    ? $decoded
-                    : $existing->value;
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    // Always array
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $field->value = is_array($decoded)
+                            ? array_map('trim', $decoded)
+                            : [trim($decoded)];
+                    } else {
+                        $field->value = [trim($existing->value)];
+                    }
+                } else {
+                    $field->value = [$existing->value];
+                }
+
             } else {
-                $field->value = null;
+                $field->value = [];
             }
         }
 
@@ -426,12 +459,42 @@ class SellController extends Controller
 
             DB::commit();
 
-            return back()->with('success', 'Listing updated successfully');
+            return back()->with('success', __('lang.website.listing_update_success_msg'));
 
         } catch (\Exception $e) {
 
             DB::rollBack();
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    // Mark as sold
+    public function markAsSold($id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+
+            $item = Item::where('id', $id)
+                        ->where('user_id', auth()->id())
+                        ->firstOrFail();
+
+            if ($item->is_sold == 1) {
+                return back()->with('error', );
+            }
+
+            if ($item->status != 1) {
+                return back()->with('error', __('lang.website.approved_items_can_be_marked_as_sold'));
+            }
+
+            $item->update([
+                'is_sold' => 1
+            ]);
+
+            return back()->with('success', __('lang.website.item_marked_sold_success_msg'));
+
+        } catch (\Exception $e) {
+            return back()->with('error', __('lang.website.something_went_wrong'));
         }
     }
    

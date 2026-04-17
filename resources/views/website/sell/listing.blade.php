@@ -154,5 +154,33 @@
       });
   });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const forms = document.querySelectorAll('.mark-as-sold-form');
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: "{{__('lang.website.are_you_sure')}}",
+                    text: "{{__('lang.website.mark_as_sold_swal_msg')}}",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: "{{__('lang.website.mark_as_sold_swal_btn_text')}}",
+                    cancelButtonText: "{{__('lang.website.cancel')}}"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+    });
+    </script>
 
 @endsection

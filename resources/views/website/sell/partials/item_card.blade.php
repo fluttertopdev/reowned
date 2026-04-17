@@ -9,7 +9,15 @@
         <div class="total-add-box-text">
 
             <div class="add-text-left">
-                {{ ucfirst($item->status == 1 ? 'Approved' : 'Under review') }}
+               @if($item->is_sold == 1)
+                    <span class="badge bg-danger">Sold</span>
+                @elseif($item->status == 0)
+                    <span class="badge bg-warning">Under Review</span>
+                @elseif($item->status == 1)
+                    <span class="badge bg-success">Published</span>
+                @elseif($item->status == 2)
+                    <span class="badge bg-danger">Rejected</span>
+                @endif
             </div>
             <div class="add-text-right">
                 <ul>
@@ -23,7 +31,23 @@
                         </a>
                     </li>
 
-                   <li>
+                    {{-- MARK AS SOLD --}}
+                    @if($item->is_sold == 0)
+                        <li>
+                            <form action="{{ route('sell.item.markSold', $encryptedId) }}" method="POST" class="mark-as-sold-form">
+                                @csrf
+                                <button type="submit" style="border:none;background:none;">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                </button>
+                            </form>
+                        </li>
+                    @else
+                        <li>
+                            <span class="badge bg-danger">Sold</span>
+                        </li>
+                    @endif
+
+                    <li>
                         <a href="#">
                             <img src="{{asset('website_assets/images/eyea-add-1.png')}}">
                             <span>{{ $item->views ?? 0 }}</span>

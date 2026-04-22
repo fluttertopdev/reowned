@@ -51,6 +51,17 @@ class Category extends Model
         return $this->hasMany(Item::class, 'subcategory_id');
     }
 
+    public function translation()
+    {
+        return $this->hasOne(CategoryTranslation::class)
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->translation->name ?? $value;
+    }
+
 
     public static function getLists($search, $categoryId = null)
     {

@@ -43,9 +43,11 @@ class SellController extends Controller
     ===================================== */
     public function getSubcategories($categoryId)
     {
-        $category = Category::with('subcategories')
-            ->where('id', $categoryId)
+        $category = Category::where('id', $categoryId)
             ->where('status', 1)
+            ->with(['subcategories' => function ($query) {
+                $query->where('status', 1);
+            }])
             ->first();
 
         if (!$category) {

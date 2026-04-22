@@ -137,7 +137,11 @@
                                             <a href="javascript:void(0);"
                                                 class="dropdown-item"
                                                 onclick="openVerificationModal('{{ $row->id_proof_front }}','{{ $row->id_proof_back }}')">
-                                                <i class="ti ti-eye me-1"></i> {{__('lang.view')}}
+                                                <i class="ti ti-file me-1"></i> {{__('lang.identity_proff')}}
+                                            </a>
+
+                                            <a href="{{url('admin/seller/view-details/'.$row->id)}}" class="dropdown-item">
+                                                <i class="ti ti-eye me-1"></i> {{__('lang.view_details')}}
                                             </a>
 
                                         </div>

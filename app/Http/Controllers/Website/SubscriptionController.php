@@ -21,8 +21,13 @@ class SubscriptionController extends Controller
 {
     public function index(Request $request)
     {
-        $data['itemPackages'] = Itempackage::where('status',1)->get();
-        $data['adsPackages'] = Adspackages::where('status',1)->get();
+        $data['itemPackages'] = Itempackage::with('translation')
+            ->where('status',1)
+            ->get();
+
+        $data['adsPackages'] = Adspackages::with('translation')
+            ->where('status',1)
+            ->get();
 
         return view('website.subscription.index',$data);
     }

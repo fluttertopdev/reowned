@@ -31,7 +31,7 @@ class CustomersController extends Controller
         if ($id) {
             $data = User::find($id);
         }
-        return view('admin.customers.view', compact('data'));
+        return view('admin.customers.form', compact('data'));
     }
 
     

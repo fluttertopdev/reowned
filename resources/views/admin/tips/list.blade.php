@@ -73,7 +73,7 @@
                             @foreach($result as $index => $row)
                             <tr>
                                 <td>{{ $result->firstItem() + $index }}</td>
-                                <td>{!! Str::limit($row->description, 100, '...') !!}</td>
+                                <td>{!! Str::limit(html_entity_decode($row->description), 100, '...') !!}</td>
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
                                 @can('tips.updateStatus')
                                 <td>

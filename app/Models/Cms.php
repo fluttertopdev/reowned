@@ -9,12 +9,28 @@ use Illuminate\Support\Facades\App;
 use DB;
 
 class Cms extends Model
-
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
     protected $table = "cms_contents";
+
+
+    public function translation()
+    {
+        return $this->hasOne(CmsTranslation::class)
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getPageNameAttribute($value)
+    {
+        return $this->translation->page_name ?? $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->translation->description ?? $value;
+    }
 
     public static function getLists($search)
     {

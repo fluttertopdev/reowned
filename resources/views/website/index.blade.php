@@ -21,8 +21,10 @@
               @endforeach
             </div>
           </div>
-          <button class="blaze-next left-right" data-aos="fade-up" data-aos-duration="1000"><span><img
-                src="{{asset('website_assets/images/right.png')}}"></span></button>
+          <button class="blaze-next left-right" data-aos="fade-up" data-aos-duration="1000">
+            <span>
+            <img src="{{asset('website_assets/images/right.png')}}"></span>
+          </button>
         </div>
         <!--<div class="blaze-pagination"></div>-->
       </div>
@@ -77,12 +79,30 @@
     </div>
   </div>
   @endif
-
+  
+  @if(setting('enable_adsense_horizontal_ad') == 1)
   <!--Google ad banner-->
   <div class="container">
-    <div class="google-ad-banner" data-aos="fade-up" data-aos-duration="1000"> <img
-        src="{{asset('website_assets/images/google-banner.png')}}" alt="#"> </div>
+    <div class="google-ad-banner" data-aos="fade-up" data-aos-duration="1000"> 
+      <script async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ setting('adsense_horizontal_ad_client') }}"
+          crossorigin="anonymous">
+      </script>
+
+      <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="{{ setting('adsense_horizontal_ad_client') }}"
+          data-ad-slot="{{ setting('adsense_horizontal_ad_slot') }}"
+          data-ad-format="auto"
+          data-full-width-responsive="true">
+      </ins>
+
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
   </div>
+   @endif
 
   <!--All-Item-->
   @if(count($allItemData) > 0)

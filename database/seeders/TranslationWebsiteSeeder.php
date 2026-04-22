@@ -332,7 +332,21 @@ class TranslationWebsiteSeeder extends Seeder
             array(
                 'keyword' => 'approved_items_can_be_marked_as_sold',
                 'value' => 'Only Approved Items Can Be Marked As Sold'
-            )
+            ),
+            array(
+                'keyword' => 'make_an_offer',
+                'value' => 'Make An Offer'
+            ),
+            array(
+                'keyword' => 'tips',
+                'value' => 'Tips'
+            ),
+            array(
+                'keyword' => 'no_tips_found',
+                'value' => 'No Tips Found'
+            ),
+
+            ['keyword' => 'signin_footer_msg', 'value' => 'By signing in to your account you agree to Reowned'],
 
 
         ];

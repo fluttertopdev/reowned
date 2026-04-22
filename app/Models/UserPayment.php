@@ -50,6 +50,10 @@ class UserPayment extends Model
             });
         }
 
+        if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+
         // Filter by payment gateway
         if (!empty($filters['payment_gateway'])) {
             $query->where('payment_gateway', $filters['payment_gateway']);

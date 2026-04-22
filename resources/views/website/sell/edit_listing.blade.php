@@ -303,7 +303,7 @@ $(document).ready(function(){
 </script>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8lv49sFP9c6gt001S-V4bUMRJflcgxI&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{setting('google_map_key')}}&libraries=places"></script>
 <script>
 function initAutocomplete() {
 

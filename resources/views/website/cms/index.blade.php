@@ -11,7 +11,7 @@
 							<div class="block-title">
 								<h3>{{$row->title}}</h3>
 							</div>
-							<p><?php echo $row->description;?></p>
+							{!! html_entity_decode($row->description) !!}
 						</div>	
 					</div>
 				</div>

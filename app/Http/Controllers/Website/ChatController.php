@@ -13,6 +13,7 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\BlockedUser;
 use App\Models\Item;
+use App\Models\Tips;
 
 class ChatController extends Controller
 {
@@ -59,7 +60,11 @@ class ChatController extends Controller
             ->with('blockedUser')
             ->get();
 
-        return view('website.chat.index', compact('selling','buying','blockedUsers'));
+        $tipsData = Tips::with('translation')
+            ->where('status',1)
+            ->get();
+
+        return view('website.chat.index', compact('selling','buying','blockedUsers','tipsData'));
     }
 
     // CHAT LIST (SELLING + BUYING)

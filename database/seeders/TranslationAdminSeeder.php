@@ -1880,8 +1880,72 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'select_sold_status',
                 'value' => 'Select Sold Status'
             ),
+            array(
+                'keyword' => 'admin_google_map',
+                'value' => 'Google Map'
+            ),
+            array(
+                'keyword' => 'admin_google_map_key',
+                'value' => 'Google Map Key'
+            ),
+            array(
+                'keyword' => 'admin_google_map_key_placeholder',
+                'value' => 'Google Map Key Placeholder'
+            ),
+            array(
+                'keyword' => 'view_details',
+                'value' => 'View Details'
+            ),
+            array(
+                'keyword' => 'identity_proff',
+                'value' => 'Identity'
+            ),
+            array(
+                'keyword' => 'admin_view_seller_form',
+                'value' => 'View Seller Form'
+            ),
+            array(
+                'keyword' => 'admin_items',
+                'value' => 'Items'
+            ),
+            array(
+                'keyword' => 'admin_packages',
+                'value' => 'Packages'
+            ),
+            array(
+                'keyword' => 'admin_transactions',
+                'value' => 'Transactions'
+            ),
+
+            array (
+                'keyword' => 'admin_adsense_ads',
+                'value' => 'Adsense Ads',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_client',
+                'value' => 'Adsense Horizontal Ad Client',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_client_placeholder',
+                'value' => 'Enter Adsense Horizontal Ad Client',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_slot',
+                'value' => 'Adsense Horizontal Ad Slot',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_slot_placeholder',
+                'value' => 'Enter Adsense Horizontal Ad Slot',
+            ),
+            array (
+                'keyword' => 'admin_enable_adsense_horizontal_ad_placeholder',
+                'value' => 'Enable Adsense Horizontal Ad',
+            ),
+            array (
+                'keyword' => 'footer_logo',
+                'value' => 'Footer Logo',
+            ),
                
-            
         );
 
         $languages = Language::where('code','en')->get();

@@ -36,7 +36,8 @@ class HomeController extends Controller
         $area    = session('area');
 
         // Categories
-        $data['homeCategories'] = Category::where('status',1)
+        $data['homeCategories'] = Category::with('translation')
+            ->where('status',1)
             ->where('parent_id',0)
             ->orderBy('id','DESC')
             ->get();

@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Faq;
 use App\Models\Tips;
 use App\Models\Language;
 use App\Models\TipTranslation;
 use Illuminate\Support\Str;
-
 use Session;
 
 class TipController extends Controller

@@ -28,7 +28,6 @@ class ViewServiceProvider extends ServiceProvider
                             // NEW CONDITIONS
                             ->where('is_featured', 1)
                             ->orderBy('featured_position', 'asc')
-
                             ->get();
             
             $categoriesAll = Category::with(['children' => function ($q) {

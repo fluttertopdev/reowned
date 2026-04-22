@@ -120,6 +120,18 @@ class Setting extends Model
                 }   
             }
 
+            if($page_name=='adsense-ads-setting'){
+                if (isset($data['enable_adsense_horizontal_ad'])) {
+                    if($data['enable_adsense_horizontal_ad']=='on'){
+                    $data['enable_adsense_horizontal_ad'] = 1;
+                    }else{
+                    $data['enable_adsense_horizontal_ad'] = $data['enable_adsense_horizontal_ad'];
+                    }
+                }else{
+                    $data['enable_adsense_horizontal_ad'] = 0;
+                }
+            }
+
             // Here we are inserting data into the database
             foreach ($data as $key => $value) {
                 $exist = $obj->where('key',$key)->first();

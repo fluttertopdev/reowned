@@ -12,11 +12,9 @@
                     <h4 class="mb-1">{{__('lang.translation')}}</h4>
                 </div>
             </div>
-
             <div class="row">
                 <form id="productform" action="{{ route('reportreason.updatetranslate', $reason->id) }}" method="POST">
                     @csrf
-
                     <!-- First column -->
                     <div class="col-12 col-lg-12">
                         <!-- Product Information -->
@@ -27,7 +25,7 @@
                                     <!-- Title Section -->
                                     <div class="form-group mb-4">
                                         <label for="translated-name-{{ $language->language_code }}" class="form-label">
-                                            {{__('lang.reason')}} ({{ $language->reason }})
+                                            {{__('lang.reason')}} ({{ $language->name }})
                                         </label>
                                         <span class=" text-danger">*</span>
                                         <input type="hidden" name="translation_id[]" value="{{ $language->details->id ?? null }}">
@@ -35,21 +33,14 @@
                                         <input type="text" class="form-control @error('reason.' . $loop->index) is-invalid @enderror"
                                             id="translated-name-{{ $language->language_code }}"
                                             name="reason[]"
-
                                             value="{{ old('reason.' . $loop->index, $language->details->reason ?? '') }}">
-
                                         <!-- Validation Error Message -->
                                         @error('name.' . $loop->index)
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-
-                                    
                                 </div>
                                 @endforeach
-
-
-
                                 <div class="pt-6">
                                     <button type="submit" class="btn btn-primary">{{__('lang.save')}}</button>
                                     <a href="{{route('advertisement-package.index')}}"
@@ -62,9 +53,7 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
-
 @endsection

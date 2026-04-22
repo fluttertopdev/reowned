@@ -14,4 +14,5 @@ class ReasonTranslation extends Model
 
     protected $guarded = ['id'];
     protected $table = "report_reason_translations";
+
 }

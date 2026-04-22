@@ -330,6 +330,19 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'keyword' => 'approved_items_can_be_marked_as_sold',
                 'value' => 'فقط العناصر الموافق عليها يمكن تحديدها كـ "تم بيعه"'
             ),
+            array(
+                'keyword' => 'make_an_offer',
+                'value' => 'تقديم عرض'
+            ),
+            array(
+                'keyword' => 'tips',
+                'value' => 'نصائح'
+            ),
+            array(
+                'keyword' => 'no_tips_found',
+                'value' => 'لا توجد نصائح'
+            ),
+            ['keyword' => 'signin_footer_msg', 'value' => 'بتسجيل الدخول إلى حسابك، فإنك توافق على شروط Reowned'],
         ];
 
         $languages = Language::where('code','ar')->get();

@@ -149,7 +149,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <!-- Select2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8lv49sFP9c6gt001S-V4bUMRJflcgxI&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{setting('google_map_key')}}&libraries=places"></script>
 
   @if(session('success'))
   <script>

@@ -7,20 +7,14 @@
             <img src="{{ asset('website_assets/images/brown-icon-1.png') }}" class="brown-icon">
             <img src="{{ asset('website_assets/images/black-icon-1.png') }}" class="black-icon">
             {{ __('lang.website.edit_profile') }}
+          </a>
+      </li>
 
         <li class="{{ request()->is('get-verification-badge') ? 'active' : '' }}">
           <a href="{{ url('get-verification-badge') }}">
             <img src="{{ asset('website_assets/images/brown-icon-2.png') }}" class="brown-icon">
             <img src="{{ asset('website_assets/images/black-icon-2.png') }}" class="black-icon">
             {{ __('lang.website.get_verification_badge') }}
-          </a>
-        </li>
-
-        <li class="{{ request()->is('notifications') ? 'active' : '' }}">
-          <a href="{{ url('notifications') }}">
-            <img src="{{ asset('website_assets/images/brown-icon-3.png') }}" class="brown-icon">
-            <img src="{{ asset('website_assets/images/black-icon-3.png') }}" class="black-icon">
-            {{ __('lang.website.notifications') }}
           </a>
         </li>
 

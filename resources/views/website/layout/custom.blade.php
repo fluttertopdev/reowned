@@ -276,6 +276,19 @@
         width: 100px;
         margin: 5px 5px;
     }
+
+    .make-an-offer-btn {
+        width: auto;
+        background-color: #CB6932;
+        border-radius: 30px;
+        padding: 16px 26px;
+        color: #fff;
+        text-decoration: none;
+        font-family: "Manrope", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        margin: 30px 0 0 0;
+    }
 </style>
 <!-- filter -->
 <style>
@@ -674,8 +687,7 @@
                         @endphp
 
                         <p class="by-signing">
-                            By signing in to your account you agree to Reowned <br>
-
+                            {{ __('lang.website.signin_footer_msg') }} <br>
                             @if($terms)
                                 <a target="_blank" href="{{ url('/'.$terms->slug) }}">
                                     {{ $terms->page_name }}

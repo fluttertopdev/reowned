@@ -101,6 +101,11 @@
                                                 <i class="ti ti-trash me-1"></i> {{__('lang.delete')}}
                                             </a>
                                             @endcan
+                                            @can('reportreason.translation')
+                                            <a href="{{ route('reportreason.translation', $row->id) }}" class="dropdown-item">
+                                                <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
+                                            </a>
+                                            @endcan
                                         </div>
                                     </div>
                                 </td>

@@ -45,14 +45,19 @@ Route::get('/clear', function () {
 });
 
 // Route for migrate
-Route::get('/execute-queries', function () {
+Route::get('/execute-queries-migration', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return "Done Migration";
+})->middleware(['auth.admin']);
 
-    // Artisan::call('migrate', ['--force' => true]);
-    // Artisan::call('permissions:generate');
+Route::get('/execute-queries-seeder', function () {
     Artisan::call('db:seed', ['--class' => 'DatabaseSeeder', '--force' => true]);
+    return "Done Seeder";
+})->middleware(['auth.admin']);
 
+Route::get('/execute-queries-permission', function () {
+    Artisan::call('permissions:generate');
     return "Done";
-
 })->middleware(['auth.admin']);
 
 
@@ -311,6 +316,7 @@ Route::middleware('admin-language')->group(function () {
         Route::post('/update', 'update')->name('seller.update');
         Route::get('/delete/{id}', 'destroy')->name('seller.destroy');
         Route::get('/status/{id}', 'updateStatus')->name('seller.updateStatus');
+        Route::get('/view-details/{id}', 'viewDetails')->name('seller.viewDetails');
       });
       // seller managemnt routing end here
 
@@ -323,6 +329,8 @@ Route::middleware('admin-language')->group(function () {
         Route::post('/update', 'update')->name('reportreason.update');
         Route::get('/delete/{id}', 'destroy')->name('reportreason.destroy');
         Route::get('/status/{id}', 'updateStatus')->name('reportreason.updateStatus');
+        Route::get('/translation/{id}', 'translation')->name('reportreason.translation');
+        Route::post('/updatetranslate/{id}', 'updateTranslate')->name('reportreason.updatetranslate');
       });
       // report-reason managemnt routing end  here  
 

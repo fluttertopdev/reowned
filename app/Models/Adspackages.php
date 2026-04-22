@@ -22,6 +22,24 @@ class Adspackages extends Model
         return $this->hasMany(UserPayment::class, 'ad_package_id');
     }
 
+    public function translation()
+    {
+        return $this->hasOne(AdspackageTranslation::class, 'adspackage_id')
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getNameAttribute($value)
+    {
+        return optional($this->translation)->name ?? $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        $translated = optional($this->translation)->description ?? $value;
+
+        return html_entity_decode($translated);
+    }
+
     public static function getLists($search, $status = null)
     {
         try {

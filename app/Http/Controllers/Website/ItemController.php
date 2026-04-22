@@ -129,7 +129,6 @@ class ItemController extends Controller
         $area    = session('area');
 
         $item = Item::where('slug', $slug)
-            ->where('status', 1)
             ->with([
                 'images',
                 'latestImage',
@@ -240,7 +239,9 @@ class ItemController extends Controller
                 : false;
         }
 
-        $reportReasons = Reportreason::where('status',1)->get();
+        $reportReasons = Reportreason::with('translation')
+            ->where('status',1)
+            ->get();
 
         return view('website.item.item_detail',compact('item','relatedItems','isFavorite','reportReasons'));
     }

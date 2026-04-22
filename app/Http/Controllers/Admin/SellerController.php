@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Adspackages;
 use App\Models\Itempackage;
 use App\Models\User;
+use App\Models\Item;
+use App\Models\Userpackage;
+use App\Models\UserPayment;
 use Session;
 use App\Exports\SellersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -34,7 +37,7 @@ class SellerController extends Controller
             $data = User::find($id);
         }
 
-        return view('admin.seller.view', compact('data'));
+        return view('admin.seller.form', compact('data'));
     }
 
     public function update(Request $request)
@@ -112,5 +115,16 @@ class SellerController extends Controller
         $fileName = 'sellers_' . date('Ymd_His') . '.pdf';
 
         return $pdf->download($fileName);
+    }
+
+
+    public function viewDetails(Request $request, $id)
+    {
+        $param['user_id'] = $id;
+        $itemData = Item::getLists($param);
+        $result = Userpackage::getLists($request->all(),$id);
+        $transactionData = UserPayment::getLists($param);
+
+        return view('admin.seller.view', compact('result','itemData','transactionData'));
     }
 }

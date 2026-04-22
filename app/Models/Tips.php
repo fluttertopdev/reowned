@@ -20,6 +20,18 @@ class Tips extends Model
     protected $table = "tips";
 
 
+    public function translation()
+    {
+        return $this->hasOne(TipTranslation::class, 'tip_id')
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->translation->description ?? $value;
+    }
+
+
     public static function getLists($search)
     {
         try {

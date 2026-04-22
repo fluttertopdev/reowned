@@ -135,6 +135,7 @@
                   <img src="{{asset('website_assets/images/no-chat-icon.png')}}">
                   <span>{{ __('lang.website.no_chat_data_found') }}</span>
                   <p>{{ __('lang.website.start_conversation') }}</p>
+                  <a href="#" class="d-none buychat-msg make-an-offer-btn">{{ __('lang.website.make_an_offer') }}</a>
                 </div>
                 <div class="meassage-box-right d-none">
                   <div class="meassage-box-header">
@@ -169,6 +170,40 @@
     </div>
   </div>
 
+
+<div class="modal fade" id="offertModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-0 border-0 bg-transparent">
+      <div class="not-fill-bg-image-login">
+        <div class="login-all-screen">
+          <div class="login-all-screen-inner">
+            <!-- Close Button -->
+            <button type="button" class="close-btn" data-bs-dismiss="modal">
+                <img src="{{asset('website_assets/images/tage-close.png')}}">
+            </button>
+            <h2>{{ __('lang.website.tips') }}</h2>
+              <div class="form-group mt-4 mb-3">
+                @if(count($tipsData) > 0)
+                  @foreach($tipsData as $each)
+                    {!! Str::limit(html_entity_decode($each->description), 500, '...') !!}
+                  @endforeach
+                @else
+                <li>{{ __('lang.website.no_tips_found') }}</li>
+                @endif
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).on('click', '.make-an-offer-btn', function () {
+    $('#offertModal').modal('show');
+  });
+</script>
+
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.15.0/echo.iife.js"></script>
 
@@ -189,9 +224,13 @@
         var target = $(this).attr('href');
 
         if (target === '#tab2') {
-          $('.chat-right-box').addClass('meassage-box');
+          // $('.chat-right-box').addClass('meassage-box');
+          $('.buychat-msg').addClass('d-block');
+          $('.buychat-msg').removeClass('d-none');
         } else if (target === '#tab1') {
           $('.chat-right-box').removeClass('meassage-box');
+          $('.buychat-msg').addClass('d-none');
+          $('.buychat-msg').removeClass('d-block');
         }
       });
     });

@@ -1856,6 +1856,71 @@ class TranslationAdminArabicSeeder extends Seeder
                 'keyword' => 'select_sold_status',
                 'value' => 'اختر حالة البيع'
             ),
+            array(
+                'keyword' => 'admin_google_map',
+                'value' => 'خرائط جوجل'
+            ),
+            array(
+                'keyword' => 'admin_google_map_key',
+                'value' => 'مفتاح خرائط جوجل'
+            ),
+            array(
+                'keyword' => 'admin_google_map_key_placeholder',
+                'value' => 'نص توضيحي لمفتاح خرائط جوجل'
+            ),
+            array(
+                'keyword' => 'view_details',
+                'value' => 'عرض التفاصيل'
+            ),
+            array(
+                'keyword' => 'identity_proff',
+                'value' => 'الهوية'
+            ),
+            array(
+                'keyword' => 'admin_view_seller_form',
+                'value' => 'عرض نموذج البائع'
+            ),
+            array(
+                'keyword' => 'admin_items',
+                'value' => 'العناصر'
+            ),
+            array(
+                'keyword' => 'admin_packages',
+                'value' => 'الباقات'
+            ),
+            array(
+                'keyword' => 'admin_transactions',
+                'value' => 'المعاملات'
+            ),
+
+            array (
+                'keyword' => 'admin_adsense_ads',
+                'value' => 'إعلانات AdSense',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_client',
+                'value' => 'معرف عميل الإعلان الأفقي من AdSense',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_client_placeholder',
+                'value' => 'أدخل معرف عميل الإعلان الأفقي من AdSense',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_slot',
+                'value' => 'فتحة الإعلان الأفقي من AdSense',
+            ),
+            array (
+                'keyword' => 'admin_adsense_horizontal_ad_slot_placeholder',
+                'value' => 'أدخل فتحة الإعلان الأفقي من AdSense',
+            ),
+            array (
+                'keyword' => 'admin_enable_adsense_horizontal_ad_placeholder',
+                'value' => 'تفعيل الإعلان الأفقي من AdSense',
+            ),
+            array(
+                'keyword' => 'footer_logo',
+                'value' => 'شعار التذييل'
+            ),
 
         );
 

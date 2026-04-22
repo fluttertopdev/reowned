@@ -18,6 +18,17 @@ class Reportreason extends Model
     protected $guarded = ['id'];
     protected $table = "report_reasons";
 
+    public function translation()
+    {
+        return $this->hasOne(ReasonTranslation::class, 'reason_id')
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getReasonAttribute($value)
+    {
+        return optional($this->translation)->reason ?? $value;
+    }
+
     public static function getLists($search)
     {
 

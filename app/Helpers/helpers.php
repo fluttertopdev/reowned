@@ -256,7 +256,8 @@ class Helpers
     }
 
     public static function getCmsForSite(){
-        $cms = Cms::where('status',1)->get();
-        return $cms;
+        return Cms::with('translation')
+        ->where('status',1)
+        ->get();
     }
 }

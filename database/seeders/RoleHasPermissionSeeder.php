@@ -26,11 +26,6 @@ class RoleHasPermissionSeeder extends Seeder
             'guard_name' => 'admin'
         ]);
 
-        $staffRole = Role::firstOrCreate([
-            'name' => 'staff',
-            'guard_name' => 'admin'
-        ]);
-
         /**
          * ================================
          * ASSIGN ALL PERMISSIONS TO ADMIN
@@ -42,21 +37,6 @@ class RoleHasPermissionSeeder extends Seeder
 
         /**
          * ================================
-         * STAFF PERMISSIONS (LIMITED)
-         * ================================
-         */
-        $staffPermissions = Permission::where('guard_name', 'admin')
-            ->where(function ($q) {
-                $q->where('name', 'like', '%.index')   // list
-                  ->orWhere('name', 'like', '%.store') // add
-                  ->orWhere('name', 'like', '%.update'); // update
-            })
-            ->get();
-
-        $staffRole->syncPermissions($staffPermissions);
-
-        /**
-         * ================================
          * ASSIGN ROLE TO USERS
          * ================================
          */
@@ -65,13 +45,6 @@ class RoleHasPermissionSeeder extends Seeder
         $adminUser = User::where('type', 'admin')->first();
         if ($adminUser) {
             $adminUser->syncRoles([$adminRole]);
-        }
-
-        // All staff users
-        $staffUsers = User::where('type', 'staff')->get();
-
-        foreach ($staffUsers as $staff) {
-            $staff->syncRoles([$staffRole]);
         }
 
         /**

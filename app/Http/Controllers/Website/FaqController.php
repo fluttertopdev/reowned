@@ -12,7 +12,9 @@ class FaqController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Faq::where('status',1)->get();
+        $data = Faq::with('translation')
+            ->where('status',1)
+            ->get();
         return view('website.faq.index',compact('data'));
     }
    

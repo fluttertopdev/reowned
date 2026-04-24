@@ -16,6 +16,24 @@ class Faq extends Model
     protected $guarded = ['id'];
     protected $table = "faqs";
 
+    public function translation()
+    {
+        return $this->hasOne(FaqTranslation::class, 'faq_id')
+            ->where('language_code', app()->getLocale());
+    }
+
+    public function getTitleAttribute($value)
+    {
+        return optional($this->translation)->title ?? $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        $translated = optional($this->translation)->description ?? $value;
+
+        return html_entity_decode($translated);
+    }
+
 
     public static function getLists($search)
     {

@@ -343,6 +343,51 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'value' => 'لا توجد نصائح'
             ),
             ['keyword' => 'signin_footer_msg', 'value' => 'بتسجيل الدخول إلى حسابك، فإنك توافق على شروط Reowned'],
+
+            array(
+                'keyword' => 'published',
+                'value' => 'منشور'
+            ),
+            array(
+                'keyword' => 'mark_as_sold',
+                'value' => 'تحديد كـ "تم البيع"'
+            ),
+            array(
+                'keyword' => 'edit',
+                'value' => 'تعديل'
+            ),
+            array(
+                'keyword' => 'delete',
+                'value' => 'حذف'
+            ),
+            array(
+                'keyword' => 'delete_item_swal_msg',
+                'value' => 'تم حذف العنصر بنجاح!'
+            ),
+            array(
+                'keyword' => 'yes_delete_it',
+                'value' => 'نعم، احذفه!'
+            ),
+            array(
+                'keyword' => 'deleted',
+                'value' => 'تم الحذف!'
+            ),
+            array(
+                'keyword' => 'error',
+                'value' => 'خطأ'
+            ),
+            array(
+                'keyword' => 'unauthorized_action',
+                'value' => 'إجراء غير مصرح به'
+            ),
+            array(
+                'keyword' => 'item_delete_success_msg',
+                'value' => 'تم حذف العنصر بنجاح'
+            ),
+            array(
+                'keyword' => 'active',
+                'value' => 'نشط'
+            ),
         ];
 
         $languages = Language::where('code','ar')->get();

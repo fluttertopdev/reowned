@@ -605,6 +605,39 @@
         display: block;
     }
 </style>
+<!-- Pakcages style -->
+<style>
+    .box-pricing-plan-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-ribbon {
+      position: absolute;
+      top: 20px;
+      left: -55px;
+      width: 160px;
+      background: #28a745;
+      color: #fff;
+      text-align: center;
+      transform: rotate(-45deg);
+      padding: 6px 0;
+      z-index: 10;
+      line-height: 1.2;
+    }
+
+    .plan-ribbon span {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .plan-ribbon small {
+      display: block;
+      font-size: 10px;
+      opacity: 0.9;
+    }
+</style>
 
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">

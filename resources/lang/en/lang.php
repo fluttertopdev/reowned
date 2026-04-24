@@ -456,6 +456,7 @@ return array (
   'admin_adsense_horizontal_ad_slot_placeholder' => 'Enter Adsense Horizontal Ad Slot',
   'admin_enable_adsense_horizontal_ad_placeholder' => 'Enable Adsense Horizontal Ad',
   'footer_logo' => 'Footer Logo',
+  'action' => 'Action',
   'website' => 
   array (
     'select_location' => 'Select Location',
@@ -736,6 +737,17 @@ return array (
     'make_an_offer' => 'Make An Offer',
     'tips' => 'Tips',
     'no_tips_found' => 'No Tips Found',
-    'signin_footer_msg' => 'By signing in to your account you agree to Reowned.',
+    'signin_footer_msg' => 'By signing in to your account you agree to Reowned',
+    'published' => 'Published',
+    'mark_as_sold' => 'Mark As Sold',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'delete_item_swal_msg' => 'You Won\'t Be Able To Recover This Item!',
+    'yes_delete_it' => 'Yes, Delete It!',
+    'deleted' => 'Deleted!',
+    'error' => 'Error',
+    'unauthorized_action' => 'Unauthorized Action',
+    'item_delete_success_msg' => 'Item Delete Successfully.',
+    'active' => 'Active',
   ),
 );

@@ -181,6 +181,57 @@
         });
 
     });
-    </script>
+  </script>
+  <script>
+    function deleteItem(id) {
+
+        Swal.fire({
+            title: "{{__('lang.website.are_you_sure')}}",
+            text: "{{__('lang.website.delete_item_swal_msg')}}",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "{{__('lang.website.yes_delete_it')}}",
+            cancelButtonText: "{{__('lang.website.cancel')}}"
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "{{ route('sell.delete.listing') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: id
+                    },
+                    success: function (response) {
+
+                        if (response.status === "success") {
+
+                            Swal.fire(
+                                "{{__('lang.website.deleted')}}",
+                                response.message,
+                                "success"
+                            );
+
+                            // Reload or remove element
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+
+                        } else {
+                            Swal.fire("Error!", response.message, "error");
+                        }
+                    },
+                    error: function () {
+                        Swal.fire("{{__('lang.website.error')}}", "{{__('lang.website.something_went_wrong')}}", "error");
+                    }
+                });
+
+            }
+        });
+    }
+  </script>
 
 @endsection

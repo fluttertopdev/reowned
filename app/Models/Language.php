@@ -21,7 +21,7 @@ class Language extends Model
     /**
      * Fetch list  from here
     **/
-       public static function getLists($search)
+    public static function getLists($search)
     {
         try {
             return self::query()
@@ -45,99 +45,108 @@ class Language extends Model
             ];
         }
     }
-    /**
-     * Fetch particular detail
-    **/
+    
+    // Addd/Update Code
+    public static function addUpdate($data, $id = 0)
+    {
+        try {
+            unset($data['_token']);
+            $data['updated_at'] = now();
 
-   
-
-public static function addUpdate($data, $id = 0)
-{
-    try {
-        unset($data['_token']);
-        $data['updated_at'] = now();
-
-        // Fetch language code details
-        $code = LanguageCode::find($data['code_id']);
-        if ($code) {
-            $data['name'] = $code->name;
-            $data['code'] = $code->code;
-        }
-
-        // Handle 'is_default' flag
-        $data['is_default'] = isset($data['is_default']) && $data['is_default'] == 'on' ? 1 : 0;
-        if ($data['is_default']) {
-            Language::where('id', '!=', $id)->update(['is_default' => 0]);
-        }
-
-        if ($id == 0) { // Create new entry
-            $data['created_at'] = now();
-            $language = Language::create($data);
-            $entry_id = $language->id;
-        } else { // Update existing entry
-            Language::where('id', $id)->update($data);
-            $entry_id = $id;
-        }
-
-        // Ensure language folder and file exist
-        $path = resource_path('lang/' . $data['code']);
-        $filePath = $path . '/lang.php';
-
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true);
-        }
-        if (!File::exists($filePath)) {
-            File::put($filePath, "<?php return [];");
-        }
-
-        // Copy translations from English to new language
-        $englishLanguage = Language::where('code', 'en')->first();
-
-
-        if ($englishLanguage) {
-            $translations = Translation::where('language_id', $englishLanguage->id)->get();
-
-            $details = "<?php\nreturn [\n";
-
-            foreach ($translations as $row) {
-                $existingTranslation = Translation::where([
-                    'language_id' => $entry_id,
-                    'keyword' => $row->keyword
-                ])->exists();
-
-                if (!$existingTranslation) {
-                    Translation::create([
-                        'language_id' => $entry_id,
-                        'group' => $row->group,
-                        'keyword' => $row->keyword,
-                        'key' => $row->key,
-                        'value' => $row->value,
-                        'created_at' => now()
-                    ]);
-                }
-                $row->value = str_replace("'", "", $row->value);
-                $details .= "    '" . $row->keyword . "' => '" . $row->value . "',\n";
+            // ✅ Get language code
+            $code = LanguageCode::find($data['code_id']);
+            if ($code) {
+                $data['name'] = $code->name;
+                $data['code'] = $code->code;
             }
 
-            $details .= "];";
-            File::put($filePath, $details);
+            // ✅ Handle default language
+            $data['is_default'] = isset($data['is_default']) && $data['is_default'] == 'on' ? 1 : 0;
+            if ($data['is_default']) {
+                Language::where('id', '!=', $id)->update(['is_default' => 0]);
+            }
+
+            // ✅ CREATE / UPDATE
+            if ($id == 0) {
+                $data['created_at'] = now();
+                $language = Language::create($data);
+                $entry_id = $language->id;
+
+                // 🔥 COPY ENGLISH TRANSLATIONS ONLY ON CREATE
+                $englishLanguage = Language::where('code', 'en')->first();
+
+                if ($englishLanguage) {
+                    $translations = Translation::where('language_id', $englishLanguage->id)->get();
+
+                    foreach ($translations as $row) {
+                        Translation::create([
+                            'language_id' => $entry_id,
+                            'group'       => $row->group,
+                            'keyword'     => $row->keyword,
+                            'key'         => $row->key,
+                            'value'       => $row->value, // default EN value
+                            'created_at'  => now(),
+                        ]);
+                    }
+                }
+
+            } else {
+                Language::where('id', $id)->update($data);
+                $entry_id = $id;
+            }
+
+            // ✅ GENERATE LANGUAGE FILE (SAME LOGIC AS TRANSLATION MODEL)
+            $languages = Language::where('status', 1)->get();
+
+            foreach ($languages as $lang) {
+
+                $translations = Translation::where('language_id', $lang->id)->get();
+
+                $finalArray = [];
+
+                foreach ($translations as $row) {
+
+                    $value = $row->value;
+
+                    // 🔥 WEBSITE GROUP NESTED
+                    if ($row->group == 'website') {
+                        $finalArray['website'][$row->keyword] = $value;
+                    } else {
+                        // OTHER GROUPS FLAT
+                        $finalArray[$row->keyword] = $value;
+                    }
+                }
+
+                // ✅ SAFE FILE WRITE
+                $fileContent = "<?php\n\nreturn " . var_export($finalArray, true) . ";";
+
+                $path = resource_path('lang/' . $lang->code);
+
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                file_put_contents($path . '/lang.php', $fileContent);
+            }
+
+            return [
+                'status' => true,
+                'message' => $id == 0 ? "Data added successfully." : "Data updated successfully."
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => $e->getMessage() . ' Line: ' . $e->getLine()
+            ];
         }
-
-
-
-        return ['status' => true, 'message' => $id == 0 ? "Data added successfully." : "Data updated successfully."];
-
-    } catch (\Exception $e) {
-
-        return ['status' => false, 'message' => $e->getMessage() . ' Line: ' . $e->getLine()];
     }
-}
 
 
     /**
      * Delete particular entry
     **/
-      public static function deleteRecord($id)
+    public static function deleteRecord($id)
     {
         try {
             self::destroy($id);
@@ -151,7 +160,7 @@ public static function addUpdate($data, $id = 0)
     /**
      * Update Columns 
     **/
-   public static function updateStatus($id)
+    public static function updateStatus($id)
     {
         try {
             $data = Language::findOrFail($id);

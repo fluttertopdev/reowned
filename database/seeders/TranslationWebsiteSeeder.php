@@ -348,6 +348,51 @@ class TranslationWebsiteSeeder extends Seeder
 
             ['keyword' => 'signin_footer_msg', 'value' => 'By signing in to your account you agree to Reowned'],
 
+            array(
+                'keyword' => 'published',
+                'value' => 'Published'
+            ),
+            array(
+                'keyword' => 'mark_as_sold',
+                'value' => 'Mark As Sold'
+            ),
+            array(
+                'keyword' => 'edit',
+                'value' => 'Edit'
+            ),
+            array(
+                'keyword' => 'delete',
+                'value' => 'Delete'
+            ),
+            array(
+                'keyword' => 'delete_item_swal_msg',
+                'value' => 'You Won\'t Be Able To Recover This Item!'
+            ),
+            array(
+                'keyword' => 'yes_delete_it',
+                'value' => 'Yes, Delete It!'
+            ),
+            array(
+                'keyword' => 'deleted',
+                'value' => 'Deleted!'
+            ),
+            array(
+                'keyword' => 'error',
+                'value' => 'Error'
+            ),
+            array(
+                'keyword' => 'unauthorized_action',
+                'value' => 'Unauthorized Action'
+            ),
+            array(
+                'keyword' => 'item_delete_success_msg',
+                'value' => 'Item Delete Successfully!'
+            ),
+            array(
+                'keyword' => 'active',
+                'value' => 'Active'
+            ),
+
 
         ];
 

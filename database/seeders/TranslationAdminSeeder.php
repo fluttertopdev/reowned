@@ -1945,6 +1945,10 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'footer_logo',
                 'value' => 'Footer Logo',
             ),
+            array(
+                'keyword' => 'action',
+                'value' => 'Action'
+            ),
                
         );
 

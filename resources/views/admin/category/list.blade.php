@@ -193,7 +193,7 @@
                             @endforeach
                             @else
                             <tr>
-                                <td colspan="{{ isset(request()->category) ? 5 : 6 }}" class="record-not-found">
+                                <td colspan="{{ isset(request()->category) ? 7 : 8 }}" class="record-not-found">
                                     <span>{{__('lang.no_record_found')}}</span>
                                 </td>
                             </tr>

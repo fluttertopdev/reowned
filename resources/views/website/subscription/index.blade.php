@@ -34,6 +34,14 @@
                           @forelse($adsPackages as $row)
                             <div class="col-md-4">
                                 <div class="box-pricing-plan-box">
+                                  @if(isset($activeAdsPackage) && $activeAdsPackage->ad_package_id == $row->id)
+                                    <div class="plan-ribbon">
+                                        <span>{{ __('lang.website.active') }}</span>
+                                        <small>
+                                            {{ \Carbon\Carbon::parse($activeAdsPackage->end_date)->format('d M Y') }}
+                                        </small>
+                                    </div>
+                                  @endif
 
                                     <!-- Package Header -->
                                     <div class="pakege-box text-center">
@@ -87,7 +95,14 @@
                           @forelse($itemPackages as $row)
                             <div class="col-md-4">
                                 <div class="box-pricing-plan-box">
-
+                                  @if(isset($activeItemPackage) && $activeItemPackage->item_package_id == $row->id)
+                                      <div class="plan-ribbon">
+                                          <span>{{ __('lang.website.active') }}</span>
+                                          <small>
+                                              {{ \Carbon\Carbon::parse($activeItemPackage->end_date)->format('d M Y') }}
+                                          </small>
+                                      </div>
+                                  @endif
                                     <!-- Package Header -->
                                     <div class="pakege-box text-center">
                                       <span>{{ $row->name }}</span>

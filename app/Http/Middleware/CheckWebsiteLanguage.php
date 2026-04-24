@@ -4,39 +4,56 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Models\Language;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use App;
 use Config;
+use Exception;
 
 class CheckWebsiteLanguage
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-
     public function handle(Request $request, Closure $next)
     {
-        // Check if a language is already set in session or cookie
-        if (!Session::has('website_locale') && !isset($_COOKIE['website_lang_code'])) {
-            // Get default language code
-            $defaultCode = Language::where('is_default', '1')->value('code');
+        try {
+            // Check DB connection
+            DB::connection()->getPdo();
 
-            if ($defaultCode) {
-                App::setLocale($defaultCode);
-                Session::put('website_locale', $defaultCode);
-                setcookie('website_lang_code', $defaultCode, time() + (60 * 60 * 24 * 365), "/");
+            // Check if table exists
+            if (Schema::hasTable('languages')) {
+
+                if (!Session::has('website_locale') && !isset($_COOKIE['website_lang_code'])) {
+
+                    $defaultCode = DB::table('languages')
+                        ->where('is_default', 1)
+                        ->value('code');
+
+                    $defaultCode = $defaultCode ?: 'en';
+
+                    App::setLocale($defaultCode);
+                    Session::put('website_locale', $defaultCode);
+                    setcookie('website_lang_code', $defaultCode, time() + (60 * 60 * 24 * 365), "/");
+
+                } else {
+                    $lang = Session::get(
+                        'website_locale',
+                        $_COOKIE['website_lang_code'] ?? Config::get('app.locale', 'en')
+                    );
+
+                    App::setLocale($lang);
+                }
+
+            } else {
+                // Table not exists fallback
+                App::setLocale('en');
             }
-        } else {
-            // If language is already set, apply it
-            $lang = Session::get('website_locale', $_COOKIE['website_lang_code'] ?? Config::get('app.locale'));
-            App::setLocale($lang);
+
+        } catch (Exception $e) {
+            // DB connection failed fallback
+            App::setLocale('en');
         }
 
         return $next($request);
     }
-    
 }

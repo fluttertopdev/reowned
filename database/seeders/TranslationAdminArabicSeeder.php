@@ -1921,6 +1921,10 @@ class TranslationAdminArabicSeeder extends Seeder
                 'keyword' => 'footer_logo',
                 'value' => 'شعار التذييل'
             ),
+            array(
+                'keyword' => 'action',
+                'value' => 'إجراء'
+            ),
 
         );
 

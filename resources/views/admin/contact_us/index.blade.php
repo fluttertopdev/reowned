@@ -105,7 +105,7 @@
                             @else 
                                 <tr>
                                     <td colspan="7" class="record-not-found">
-                                        <span>{{__('lang.admin_record_not_found')}}</span>
+                                        <span>{{__('lang.no_record_found')}}</span>
                                     </td>
                                 </tr> 
                             @endif 

@@ -156,10 +156,12 @@
                   </div>
                 </a>
               </div>
+              @if(!$isOwner)
               <div class="start-chate-call">
                 <a href="{{ route('chat.start', $item->id) }}" class="start-chate"><img src="{{asset('website_assets/images/chate.svg')}}">{{ __('lang.website.start_chat') }}</a>
                 <a href="tel:{{$item->user ? $item->user->phone : '--'}}" class="call-button"><img src="{{asset('website_assets/images/call.svg')}}">{{ __('lang.website.call') }}</a>
               </div>
+              @endif
             </div>
 
           </div>
@@ -189,6 +191,7 @@
             </a>
           </div>
           @endif
+          @if(!$isOwner)
           <div class="did-you-box">
             <p><img src="{{asset('website_assets/images/red-icon.png')}}">{{ __('lang.website.did_you_find_problem') }}</p>
             <span>{{ __('lang.website.ad_name') }} #{{$item->title}}</span>
@@ -196,6 +199,7 @@
             <button class="report-button" id="openModalBtn1">{{ __('lang.website.report_this_ad') }}</button>
             @endif
           </div>
+          @endif
         </div>
       </div>
     </div>

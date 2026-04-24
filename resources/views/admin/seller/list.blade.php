@@ -151,7 +151,7 @@
                             @endforeach
                             @else
                             <tr>
-                                <td colspan="5" class="record-not-found">
+                                <td colspan="8" class="record-not-found">
                                     <span>{{__('lang.no_record_found')}}</span>
                                 </td>
                             </tr>

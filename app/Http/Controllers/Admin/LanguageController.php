@@ -39,6 +39,8 @@ class LanguageController extends Controller
 
         return view('admin.language.create', compact('data', 'code'));
     }
+
+
     public function store(Request $request)
     {
 
@@ -46,8 +48,8 @@ class LanguageController extends Controller
             'code_id' => 'required|unique:languages,code_id',
             'position' => 'required',
             'is_default' => 'nullable',
-
         ]);
+
         try {
 
             $added = Language::addUpdate($validatedData);
@@ -73,11 +75,9 @@ class LanguageController extends Controller
             'code_id' => 'required|unique:languages,code_id,' . $request->id,
             'position' => 'required',
             'is_default' => 'nullable',
-
         ]);
 
         try {
-
             $updated = Language::addUpdate($validatedData, $request->input('id'));
             if ($updated['status']) {
                 return redirect()->route('language.index')->with('success', $updated['message']);

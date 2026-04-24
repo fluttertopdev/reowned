@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\UserReportController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\UserpackagesController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\LicenseController;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -71,29 +72,37 @@ Route::prefix('admin')->group(function () {
 });
 
 // admin login   routing start
-Route::get('/admin-login', [LoginController::class, 'getLoginView'])->name('admin.login');
+Route::get('/admin-login', [LoginController::class, 'getLoginView'])->name('admin.login')->middleware(['check.app.installation', 'check.app.code_verified']);
 
-// forgot password routing start
-Route::prefix('forgotpassword')->controller(LoginController::class)->group(function () {
-  Route::get('/', 'getForgotpasswordView')->name('forgotpassword.index');
-  Route::post('/do-forgot-password', 'doForgetPassword')->name('password.forgot');
-  Route::get('/reset-password', 'getResetpasswordView')->name('password.resetShow');
-  Route::post('/do-reset-password', 'resetPasswordpost')->name('password.doreset');
+// License Verify
+Route::get('/licenses-verify', [LicenseController::class, 'index'])->middleware('check.app.installation');
+Route::post('/licenses-verify', [LicenseController::class, 'verify'])->name('license.verify')->middleware('check.app.installation');
+
+Route::middleware(['check.app.installation', 'check.app.code_verified'])->group(function () {
+  // forgot password routing start
+  Route::prefix('forgotpassword')->controller(LoginController::class)->group(function () {
+    Route::get('/', 'getForgotpasswordView')->name('forgotpassword.index');
+    Route::post('/do-forgot-password', 'doForgetPassword')->name('password.forgot');
+    Route::get('/reset-password', 'getResetpasswordView')->name('password.resetShow');
+    Route::post('/do-reset-password', 'resetPasswordpost')->name('password.doreset');
+  });
+  // forgot password end
 });
-// forgot password end
 
 Route::middleware('admin-language')->group(function () {
 
   Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
 
-    // admin dashboard/profile routing start here
-      Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard.index');
-        Route::get('/profile', 'adminProfile')->name('admin.profile');
-        Route::post('/update-profile', 'updateAdminProfile')->name('updateAdmin.profile');
-        Route::post('/adminLogout', 'adminLogout')->name('admin.logout');
-      });
-    // admin dashboard/profile routing end  here
+    Route::middleware(['check.app.installation', 'check.app.code_verified'])->group(function () {
+      // admin dashboard/profile routing start here
+        Route::controller(DashboardController::class)->group(function () {
+          Route::get('/dashboard', 'index')->name('dashboard.index');
+          Route::get('/profile', 'adminProfile')->name('admin.profile');
+          Route::post('/update-profile', 'updateAdminProfile')->name('updateAdmin.profile');
+          Route::post('/adminLogout', 'adminLogout')->name('admin.logout');
+        });
+      // admin dashboard/profile routing end  here
+    });
 
     // Global
     Route::post('/category-sortable', [CategoryController::class, 'sorting'])
@@ -134,7 +143,7 @@ Route::middleware('admin-language')->group(function () {
       )->name('user-query.export.pdf');
     });
 
-    Route::middleware(['permission'])->group(function () {
+    Route::middleware(['permission','check.app.installation', 'check.app.code_verified'])->group(function () {
 
       // category routing start
       Route::prefix('category')->controller(CategoryController::class)->group(function () {

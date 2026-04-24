@@ -456,6 +456,7 @@ return array (
   'admin_adsense_horizontal_ad_slot_placeholder' => 'أدخل فتحة الإعلان الأفقي من AdSense',
   'admin_enable_adsense_horizontal_ad_placeholder' => 'تفعيل الإعلان الأفقي من AdSense',
   'footer_logo' => 'شعار التذييل',
+  'action' => 'إجراء',
   'website' => 
   array (
     'select_location' => 'اختر الموقع',
@@ -737,5 +738,16 @@ return array (
     'tips' => 'نصائح',
     'no_tips_found' => 'لا توجد نصائح',
     'signin_footer_msg' => 'بتسجيل الدخول إلى حسابك، فإنك توافق على شروط Reowned',
+    'published' => 'منشور',
+    'mark_as_sold' => 'تحديد كـ "تم البيع"',
+    'edit' => 'تعديل',
+    'delete' => 'حذف',
+    'delete_item_swal_msg' => 'لن تتمكن من استعادة هذا العنصر!',
+    'yes_delete_it' => 'نعم، احذفه!',
+    'deleted' => 'تم الحذف!',
+    'error' => 'خطأ',
+    'unauthorized_action' => 'إجراء غير مصرح به',
+    'item_delete_success_msg' => 'تم حذف العنصر بنجاح',
+    'active' => 'نشط',
   ),
 );

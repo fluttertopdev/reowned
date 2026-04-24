@@ -16,11 +16,15 @@ use App\Models\Itempackage;
 use App\Models\Adspackages;
 use App\Models\UserPayment;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::guard('web')->user();
+        $userId = $user->id ?? 0;
+
         $data['itemPackages'] = Itempackage::with('translation')
             ->where('status',1)
             ->get();
@@ -29,7 +33,23 @@ class SubscriptionController extends Controller
             ->where('status',1)
             ->get();
 
-        return view('website.subscription.index',$data);
+        // Get active item package
+        $data['activeItemPackage'] = \DB::table('user_packages')
+            ->where('user_id', $userId)
+            ->whereNotNull('item_package_id')
+            ->where('is_active', 1)
+            ->whereDate('end_date', '>=', now())
+            ->first();
+
+        // Get active ads package
+        $data['activeAdsPackage'] = \DB::table('user_packages')
+            ->where('user_id', $userId)
+            ->whereNotNull('ad_package_id')
+            ->where('is_active', 1)
+            ->whereDate('end_date', '>=', now())
+            ->first();
+
+        return view('website.subscription.index', $data);
     }
     
     // Razorpay

@@ -28,7 +28,7 @@ class HomeController extends Controller
         // Get location from session
         $lat     = session('user_lat');
         $lng     = session('user_lng');
-        $radius  = session('radius', 20);
+        $radius = (float) session('radius', 20);
 
         $city    = session('city');
         $state   = session('state');
@@ -54,7 +54,7 @@ class HomeController extends Controller
             }]);
 
         // Apply Location Filter
-        if($lat && $lng){
+        if(!is_null($lat) && !is_null($lng)){
 
             $baseQuery->select('items.*')
                 ->selectRaw("
@@ -67,9 +67,8 @@ class HomeController extends Controller
                     )) AS distance
                 ", [$lat, $lng, $lat])
 
-                ->having("distance", "<=", $radius)
+                ->havingRaw("distance <= ?", [$radius])
                 ->orderBy("distance", "asc");
-
         } else {
 
             // fallback (if lat/lng not available)
@@ -173,7 +172,7 @@ class HomeController extends Controller
             ->with('latestImage');
 
         // Apply Location Filter
-        if($lat && $lng){
+        if(!is_null($lat) && !is_null($lng)){
 
             $query->select('items.*')
                 ->selectRaw("
@@ -186,7 +185,7 @@ class HomeController extends Controller
                     )) AS distance
                 ", [$lat, $lng, $lat])
 
-                ->having("distance", "<=", $radius)
+                ->havingRaw("distance <= ?", [$radius])
                 ->orderBy("distance", "asc");
 
         } else {

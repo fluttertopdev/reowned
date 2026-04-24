@@ -25,7 +25,7 @@ use App\Http\Controllers\Website\CmsController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['website-language:web'])->group(function () {
+Route::middleware(['website-language:web','check.app.installation', 'check.app.code_verified'])->group(function () {
 
     // Homepage
     Route::get('/', [HomeController::class, 'index'])
@@ -81,6 +81,8 @@ Route::middleware(['website-language:web'])->group(function () {
 
             Route::get('/edit-listing/{id}', [SellController::class, 'sellEditListing'])
                 ->name('edit-listing');
+
+            Route::post('/delete-listing', [SellController::class, 'sellDeleteListing'])->name('delete.listing');
 
             Route::post('/update', [SellController::class, 'update'])
                 ->name('update');

@@ -243,7 +243,7 @@ class ItemController extends Controller
             ->where('status',1)
             ->get();
 
-        return view('website.item.item_detail',compact('item','relatedItems','isFavorite','reportReasons'));
+        return view('website.item.item_detail',compact('item','relatedItems','isFavorite','reportReasons','isOwner'));
     }
 
     private function calculateDistance($lat1, $lng1, $lat2, $lng2)

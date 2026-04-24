@@ -499,5 +499,45 @@ class SellController extends Controller
             return back()->with('error', __('lang.website.something_went_wrong'));
         }
     }
+
+    // Delete Listing
+    public function sellDeleteListing(Request $request)
+    {
+        try {
+            $id = Crypt::decrypt($request->id);
+
+            $item = Item::find($id);
+
+            if (!$item) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => __('lang.website.item_not_found'),
+                ]);
+            }
+
+            // Optional: Check ownership
+            if ($item->user_id != auth()->id()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => __('lang.website.unauthorized_action'),
+                ]);
+            }
+
+            // Delete item
+            $item->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => __('lang.website.item_delete_success_msg')
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => 'error',
+                'message' => __('lang.website.something_went_wrong')
+            ]);
+        }
+    }
    
 }

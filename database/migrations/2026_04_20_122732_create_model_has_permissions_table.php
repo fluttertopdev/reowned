@@ -11,20 +11,19 @@ return new class extends Migration
         if (!Schema::hasTable('model_has_permissions')) {
             Schema::create('model_has_permissions', function (Blueprint $table) {
 
+                $table->engine = 'InnoDB';
+            
                 $table->unsignedBigInteger('permission_id');
                 $table->string('model_type');
                 $table->unsignedBigInteger('model_id');
-
-                // Indexes
+            
                 $table->index(['model_id', 'model_type'], 'model_has_permissions_model_id_model_type_index');
-
-                // Composite Primary Key
+            
                 $table->primary(
                     ['permission_id', 'model_id', 'model_type'],
                     'model_has_permissions_primary'
                 );
-
-                // Foreign Key
+            
                 $table->foreign('permission_id')
                       ->references('id')
                       ->on('permissions')

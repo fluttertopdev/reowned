@@ -393,6 +393,63 @@ class TranslationWebsiteSeeder extends Seeder
                 'value' => 'Active'
             ),
 
+            array(
+                'keyword' => 'expire_on',
+                'value' => 'Expire On'
+            ),
+            array(
+                'keyword' => 'please_purchase_item_plan_first',
+                'value' => 'Please Purchase Item Plan First'
+            ),
+            array(
+                'keyword' => 'item_limit_exhausted',
+                'value' => 'Item Limit Exhausted'
+            ),
+            array(
+                'keyword' => 'no_active_plan',
+                'value' => 'No Active Plan'
+            ),
+            array(
+                'keyword' => 'please_purchase_a_plan_to_add_listing',
+                'value' => 'Please Purchase A Plan To Add Listing'
+            ),
+            array(
+                'keyword' => 'view_package',
+                'value' => 'View Package'
+            ),
+            array(
+                'keyword' => 'limit_reached',
+                'value' => 'Limit Reached'
+            ),
+            array(
+                'keyword' => 'your_plan_limit_is_over_please_upgrade_your_plan',
+                'value' => 'Your Plan Limit Is Over. Please Upgrade Your Plan'
+            ),
+            array(
+                'keyword' => 'upgrade_plan',
+                'value' => 'Upgrade Plan'
+            ),
+            array(
+                'keyword' => 'limit_already_reached',
+                'value' => 'Limit Already Reached'
+            ),
+            array(
+                'keyword' => 'account_detail',
+                'value' => 'Account Detail'
+            ),
+            array(
+                'keyword' => 'account_information',
+                'value' => 'Account Information'
+            ),
+            array(
+                'keyword' => 'live_ads',
+                'value' => 'Live Ads'
+            ),
+            array(
+                'keyword' => 'no_item_found',
+                'value' => 'No Item Found'
+            ),
+
 
         ];
 

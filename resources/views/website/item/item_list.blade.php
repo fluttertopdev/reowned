@@ -6,7 +6,7 @@
       <ul>
         <li><a href="{{url('/')}}">{{ __('lang.website.home') }}</a></li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li>
+        <li class="mt-3">
           <a href="#" class="active">
             @if($type == 'recommendation')
                 {{ __('lang.website.recommended_for_you') }}

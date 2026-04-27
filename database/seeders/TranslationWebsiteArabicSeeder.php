@@ -388,6 +388,65 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'keyword' => 'active',
                 'value' => 'نشط'
             ),
+
+            array(
+                'keyword' => 'expire_on',
+                'value' => 'تنتهي في'
+            ),
+            array(
+                'keyword' => 'please_purchase_item_plan_first',
+                'value' => 'يرجى شراء خطة العناصر أولاً'
+            ),
+            array(
+                'keyword' => 'item_limit_exhausted',
+                'value' => 'تم استنفاد حد العناصر'
+            ),
+            array(
+                'keyword' => 'no_active_plan',
+                'value' => 'لا توجد خطة نشطة'
+            ),
+            array(
+                'keyword' => 'please_purchase_a_plan_to_add_listing',
+                'value' => 'يرجى شراء خطة لإضافة قائمة'
+            ),
+            array(
+                'keyword' => 'view_package',
+                'value' => 'عرض الباقة'
+            ),
+            array(
+                'keyword' => 'limit_reached',
+                'value' => 'تم الوصول إلى الحد الأقصى'
+            ),
+            array(
+                'keyword' => 'your_plan_limit_is_over_please_upgrade_your_plan',
+                'value' => 'لقد انتهى حد خطتك. يرجى ترقية خطتك'
+            ),
+            array(
+                'keyword' => 'upgrade_plan',
+                'value' => 'ترقية الخطة'
+            ),
+            array(
+                'keyword' => 'limit_already_reached',
+                'value' => 'تم الوصول إلى الحد الأقصى بالفعل'
+            ),
+
+            array(
+                'keyword' => 'account_detail',
+                'value' => 'تفاصيل الحساب'
+            ),
+            array(
+                'keyword' => 'account_information',
+                'value' => 'معلومات الحساب'
+            ),
+            array(
+                'keyword' => 'live_ads',
+                'value' => 'إعلانات مباشرة'
+            ),
+            array(
+                'keyword' => 'no_item_found',
+                'value' => 'لم يتم العثور على عناصر'
+            ),
+
         ];
 
         $languages = Language::where('code','ar')->get();

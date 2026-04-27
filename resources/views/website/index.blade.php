@@ -55,7 +55,9 @@
   <div class="container">
     <div class="recommendations-saction">
       <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.recommendations') }}</h2>
+      @if(count($recommendateItemData) > 4)
       <a href="{{url('item/list?type=recommendation')}}" data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.view_all') }}</a>
+      @endif
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $recommendateItemData, 'row')
@@ -70,7 +72,9 @@
   <div class="container">
     <div class="recommendations-saction">
       <h2 data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.popular_items') }}</h2>
+      @if(count($popularItemData) > 4)
       <a href="{{url('item/list?type=popular')}}" data-aos="fade-up" data-aos-duration="1000">{{ __('lang.website.view_all') }}</a>
+      @endif
       <div class="recommendations-saction-shop">
         <div class="row">
           @each('website.partial.item_list', $popularItemData, 'row')

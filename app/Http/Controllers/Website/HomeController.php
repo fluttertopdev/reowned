@@ -114,6 +114,7 @@ class HomeController extends Controller
                     $q->whereIn('category_id', $recentCategories)
                       ->orWhereIn('id', $recentItemIds);
                 })
+                ->orderByDesc('is_featured')
                 ->orderBy('views','DESC')
                 ->limit(8)
                 ->get();
@@ -122,6 +123,7 @@ class HomeController extends Controller
 
             // fallback
             $data['recommendateItemData'] = (clone $baseQuery)
+                ->orderByDesc('is_featured')
                 ->orderBy('views','DESC')
                 ->limit(8)
                 ->get();
@@ -129,12 +131,14 @@ class HomeController extends Controller
 
         // Popular (Latest Nearby)
         $data['popularItemData'] = (clone $baseQuery)
+            ->orderByDesc('is_featured')
             ->orderBy('views','DESC')
             ->limit(8)
             ->get();
 
         // All Items (Latest Nearby)
         $data['allItemData'] = (clone $baseQuery)
+            ->orderByDesc('is_featured')
             ->orderBy('id','DESC')
             ->limit(8)
             ->get();
@@ -186,6 +190,7 @@ class HomeController extends Controller
                 ", [$lat, $lng, $lat])
 
                 ->havingRaw("distance <= ?", [$radius])
+                ->orderByDesc('is_featured')
                 ->orderBy("distance", "asc");
 
         } else {

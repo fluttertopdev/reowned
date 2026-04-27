@@ -101,7 +101,12 @@
         width: 100%;
         object-fit: contain;
     }
+    
+    svg.svg-inline--fa.fa-angle-right.fa-w-8.ms-2 {
+        color: #b4b3b0 !important;
+    }
 </style>
+<!-- Filter -->
 <style>
     .filter-form {
         display: flex;
@@ -157,6 +162,7 @@
         color: #2c2b2b;
     }
 </style>
+<!-- Location -->
 <style>
     .location-modal {
         width: 550px;
@@ -605,7 +611,7 @@
         display: block;
     }
 </style>
-<!-- Pakcages style -->
+<!-- Packages style -->
 <style>
     .box-pricing-plan-box {
       position: relative;
@@ -1372,7 +1378,7 @@ btn.prop('disabled', true).text('{{ __('lang.website.uploading') }}');
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    window.location.href = "{{ url('/') }}";
+                    $('#loginModal').modal('show');
                 }
 
             });
@@ -1830,4 +1836,43 @@ btn.prop('disabled', true).text('{{ __('lang.website.uploading') }}');
 
         $(this).find('a').text(text == '+ '+"{{ __('lang.website.more') }}" ? '- '+"{{ __('lang.website.more') }}" : '+ '+"{{ __('lang.website.more') }}");
     });
+</script>
+
+<!-- Pakcage check -->
+<script>
+function handleSellClick() {
+
+    let status = @json($packageCheck['status'] ?? false);
+    let code   = @json($packageCheck['code'] ?? 'NO_PLAN');
+
+    if (!status) {
+
+        if (code === 'NO_PLAN') {
+            Swal.fire({
+                icon: 'warning',
+                title: "{{ __('lang.website.no_active_plan') }}",
+                text: "{{ __('lang.website.please_purchase_a_plan_to_add_listing') }}",
+                confirmButtonText: "{{ __('lang.website.view_package') }}"
+            }).then(() => {
+                window.location.href = "{{ url('subscriptions') }}";
+            });
+        }
+
+        if (code === 'LIMIT_OVER') {
+            Swal.fire({
+                icon: 'error',
+                title: "{{ __('lang.website.limit_reached') }}",
+                text: "{{ __('lang.website.your_plan_limit_is_over_please_upgrade_your_plan') }}",
+                confirmButtonText: "{{ __('lang.website.upgrade_plan') }}"
+            }).then(() => {
+                window.location.href = "{{ url('subscriptions') }}";
+            });
+        }
+
+        return false;
+    }
+
+    // Allowed
+    window.location.href = "{{ url('sell') }}";
+}
 </script>

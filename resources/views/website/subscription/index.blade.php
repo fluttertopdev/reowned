@@ -69,16 +69,23 @@
                                           @endif
                                       </ul>
                                     </div>
-                                    <div class="choose-plan">
-                                      <button 
-                                          class="choose-plan-btn"
-                                          data-id="{{ $row->id }}"
-                                          data-price="{{ $row->final_price }}"
-                                          data-type="ads"
-                                      >
-                                        {{ __('lang.website.choose_plan') }}
-                                      </button>
-                                    </div>
+                                    <div class="choose-plan text-center">
+                                      @if(isset($activeAdsPackage) && $activeAdsPackage->ad_package_id == $row->id)
+                                          <span class="badge bg-success">{{ __('lang.website.active') }}</span><br>
+                                          <small class="text-muted">
+                                              {{ __('lang.website.expire_on') }}: {{ \Carbon\Carbon::parse($activeAdsPackage->end_date)->format('d M Y') }}
+                                          </small>
+                                      @else
+                                          <button 
+                                              class="choose-plan-btn"
+                                              data-id="{{ $row->id }}"
+                                              data-price="{{ $row->final_price }}"
+                                              data-type="ads"
+                                          >
+                                              {{ __('lang.website.choose_plan') }}
+                                          </button>
+                                      @endif
+                                  </div>
                                 </div>
                             </div>
                           @empty
@@ -129,16 +136,23 @@
                                           @endif
                                       </ul>
                                     </div>
-                                    <div class="choose-plan">
-                                      <button 
-                                          class="choose-plan-btn"
-                                          data-id="{{ $row->id }}"
-                                          data-price="{{ $row->final_price }}"
-                                          data-type="item"
-                                      >
-                                        {{ __('lang.website.choose_plan') }}
-                                      </button>
-                                    </div>
+                                    <div class="choose-plan text-center">
+                                      @if(isset($activeItemPackage) && $activeItemPackage->item_package_id == $row->id)
+                                          <span class="badge bg-success">{{ __('lang.website.active') }}</span><br>
+                                          <small class="text-muted">
+                                              {{ __('lang.website.expire_on') }}: {{ \Carbon\Carbon::parse($activeItemPackage->end_date)->format('d M Y') }}
+                                          </small>
+                                      @else
+                                          <button 
+                                              class="choose-plan-btn"
+                                              data-id="{{ $row->id }}"
+                                              data-price="{{ $row->final_price }}"
+                                              data-type="item"
+                                          >
+                                              {{ __('lang.website.choose_plan') }}
+                                          </button>
+                                      @endif
+                                  </div>
                                 </div>
                             </div>
                           @empty

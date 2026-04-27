@@ -8,10 +8,24 @@
                 <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
                 <li><a href="{{url('categories')}}">{{ __('lang.website.all_categories') }}</a></li>
                 <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-                <li class="active">{{ ucfirst($slug) ?? __('lang.website.search_result')  }}</li>
+                <li class="active">
+                    {{ $slug == 'all' 
+                        ? ucfirst($slug) 
+                        : (isset($categoryData) 
+                            ? $categoryData->name 
+                            : __('lang.website.search_result')) 
+                    }}
+                </li>
             </ul>
         </div>
-        <h4 class="title-page">{{ucfirst($slug)}} {{__('lang.website.category')}} </h4>
+        <h4 class="title-page">
+            {{ $slug == 'all' 
+                ? ucfirst($slug) 
+                : (isset($categoryData) 
+                    ? $categoryData->name 
+                    : __('lang.website.search_result')) 
+            }}
+        </h4>
         <div class="designer-row-box-saction">
             <div class="row">
                 <div class="col-md-4" id="filterContainer">

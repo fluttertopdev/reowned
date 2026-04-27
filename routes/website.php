@@ -264,11 +264,9 @@ Route::middleware(['website-language:web','check.app.installation', 'check.app.c
     |--------------------------------------------------------------------------
     |  User Routes
     |--------------------------------------------------------------------------
-    */
-
-    Route::middleware('auth.webuser')->group(function () {
+    */ 
         Route::get('/ajax/load-items', [UserController::class,'loadItems'])->name('ajax.load.items');
-    });
+
         Route::get('/account-detail/{id}', [UserController::class, 'accountDetail'])
                 ->name('account-detail');
 

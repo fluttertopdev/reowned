@@ -25,17 +25,31 @@ class UserController extends Controller
         $user = Auth::guard('web')->user();
         $user_id = $user->id ?? 0;
 
+        //  self profile redirect (as per your logic)
         if($userId == $user_id){
-           return redirect('/')
+            return redirect('/')
                 ->with('error', __('lang.website.account_not_exists'));
         }
 
         $profileUser = User::find($userId);
 
         if(!$profileUser){
-           return redirect('/')
+            return redirect('/')
                 ->with('error', __('lang.website.account_not_exists'));
         }
+
+        //  check owner
+        $isOwner = ($userId == $user_id);
+
+        // LOCATION SESSION
+        $lat     = session('user_lat');
+        $lng     = session('user_lng');
+        $radius  = session('radius', 20);
+
+        $city    = session('city');
+        $state   = session('state');
+        $pincode = session('pincode');
+        $area    = session('area');
 
         $query = Item::where('status',1)
             ->where('user_id', $userId)
@@ -44,8 +58,40 @@ class UserController extends Controller
                 $q->where('user_id',$user_id);
             }]);
 
-        $totalItemCount = $query->count();
+        /**
+         *  APPLY LOCATION FILTER ONLY IF NOT OWNER
+         */
+        if(!$isOwner){
 
+            if($lat && $lng){
+
+                $query->select('items.*')
+                    ->selectRaw("
+                        (6371 * acos(
+                            cos(radians(?)) 
+                            * cos(radians(latitude)) 
+                            * cos(radians(longitude) - radians(?)) 
+                            + sin(radians(?)) 
+                            * sin(radians(latitude))
+                        )) AS distance
+                    ", [$lat, $lng, $lat])
+
+                    ->having("distance", "<=", $radius)
+                    ->orderBy("distance", "asc");
+
+            } else {
+
+                if($city) $query->where('city', $city);
+                if($state) $query->where('state', $state);
+                if($pincode) $query->where('pincode', $pincode);
+                if($area) $query->where('area', 'like', '%'.$area.'%');
+            }
+        }
+
+        // total count (IMPORTANT: clone query)
+        $totalItemCount = (clone $query)->count();
+
+        // initial data
         $allItemData = $query->orderBy('views','DESC')
             ->limit(8)
             ->get();
@@ -59,21 +105,67 @@ class UserController extends Controller
         $user = Auth::guard('web')->user();
         $userId = $user->id ?? 0;
 
+        $profileUserId = $request->user_id;
+        $isOwner = ($profileUserId == $userId);
+
         $offset = $request->offset ?? 0;
         $limit = 8;
         $sort = $request->sort ?? 'newest';
 
+        // LOCATION SESSION
+        $lat     = session('user_lat');
+        $lng     = session('user_lng');
+        $radius  = session('radius', 20);
+
+        $city    = session('city');
+        $state   = session('state');
+        $pincode = session('pincode');
+        $area    = session('area');
+
         $query = Item::where('status',1)
-            ->with(['latestImage','area','city'])
+            ->where('user_id', $profileUserId)
+            ->with(['latestImage'])
             ->withExists(['favorites as is_favorite' => function($q) use ($userId){
                 $q->where('user_id',$userId);
             }]);
 
-        // Sorting
-        if($sort == "low_to_high"){
+        /**
+         *  APPLY LOCATION FILTER ONLY IF NOT OWNER
+         */
+        if(!$isOwner){
+
+            if($lat && $lng){
+
+                $query->select('items.*')
+                    ->selectRaw("
+                        (6371 * acos(
+                            cos(radians(?)) 
+                            * cos(radians(latitude)) 
+                            * cos(radians(longitude) - radians(?)) 
+                            + sin(radians(?)) 
+                            * sin(radians(latitude))
+                        )) AS distance
+                    ", [$lat, $lng, $lat])
+
+                    ->having("distance", "<=", $radius)
+                    ->orderBy("distance", "asc");
+
+            } else {
+
+                if($city) $query->where('city', $city);
+                if($state) $query->where('state', $state);
+                if($pincode) $query->where('pincode', $pincode);
+                if($area) $query->where('area', 'like', '%'.$area.'%');
+            }
+        }
+
+        /**
+         *  SORTING (after location)
+         */
+        if($sort == "price_low"){
             $query->orderBy('price','ASC');
         }
-        elseif($sort == "high_to_low"){
+        elseif($sort == "price_high"){
             $query->orderBy('price','DESC');
         }
         elseif($sort == "oldest"){

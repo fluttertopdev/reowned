@@ -4,9 +4,9 @@
   <div class="container">
     <div class="brudcrum">
       <ul>
-        <li><a href="{{'/'}}">Home</a></li>
+        <li><a href="{{'/'}}">{{ __('lang.website.home') }}</a></li>
         <li><img src="{{asset('website_assets/images/r-errow.png')}}"></li>
-        <li><a href="#" class="active">Designer</a></li>
+        <li><a href="#" class="active">{{ __('lang.website.account_detail') }}</a></li>
       </ul>
     </div>
     <div class="designer-row-box-saction">
@@ -14,7 +14,7 @@
         <div class="col-md-4">
           <div class="desginer-left-box">
             <div class="sell-informaction">
-              <h3>Seller information</h3>
+              <h3>{{ __('lang.website.account_information') }}</h3>
               <ul>
                 @php
                     $shareUrl = url('account-detail/'.$profileUser->id);
@@ -28,31 +28,30 @@
                             <!-- Facebook -->
                             <li>
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-1.png')}}"> Facebook
+                                    <img src="{{asset('website_assets/images/solor-icon-1.png')}}"> {{ __('lang.website.facebook') }}
                                 </a>
                             </li>
 
                             <!-- X (Twitter) -->
                             <li>
                                 <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-2.png')}}"> X
+                                    <img src="{{asset('website_assets/images/solor-icon-2.png')}}"> {{ __('lang.website.x') }}
                                 </a>
                             </li>
 
                             <!-- WhatsApp -->
                             <li>
                                 <a href="https://wa.me/?text={{ $shareText }} {{ $shareUrl }}" target="_blank">
-                                    <img src="{{asset('website_assets/images/solor-icon-3.png')}}"> WhatsApp
+                                    <img src="{{asset('website_assets/images/solor-icon-3.png')}}"> {{ __('lang.website.whatsApp') }}
                                 </a>
                             </li>
 
                             <!-- Copy Link -->
                             <li>
                                 <a href="javascript:void(0)" onclick="copyShareLink()">
-                                    <img src="{{asset('website_assets/images/solor-icon-4.png')}}"> Copy link
+                                    <img src="{{asset('website_assets/images/solor-icon-4.png')}}"> {{ __('lang.website.copy_link') }}
                                 </a>
                             </li>
-
                         </ul>
                   </div>
                 </li>
@@ -82,17 +81,17 @@
             <div class="tabs">
               <div class="tab-left-right">
                 <ul id="tabs-nav">
-                  <li><a href="#tab1">Live Ads</a></li>
+                  <li><a href="#tab1">{{ __('lang.website.live_ads') }}</a></li>
                 </ul>
                 <div class="tab-right-box">
                   <div class="short-by-btn">
                     <div class="select">
-                      <div class="selectBtn" data-type="firstOption">Newest to oldest</div>
+                      <div class="selectBtn" data-type="firstOption">{{ __('lang.website.newest') }}</div>
                       <div class="selectDropdown">
-                        <div class="option sort-option" data-sort="low_to_high">Low to High</div>
-                        <div class="option sort-option" data-sort="high_to_low">High to Low</div>
-                        <div class="option sort-option" data-sort="oldest">Oldest to Newest</div>
-                        <div class="option sort-option" data-sort="newest">Newest to Oldest</div>
+                        <div class="option sort-option" data-value="">{{ __('lang.website.newest') }}</div>
+                        <div class="option sort-option" data-value="oldest">{{ __('lang.website.oldest_to_newest') }}</div>
+                        <div class="option sort-option" data-value="price_high">{{ __('lang.website.price_high_to_low') }}</div>
+                        <div class="option sort-option" data-value="price_low">{{ __('lang.website.price_low_to_high') }}</div>
                       </div>
                     </div>
                   </div>
@@ -109,18 +108,9 @@
                         </div>
                         @if($totalItemCount > 8)
                           <div class="load-more text-center mt-4">
-                            <button class="btn-load">Load More</button>
+                            <button class="btn-load">{{ __('lang.website.load_more') }}</button>
                           </div>
                         @endif
-                      </div>
-                    </div>
-                  </div>
-                  <div id="tab2" class="tab-content">
-                    <div class="body-tab">
-                      <div class="reviews-found">
-                        <img src="{{asset('website_assets/images/confused-postman.png')}}">
-                        <h4>No Reviews Found</h4>
-                        <p>We're sorry what you were looking for. please try another way</p>
                       </div>
                     </div>
                   </div>
@@ -136,6 +126,10 @@
 
   <script src="https://code.jquery.com/jquery-4.0.0.min.js"
     integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+
+  <script>
+    let profileUserId = "{{ $profileUser->id }}";
+  </script>
 
   <script>
     $(document).ready(function () {
@@ -158,6 +152,7 @@
       });
     });
   </script>
+
   <script>
     $(document).ready(function () {
       $('#tabs-nav li a').on('click', function (e) {
@@ -177,6 +172,7 @@
       });
     });
   </script>
+
   <script>
     let offset = 8;
     let sort = 'newest';
@@ -194,7 +190,8 @@
             type: "GET",
             data:{
                 offset: offset,
-                sort: sort
+                sort: sort,
+                user_id: profileUserId
             },
 
             success:function(response){
@@ -221,7 +218,7 @@
 
     $('.sort-option').click(function(){
 
-      sort = $(this).data('sort');
+      sort = $(this).data('value');
 
       offset = 0;
 
@@ -231,7 +228,8 @@
           type: "GET",
           data:{
               offset: offset,
-              sort: sort
+              sort: sort,
+              user_id: profileUserId
           },
 
           success:function(response){
@@ -246,7 +244,7 @@
 
       });
 
-  });
+    });
   </script>
   
   <script>

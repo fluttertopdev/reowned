@@ -92,9 +92,17 @@
                   </a>
               </div>
 
-              <div class="sell-button"><a href="{{url('sell')}}">{{ __('lang.website.sell') }} 
-                <img src="{{asset('website_assets/images/pluse.svg')}}"></a>
-              </div>
+             @php
+                $user = Auth::guard('web')->user();
+                $packageCheck = $user ? \Helpers::canUserPostItem($user->id) : null;
+            @endphp
+
+            <div class="sell-button">
+                <a href="javascript:void(0);" onclick="handleSellClick()">
+                    {{ __('lang.website.sell') }}
+                    <img src="{{asset('website_assets/images/pluse.svg')}}">
+                </a>
+            </div>
             @endif
           </div>
         </div>
@@ -153,9 +161,10 @@
         @if($otherCategories->count() > 0)
           <li class="nav-item dropdown dropdown-hover position-static">
 
-            <span class="nav-link other-trigger">
-                {{ __('lang.website.other') }} <strong> > </strong>
-            </span>
+<a href="javascript:void(0);" class="nav-link other-trigger d-flex align-items-center">
+    {{ __('lang.website.other') }}
+    <i class="fa fa-angle-right ms-2"></i>
+</a>
 
             <div class="dropdown-menu dropdown-niv3 border-0 shadow">
               <div class="mega-wrapper">

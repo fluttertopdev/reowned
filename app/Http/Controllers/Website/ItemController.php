@@ -74,6 +74,7 @@ class ItemController extends Controller
                 ", [$lat, $lng, $lat])
 
                 ->having("distance", "<=", $radius)
+                ->orderByDesc('is_featured')
                 ->orderBy("distance", "asc");
 
         } else {
@@ -93,6 +94,7 @@ class ItemController extends Controller
                     $q->whereIn('category_id', $recentCategories)
                       ->orWhereIn('id', $recentItemIds);
                 })
+                ->orderByDesc('is_featured')
                 ->orderBy('views','DESC');
 
             } else {
@@ -101,11 +103,11 @@ class ItemController extends Controller
 
         } elseif($type == 'popular'){
 
-            $query->orderBy('views','DESC');
+            $query->orderByDesc('is_featured')->orderBy('views','DESC');
 
         } else {
 
-            $query->orderBy('id','DESC');
+            $query->orderByDesc('is_featured')->orderBy('id','DESC');
         }
 
         $data['allItemData'] = $query->paginate(12);

@@ -1,43 +1,47 @@
-@foreach($items as $row)
-<div class="col-md-3"> 
-  <a href="{{ route('item.detail',$row->slug) }}">
-    <div class="recommendations-saction-shop-box" data-aos="fade-up" data-aos-duration="1000">
-      
-      <div class="product-box-image">
+@if(count($items) > 0)
+  @foreach($items as $row)
+  <div class="col-md-3"> 
+    <a href="{{ route('item.detail',$row->slug) }}">
+      <div class="recommendations-saction-shop-box" data-aos="fade-up" data-aos-duration="1000">
+        
+        <div class="product-box-image">
 
-        <img src="{{ isset($row->latestImage) ? url($row->latestImage?->image) : url('uploads/Image-not-found.png') }}" class="item-list-img">
+          <img src="{{ isset($row->latestImage) ? url($row->latestImage?->image) : url('uploads/Image-not-found.png') }}" class="item-list-img">
 
-        <a href="javascript:void(0)"
-           class="hart toggle-favorite"
-           data-item="{{ $row->id }}"
-           data-add="{{ asset('website_assets/images/hart-red.png') }}"
-           data-remove="{{ asset('website_assets/images/hart.svg') }}">
+          <a href="javascript:void(0)"
+             class="hart toggle-favorite"
+             data-item="{{ $row->id }}"
+             data-add="{{ asset('website_assets/images/hart-red.png') }}"
+             data-remove="{{ asset('website_assets/images/hart.svg') }}">
 
-            @php
-            $icon = $row->is_favorite ? 'hart-red.png' : 'hart.svg';
-            @endphp
+              @php
+              $icon = $row->is_favorite ? 'hart-red.png' : 'hart.svg';
+              @endphp
 
-            <img src="{{asset('website_assets/images/'.$icon)}}" class="favorite-img">
+              <img src="{{asset('website_assets/images/'.$icon)}}" class="favorite-img">
 
-        </a>
+          </a>
 
-      </div>
-
-      <div class="product-box-text">
-        <span>{{ \Helpers::commonCurrencyFormate().$row->price }}</span>
-        <p>{{ $row->title }}</p>
-
-        <div class="ul-li">
-          <em>
-            <img src="{{asset('website_assets/images/map-small.svg')}}">
-            {{ $row->area != '' ? $row->area . ', ' . $row->city : '' }}
-          </em>
-
-          <h6>{{ $row->created_at->diffForHumans() }}</h6>
         </div>
 
+        <div class="product-box-text">
+          <span>{{ \Helpers::commonCurrencyFormate().$row->price }}</span>
+          <p>{{ $row->title }}</p>
+
+          <div class="ul-li">
+            <em>
+              <img src="{{asset('website_assets/images/map-small.svg')}}">
+              {{ $row->area != '' ? $row->area . ', ' . $row->city : '' }}
+            </em>
+
+            <h6>{{ $row->created_at->diffForHumans() }}</h6>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </a> 
-</div>
-@endforeach
+    </a> 
+  </div>
+  @endforeach
+@else
+<p class="text-center mb-3">{{ __('lang.website.no_item_found') }}</p>
+@endif

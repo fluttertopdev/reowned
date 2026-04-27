@@ -40,7 +40,7 @@ class CategoryController extends Controller
 
         // CATEGORY
         if($slug && $slug !== 'all'){
-            $categoryData = Category::where('slug',$slug)->first();
+            $categoryData = Category::with('translation')->where('slug',$slug)->first();
 
             if($categoryData){
                 if($categoryData->parent_id == 0){
@@ -74,6 +74,7 @@ class CategoryController extends Controller
             ->whereNull('deleted_at');
 
         // CATEGORY
+        $categoryData = '';
         if($slug && $slug !== 'all'){
             $categoryData = Category::where('slug',$slug)->first();
 
@@ -329,6 +330,7 @@ class CategoryController extends Controller
                 'maxPriceValue' => $maxPriceValue,
                 'slug' => $slug,
                 'items' => $items,
+                'categoryData' => $categoryData,
 
                 // IMPORTANT (ADD THESE)
                 'selectedCategory' => $slug,
@@ -350,7 +352,8 @@ class CategoryController extends Controller
             'slug',
             'category',
             'locations',
-            'maxPriceValue'
+            'maxPriceValue',
+            'categoryData',
         ))->with([
             'selectedCategory' => $slug,
             'selectedArea' => $request->area,

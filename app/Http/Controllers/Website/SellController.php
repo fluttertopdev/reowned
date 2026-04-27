@@ -139,6 +139,29 @@ class SellController extends Controller
 
         $request->validate($rules);
 
+        $userId = auth()->id();
+
+        // Check package eligibility
+        $packageCheck = \Helpers::canUserPostItem($userId);
+
+        if (!$packageCheck['status']) {
+
+            return redirect('subscription')->with('error', $packageCheck['message']);
+        }
+
+        // Get package
+        $activePackage = DB::table('user_packages')
+            ->where('id', $packageCheck['package']->id)
+            ->lockForUpdate()
+            ->first();
+
+        if (!is_null($activePackage->total_limit) &&
+            $activePackage->used_limit >= $activePackage->total_limit) {
+
+            DB::rollBack();
+            return redirect('subscription')->with('error', __('lang.website.limit_already_reached'));
+        }
+
         DB::beginTransaction();
 
         try {
@@ -153,6 +176,7 @@ class SellController extends Controller
                 $count++;
             }
 
+            $isFeatured = !is_null($activePackage->item_package_id) ? 1 : 0;
 
             // Save Item
             $listing = Item::create([
@@ -173,6 +197,7 @@ class SellController extends Controller
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'status' => 0,
+                'is_featured' => $isFeatured,
             ]);
 
             // Save Custom Fields
@@ -202,6 +227,13 @@ class SellController extends Controller
                         'image'   => 'uploads/item_image/'.$filename
                     ]);
                 }
+            }
+
+            // Increment used limit
+            if (!is_null($activePackage->id)) {
+                DB::table('user_packages')
+                    ->where('id', $activePackage->id)
+                    ->increment('used_limit');
             }
 
             DB::commit();

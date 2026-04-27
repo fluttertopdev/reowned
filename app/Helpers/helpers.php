@@ -260,4 +260,52 @@ class Helpers
         ->where('status',1)
         ->get();
     }
+
+
+    public static function getUserActivePackage($userId)
+    {
+        return DB::table('user_packages')
+            ->where('user_id', $userId)
+            ->where('is_active', 1)
+            ->where(function ($q) {
+                $q->whereNull('end_date')
+                  ->orWhereDate('end_date', '>=', now());
+            })
+            ->first();
+    }
+
+    public static function canUserPostItem($userId)
+    {
+        $package = DB::table('user_packages')
+            ->where('user_id', $userId)
+            ->where('is_active', 1)
+            ->whereNotNull('item_package_id')
+            ->where(function ($q) {
+                $q->whereNull('end_date')
+                  ->orWhereDate('end_date', '>=', now());
+            })
+            ->first();
+
+        if (!$package) {
+            return [
+                'status' => false,
+                'message' => __('lang.website.please_purchase_item_plan_first'),
+                'code' => 'NO_PLAN'
+            ];
+        }
+
+        if (!is_null($package->total_limit) && $package->used_limit >= $package->total_limit) {
+            return [
+                'status' => false,
+                'message' => __('lang.website.item_limit_exhausted'),
+                'code' => 'LIMIT_OVER'
+            ];
+        }
+
+        return [
+            'status' => true,
+            'code' => 'OK',
+            'package' => $package
+        ];
+    }
 }

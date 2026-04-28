@@ -450,6 +450,11 @@ class TranslationWebsiteSeeder extends Seeder
                 'value' => 'No Item Found'
             ),
 
+            array(
+                'keyword' => 'valid_till',
+                'value' => 'Valid Till'
+            ),
+
 
         ];
 

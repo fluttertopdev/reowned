@@ -763,5 +763,6 @@ return array (
     'account_information' => 'Account Information',
     'live_ads' => 'Live Ads',
     'no_item_found' => 'No Item Found...',
+    'valid_till' => 'Valid Till',
   ),
 );

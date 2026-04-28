@@ -763,5 +763,6 @@ return array (
     'account_information' => 'معلومات الحساب',
     'live_ads' => 'إعلانات مباشرة',
     'no_item_found' => 'لم يتم العثور على عناصر',
+    'valid_till' => 'صالح حتى',
   ),
 );

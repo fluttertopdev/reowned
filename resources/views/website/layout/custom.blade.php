@@ -644,6 +644,16 @@
       opacity: 0.9;
     }
 </style>
+<style>
+    .plan-ul{
+        overflow: auto;
+        max-height: 145px;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+</style>
 
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">

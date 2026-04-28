@@ -62,7 +62,7 @@
 
                                     <!-- Plan Details -->
                                     <div class="plan-list-box">
-                                      <ul>
+                                      <ul class="plan-ul">
                                           {{-- Description (from Quill) --}}
                                           @if($row->description)
                                               {!! $row->description !!}
@@ -129,7 +129,7 @@
 
                                     <!-- Plan Details -->
                                     <div class="plan-list-box">
-                                      <ul>
+                                      <ul class="plan-ul">
                                           {{-- Description (from Quill) --}}
                                           @if($row->description)
                                               {!! $row->description !!}

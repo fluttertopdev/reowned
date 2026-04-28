@@ -447,6 +447,11 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'value' => 'لم يتم العثور على عناصر'
             ),
 
+            array(
+                'keyword' => 'valid_till',
+                'value' => 'صالح حتى'
+            ),
+
         ];
 
         $languages = Language::where('code','ar')->get();

@@ -32,6 +32,14 @@ class UserPayment extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function userPackage()
+{
+    return $this->hasOne(UserPackage::class, 'user_id', 'user_id')
+        ->whereColumn('user_packages.ad_package_id', 'user_payments.ad_package_id')
+        ->where('user_packages.is_active', 1)
+        ->latest('user_packages.id');
+}
+
     public function getPackageNameAttribute()
     {
         return $this->itemPackage->name 

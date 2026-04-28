@@ -79,7 +79,6 @@ class Adspackages extends Model
     }
 
 
-
     public static function addUpdate($data, $id = 0)
     {
         try {
@@ -96,10 +95,11 @@ class Adspackages extends Model
 
 
             $price = isset($data['price']) ? (float) $data['price'] : 0;
-            $discount = isset($data['discount']) ? (float) $data['discount'] : 0;
+            $data['discount'] = isset($data['discount']) ? (float) $data['discount'] : 0;
 
 
-            $data['final_price'] = $price - (($discount / 100) * $price);
+
+            $data['final_price'] = $price - (($data['discount'] / 100) * $price);
 
             if ($id == 0) {
                 // Insert new record

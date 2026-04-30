@@ -284,6 +284,15 @@ Route::middleware(['website-language:web','check.app.installation', 'check.app.c
         Route::post('do-login', [UserController::class, 'doLogin'])
         ->name('do-login');
 
+        Route::post('do-forgot-password', [UserController::class, 'doForgotPassword'])
+        ->name('do-forgot-password');
+
+        Route::get('reset-password/{token}', [UserController::class, 'resetPasswordPage'])
+        ->name('reset-password');
+
+        Route::post('reset-password-otp', [UserController::class, 'resetPasswordWithOtp'])
+        ->name('reset-password-otp');
+
         Route::post('logout', [UserController::class, 'logout'])
         ->name('logout');
 

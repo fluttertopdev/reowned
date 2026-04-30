@@ -137,11 +137,33 @@ class HomeController extends Controller
             ->get();
 
         // All Items (Latest Nearby)
-        $data['allItemData'] = (clone $baseQuery)
-            ->orderByDesc('is_featured')
+        $allItems = (clone $baseQuery)
             ->orderBy('id','DESC')
-            ->limit(8)
+            ->limit(20) // increase limit
             ->get();
+
+        // Split
+        $featuredItems = $allItems->where('is_featured', 1)->values();
+        $normalItems   = $allItems->where('is_featured', 0)->values();
+
+        // Chunk (3 per row)
+        $featuredChunks = $featuredItems->chunk(3);
+        $normalChunks   = $normalItems->chunk(3);
+
+        // Alternate rows
+        $finalRows = collect();
+        $max = max($featuredChunks->count(), $normalChunks->count());
+
+        for ($i = 0; $i < $max; $i++) {
+            if(isset($featuredChunks[$i])) {
+                $finalRows->push($featuredChunks[$i]);
+            }
+            if(isset($normalChunks[$i])) {
+                $finalRows->push($normalChunks[$i]);
+            }
+        }
+
+        $data['allItemData'] = $finalRows;
 
         // Total Count
         $data['totalItemCount'] = (clone $baseQuery)->count();
@@ -158,7 +180,7 @@ class HomeController extends Controller
         $user = Auth::guard('web')->user();
         $userId = $user->id ?? 0;
 
-        // Get location from session
+        // Location
         $lat     = session('user_lat');
         $lng     = session('user_lng');
         $radius  = session('radius', 20);
@@ -175,9 +197,8 @@ class HomeController extends Controller
             ->whereNull('items.deleted_at')
             ->with('latestImage');
 
-        // Apply Location Filter
+        // Location filter
         if(!is_null($lat) && !is_null($lng)){
-
             $query->select('items.*')
                 ->selectRaw("
                     (6371 * acos(
@@ -188,29 +209,12 @@ class HomeController extends Controller
                         * sin(radians(latitude))
                     )) AS distance
                 ", [$lat, $lng, $lat])
-
-                ->havingRaw("distance <= ?", [$radius])
-                ->orderByDesc('is_featured')
-                ->orderBy("distance", "asc");
-
+                ->havingRaw("distance <= ?", [$radius]);
         } else {
-
-            // fallback
-            if($city){
-                $query->where('city', $city);
-            }
-
-            if($state){
-                $query->where('state', $state);
-            }
-
-            if($pincode){
-                $query->where('pincode', $pincode);
-            }
-
-            if($area){
-                $query->where('area', 'like', '%'.$area.'%');
-            }
+            if($city) $query->where('city', $city);
+            if($state) $query->where('state', $state);
+            if($pincode) $query->where('pincode', $pincode);
+            if($area) $query->where('area', 'like', '%'.$area.'%');
         }
 
         // Category Filter
@@ -229,18 +233,51 @@ class HomeController extends Controller
             $query->orderBy('created_at','ASC');
         }
         else{
-            //  IMPORTANT: if distance exists, don't override it
             if(!$lat){
                 $query->orderBy('created_at','DESC');
             }
         }
 
-        // Pagination (load more)
+        // Pagination
         $items = $query->skip($request->offset)
                        ->take(8)
                        ->get();
 
-        return view('website.partial.item_card_list', compact('items'))->render();
+        /**
+         * IMPORTANT LOGIC
+         * If filter/sort applied → NORMAL LIST
+         */
+        if($request->category_id || $request->sort_by){
+            return view('website.partial.item_card_list', [
+                'items' => $items
+            ])->render();
+        }
+        exit();
+
+        /**
+         * DEFAULT HOMEPAGE → ALTERNATING ROWS
+         */
+        $featuredItems = $items->where('is_featured', 1)->values();
+        $normalItems   = $items->where('is_featured', 0)->values();
+
+        $featuredChunks = $featuredItems->chunk(4); // col-md-3 = 4 items
+        $normalChunks   = $normalItems->chunk(4);
+
+        $finalRows = collect();
+        $max = max($featuredChunks->count(), $normalChunks->count());
+
+        for ($i = 0; $i < $max; $i++) {
+            if(isset($featuredChunks[$i])) {
+                $finalRows->push($featuredChunks[$i]);
+            }
+            if(isset($normalChunks[$i])) {
+                $finalRows->push($normalChunks[$i]);
+            }
+        }
+
+        return view('website.partial.item_card_list_home', [
+            'rows' => $finalRows
+        ])->render();
     }
 
 
@@ -254,6 +291,9 @@ class HomeController extends Controller
             'city'     => $request->city,
             'state'    => $request->state,
             'pincode'  => $request->pincode,
+            'lat'      => $request->lat,
+            'lng'      => $request->lng,
+            'address' => $request->area . ', ' . $request->city
         ]);
 
         return response()->json(['status' => 'success']);

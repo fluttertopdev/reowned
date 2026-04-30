@@ -279,7 +279,6 @@ class Helpers
         $package = DB::table('user_packages')
             ->where('user_id', $userId)
             ->where('is_active', 1)
-            ->whereNotNull('item_package_id')
             ->where(function ($q) {
                 $q->whereNull('end_date')
                   ->orWhereDate('end_date', '>=', now());

@@ -105,6 +105,11 @@
     svg.svg-inline--fa.fa-angle-right.fa-w-8.ms-2 {
         color: #b4b3b0 !important;
     }
+
+    a.forgot-password-link {
+        color: #cb6932;
+        text-decoration: none;
+    }
 </style>
 <!-- Filter -->
 <style>
@@ -796,6 +801,7 @@
                                 <input type="password" placeholder="{{ __('lang.website.enter_your_password') }}" name="password" required>
                                 <small class="error-text text-danger"></small>
                             </div>
+                            <a href="#" class="forgot-password-link">{{ __('lang.website.forgot_password') }} ?</a>
 
                             <button type="submit" class="login-submit-btn">{{ __('lang.website.login') }}</button>
                         </form>
@@ -808,6 +814,90 @@
                             </a>
                         </div>
                         @endif
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-0 border-0 bg-transparent">
+
+            <div class="not-fill-bg-image-login">
+                <div class="login-all-screen">
+                    <div class="login-all-screen-inner">
+
+                        <!-- Close Button -->
+                        <button type="button" class="close-btn" data-bs-dismiss="modal">
+                            <img src="{{asset('website_assets/images/tage-close.png')}}">
+                        </button>
+
+                        <!-- Logo -->
+                        <img src="{{asset('website_assets/images/search-button.png')}}">
+                        <h2>{{ __('lang.website.forgot_password') }}</h2>
+                        <p>{{ __('lang.website.enter_your_email') }}</p>
+
+                        <form id="forgotPasswordForm" method="POST" action="{{ route('user.do-forgot-password') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label>{{ __('lang.website.email') }}</label>
+                                <input type="email" placeholder="{{ __('lang.website.enter_your_email') }}" name="email" required>
+                            </div>
+                            <button type="submit" class="login-submit-btn">{{ __('lang.website.submit') }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-0 border-0 bg-transparent">
+
+            <div class="not-fill-bg-image-login">
+                <div class="login-all-screen">
+                    <div class="login-all-screen-inner">
+
+                        <button type="button" class="close-btn" data-bs-dismiss="modal">
+                            ✕
+                        </button>
+
+                        <h2>{{ __('lang.website.reset_password') }}</h2>
+                        <p>{{ __('lang.website.enter_otp_and_password') }}</p>
+
+                        <form id="resetPasswordForm">
+                            @csrf
+
+                            <input type="hidden" name="email" id="resetEmail">
+
+                            <div class="form-group">
+                                <label>{{ __('lang.website.otp') }}</label>
+                                <input type="text" name="otp" required placeholder="{{ __('lang.website.enter_otp') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ __('lang.website.new_password') }}</label>
+                                <input type="password" name="password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ __('lang.website.confirm_password') }}</label>
+                                <input type="password" name="password_confirmation" required>
+                            </div>
+
+                            <button type="submit" class="login-submit-btn">
+                                {{ __('lang.website.submit') }}
+                            </button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -939,9 +1029,12 @@
 <!-- Register -->
 <script>
     $(document).on('click', '.register-btn', function () {
-        $('.register-email').val('');
-        $('.already-email-msg').text('');
         $('#registerModal').modal('show');
+    });
+
+    $('#registerModal').on('show.bs.modal', function () {
+        $('.register-email').val('').trigger('input');
+        $('.already-email-msg').empty();
     });
 
 
@@ -1060,7 +1153,6 @@
 
 <!-- Login -->
 <script>
-
     $(document).on('click', '.login-btn', function () {
         $('#loginModal').modal('show');
         $('.already-email-msg').text('');
@@ -1108,6 +1200,98 @@
         });
     });
 </script>
+
+<!-- Forgot Password -->
+<script>
+    $(document).on('click', '.forgot-password-link', function () {
+        $('#loginModal').modal('hide');
+        $('#forgotPasswordModal').modal('show');
+    });
+
+    // forgot password
+    $(document).on('submit', '#forgotPasswordForm', function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let btn = form.find('button[type="submit"]');
+
+        // Disable button + change text
+        btn.prop('disabled', true).text("{{ __('lang.website.please_wait') }}");
+
+        $.ajax({
+            url: form.attr('action'),
+            method: "POST",
+            data: form.serialize(),
+
+            success: function (res) {
+                if (res.status) {
+                    toastr.success(res.message);
+
+                    $('#forgotPasswordModal').modal('hide');
+
+                    $('#resetEmail').val(form.find('[name="email"]').val());
+                    $('#resetPasswordModal').modal('show');
+                } else {
+                    toastr.error(res.message);
+                }
+            },
+
+            error: function (xhr) {
+                toastr.error("{{ __('lang.website.something_went_wrong') }}");
+            },
+
+            complete: function () {
+                // Re-enable button
+                btn.prop('disabled', false).text("{{ __('lang.website.submit') }}");
+            }
+        });
+    });
+</script>
+
+<!-- Reset Password -->
+<script>
+    $(document).on('submit', '#resetPasswordForm', function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let btn = form.find('button[type="submit"]');
+
+        btn.prop('disabled', true).text("{{ __('lang.website.please_wait') }}");
+
+        $.ajax({
+            url: "{{ route('user.reset-password-otp') }}",
+            method: "POST",
+            data: form.serialize(),
+
+            success: function (res) {
+                if (res.status) {
+                    toastr.success(res.message);
+                    $('#resetPasswordModal').modal('hide');
+                } else {
+                    toastr.error(res.message);
+                }
+            },
+
+            error: function (xhr) {
+
+                // HANDLE VALIDATION ERRORS (IMPORTANT)
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    let firstError = Object.values(errors)[0][0];
+                    toastr.error(firstError);
+                } else {
+                    toastr.error("{{ __('lang.website.something_went_wrong') }}");
+                }
+            },
+
+            complete: function () {
+                btn.prop('disabled', false).text("{{ __('lang.website.submit') }}");
+            }
+        });
+    });
+</script>
+
+
 
 <!-- Profile -->
 <script>
@@ -1431,14 +1615,24 @@ btn.prop('disabled', true).text('{{ __('lang.website.uploading') }}');
     let marker;
     let autocomplete;
     let geocoder;
+    let sessionLat = "{{ session('lat') }}";
+    let sessionLng = "{{ session('lng') }}";
+    let sessionAddress = "{{ session('address') }}";
 
     $(document).ready(function () {
 
         geocoder = new google.maps.Geocoder();
 
-        let lat = localStorage.getItem('user_lat');
-        let lng = localStorage.getItem('user_lng');
-        let address = localStorage.getItem('user_address');
+        let lat = localStorage.getItem('user_lat') || sessionLat;
+        let lng = localStorage.getItem('user_lng') || sessionLng;
+        let address = localStorage.getItem('user_address') || sessionAddress;
+
+
+        if (!localStorage.getItem('user_lat') && sessionLat) {
+            localStorage.setItem('user_lat', sessionLat);
+            localStorage.setItem('user_lng', sessionLng);
+            localStorage.setItem('user_address', sessionAddress);
+        }
 
         if (lat && lng) {
 

@@ -32,6 +32,11 @@ $direction = \Helpers::getLanguageDirection($langCode);
   </script>
 </head>
 
+@php
+    $user = Auth::guard('web')->user();
+    $packageCheck = $user ? \Helpers::canUserPostItem($user->id) : null;
+@endphp
+
 <body>
   @include('website.layout.header')
 

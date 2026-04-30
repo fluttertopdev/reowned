@@ -43,7 +43,7 @@
                         @if($user->id_proof_front)
                           <img id="frontPreview" src="{{ asset('uploads/user/' . $user->id_proof_front) }}" width="150" height="100" style="object-fit: contain;">
                         @else
-                        <img id="frontPreview" width="150" height="100" style="object-fit: contain;">
+                        <img id="frontPreview" src="{{ asset('uploads/Image-not-found.png') }}" width="150" height="100" style="object-fit: contain;">
                         @endif
                       </div>
                     </div>
@@ -61,12 +61,14 @@
                         @if($user->id_proof_back)
                           <img id="backPreview" src="{{ asset('uploads/user/' . $user->id_proof_back) }}" width="150" height="100" style="object-fit: contain;">
                         @else
-                        <img id="backPreview" width="150" height="100" style="object-fit: contain;">
+                        <img id="backPreview" src="{{ asset('uploads/Image-not-found.png') }}"  width="150" height="100" style="object-fit: contain;">
                         @endif
                       </div>
                     </div>
                   </div>
+                  @if(!$user->id_proof_front && !$user->id_proof_back!='')
                   <div class="verify-buuton"><button type="submit" class="upload-btn">{{ __('lang.website.verify') }}</button></div>
+                  @endif
                 </div>
 
               </form>

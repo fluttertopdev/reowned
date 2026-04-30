@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <h2>Welcome to Reowned</h2>
+    <h2>Welcome to {{setting('name')}}</h2>
 
     <p>Hello {{ $name }},</p>
 

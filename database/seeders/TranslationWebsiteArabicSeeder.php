@@ -160,7 +160,7 @@ class TranslationWebsiteArabicSeeder extends Seeder
             ['keyword' => 'notification', 'value' => 'الإشعارات'],
             ['keyword' => 'address', 'value' => 'العنوان'],
             ['keyword' => 'edit_your_address', 'value' => 'تعديل عنوانك'],
-            ['keyword' => 'address_placeholder', 'value' => 'جوروناناك سوسايتي، ثان'],
+            ['keyword' => 'address_placeholder', 'value' => 'أدخل عنوانك'],
             ['keyword' => 'start_chat', 'value' => 'بدء الدردشة'],
             ['keyword' => 'call', 'value' => 'اتصال'],
             ['keyword' => 'posted_in', 'value' => 'تم النشر في'],
@@ -446,10 +446,111 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'keyword' => 'no_item_found',
                 'value' => 'لم يتم العثور على عناصر'
             ),
+            
+            array(
+                'keyword' => 'validity',
+                'value' => 'الصلاحية'
+            ),
+            array(
+                'keyword' => 'verified',
+                'value' => 'موثق'
+            ),
 
             array(
-                'keyword' => 'valid_till',
-                'value' => 'صالح حتى'
+                'keyword' => 'forgot_password',
+                'value' => 'نسيت كلمة المرور'
+            ),
+            array(
+                'keyword' => 'enter_your_email',
+                'value' => 'أدخل بريدك الإلكتروني'
+            ),
+            array(
+                'keyword' => 'email',
+                'value' => 'البريد الإلكتروني'
+            ),
+            array(
+                'keyword' => 'submit',
+                'value' => 'إرسال'
+            ),
+            array(
+                'keyword' => 'email_required',
+                'value' => 'البريد الإلكتروني مطلوب'
+            ),
+            array(
+                'keyword' => 'invalid_email',
+                'value' => 'عنوان بريد إلكتروني غير صالح'
+            ),
+            array(
+                'keyword' => 'email_not_found',
+                'value' => 'البريد الإلكتروني غير موجود'
+            ),
+            array(
+                'keyword' => 'reset_password_subject',
+                'value' => 'إعادة تعيين كلمة المرور الخاصة بك - Reowned'
+            ),
+            array(
+                'keyword' => 'reset_password_email_message',
+                'value' => 'انقر على الزر أدناه لإعادة تعيين كلمة المرور الخاصة بك.'
+            ),
+            array(
+                'keyword' => 'reset_link_sent',
+                'value' => 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني'
+            ),
+            array(
+                'keyword' => 'click_here_to_reset_password',
+                'value' => 'انقر هنا لإعادة تعيين كلمة المرور'
+            ),
+            array(
+                'keyword' => 'link_expire_note',
+                'value' => 'سينتهي صلاحية هذا الرابط خلال ساعة واحدة'
+            ),
+            array(
+                'keyword' => 'something_went_wrong',
+                'value' => 'حدث خطأ ما، يرجى المحاولة مرة أخرى'
+            ),
+            array(
+                'keyword' => 'otp',
+                'value' => 'رمز التحقق'
+            ),
+            array(
+                'keyword' => 'enter_otp',
+                'value' => 'أدخل رمز التحقق'
+            ),
+            array(
+                'keyword' => 'otp_sent',
+                'value' => 'تم إرسال رمز التحقق إلى بريدك الإلكتروني'
+            ),
+            array(
+                'keyword' => 'invalid_otp',
+                'value' => 'رمز تحقق غير صالح'
+            ),
+            array(
+                'keyword' => 'otp_expired',
+                'value' => 'انتهت صلاحية رمز التحقق'
+            ),
+            array(
+                'keyword' => 'reset_password',
+                'value' => 'إعادة تعيين كلمة المرور'
+            ),
+            array(
+                'keyword' => 'enter_otp_and_password',
+                'value' => 'أدخل رمز التحقق وكلمة المرور الجديدة'
+            ),
+            array(
+                'keyword' => 'new_password',
+                'value' => 'كلمة المرور الجديدة'
+            ),
+            array(
+                'keyword' => 'confirm_password',
+                'value' => 'تأكيد كلمة المرور'
+            ),
+            array(
+                'keyword' => 'password_reset_success',
+                'value' => 'تم إعادة تعيين كلمة المرور بنجاح'
+            ),
+            array(
+                'keyword' => 'please_wait',
+                'value' => 'يرجى الانتظار...'
             ),
 
         ];

@@ -150,10 +150,14 @@
                     <img src="{{ $item->user->image ? url('uploads/user/'.$item->user->image) : url('uploads/default-user.png') }}">
                   </div>
                   <div class="designer-box-text">
-                    <span>{{ $item->user ? $item->user->name : '--' }}</span>
-                    <p>{{ $item->user ? $item->user->email : '--' }}</p>
-                    <p>{{ $item->user ? $item->user->phone : '--' }}</p>
-                  </div>
+                    <span>
+                        {{ $item->user ? $item->user->name : '--' }}
+
+                        @if($item->user && $item->user->status == 1)
+                            <i class="fa fa-check-circle text-success ms-1" title="{{ __('lang.website.verified') }}"></i>
+                        @endif
+                    </span>
+                </div>
                 </a>
               </div>
               @if(!$isOwner)

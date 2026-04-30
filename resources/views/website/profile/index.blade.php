@@ -30,7 +30,7 @@
                     @php
                         $image = !empty($user->image) 
                             ? asset('uploads/user/' . $user->image) 
-                            : asset('website_assets/images/parofile-image.png');
+                            : asset('uploads/default-user.png');
                     @endphp
 
                     <div id="imagePreview"
@@ -65,12 +65,6 @@
                       <div class="row-input">
                         <label>{{ __('lang.website.phone') }}<span>*</span></label>
                         <input type="phone" name="phone" placeholder="{{ __('lang.website.phone_placeholder') }}" value="{{ $user->phone }}" required />
-                      </div>
-
-                      <div class="row-input">
-                        <div class="card-body">
-                          <span>{{ __('lang.website.notification') }}</span>
-                        </div>
                       </div>
                     </div>
                   </div>

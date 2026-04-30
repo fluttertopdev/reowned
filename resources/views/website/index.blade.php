@@ -148,7 +148,7 @@
         <div class="load-more-box">
           <div class="product-box">
             <div class="row" id="item-container">
-              @include('website.partial.item_card_list',['items'=>$allItemData])
+               @include('website.partial.item_card_list_home',['rows'=>$allItemData])
             </div>
           </div>
           @if($totalItemCount > 8)

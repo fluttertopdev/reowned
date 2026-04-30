@@ -162,7 +162,7 @@ class TranslationWebsiteSeeder extends Seeder
             ['keyword' => 'notification', 'value' => 'Notification'],
             ['keyword' => 'address', 'value' => 'Address'],
             ['keyword' => 'edit_your_address', 'value' => 'Edit your address'],
-            ['keyword' => 'address_placeholder', 'value' => 'Gurunanak Society, Than'],
+            ['keyword' => 'address_placeholder', 'value' => 'Enter your address'],
             ['keyword' => 'start_chat', 'value' => 'Start chat'],
             ['keyword' => 'call', 'value' => 'Call'],
             ['keyword' => 'posted_in', 'value' => 'Posted in'],
@@ -451,8 +451,109 @@ class TranslationWebsiteSeeder extends Seeder
             ),
 
             array(
-                'keyword' => 'valid_till',
-                'value' => 'Valid Till'
+                'keyword' => 'validity',
+                'value' => 'Validity'
+            ),
+            array(
+                'keyword' => 'verified',
+                'value' => 'Verified'
+            ),
+            
+            array(
+                'keyword' => 'forgot_password',
+                'value' => 'Forgot Password'
+            ),
+            array(
+                'keyword' => 'enter_your_email',
+                'value' => 'Enter Your Email'
+            ),
+            array(
+                'keyword' => 'email',
+                'value' => 'Email'
+            ),
+            array(
+                'keyword' => 'submit',
+                'value' => 'Submit'
+            ),
+            array(
+                'keyword' => 'email_required',
+                'value' => 'Email Is Required'
+            ),
+            array(
+                'keyword' => 'invalid_email',
+                'value' => 'Invalid Email Address'
+            ),
+            array(
+                'keyword' => 'email_not_found',
+                'value' => 'Email Not Found'
+            ),
+            array(
+                'keyword' => 'reset_password_subject',
+                'value' => 'Reset Your Password - Reowned'
+            ),
+            array(
+                'keyword' => 'reset_password_email_message',
+                'value' => 'Click The Button Below To Reset Your Password.'
+            ),
+            array(
+                'keyword' => 'reset_link_sent',
+                'value' => 'Password Reset Link Sent To Your Email'
+            ),
+            array(
+                'keyword' => 'click_here_to_reset_password',
+                'value' => 'Click Here To Reset Password'
+            ),
+            array(
+                'keyword' => 'link_expire_note',
+                'value' => 'This Link Will Expire In 1 Hour'
+            ),
+            array(
+                'keyword' => 'something_went_wrong',
+                'value' => 'Something Went Wrong, Please Try Again'
+            ),
+            array(
+                'keyword' => 'otp',
+                'value' => 'Otp'
+            ),
+            array(
+                'keyword' => 'enter_otp',
+                'value' => 'Enter Otp'
+            ),
+            array(
+                'keyword' => 'otp_sent',
+                'value' => 'Otp Sent To Your Email'
+            ),
+            array(
+                'keyword' => 'invalid_otp',
+                'value' => 'Invalid Otp'
+            ),
+            array(
+                'keyword' => 'otp_expired',
+                'value' => 'Otp Has Expired'
+            ),
+            array(
+                'keyword' => 'reset_password',
+                'value' => 'Reset Password'
+            ),
+            array(
+                'keyword' => 'enter_otp_and_password',
+                'value' => 'Enter Otp And New Password'
+            ),
+            array(
+                'keyword' => 'new_password',
+                'value' => 'New Password'
+            ),
+            array(
+                'keyword' => 'confirm_password',
+                'value' => 'Confirm Password'
+            ),
+            array(
+                'keyword' => 'password_reset_success',
+                'value' => 'Password Reset Successfully'
+            ),
+            array(
+                'keyword' => 'please_wait',
+                'value' => 'Please Wait...'
             ),
 
 

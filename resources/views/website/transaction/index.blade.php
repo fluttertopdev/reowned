@@ -29,7 +29,7 @@
                       <th>{{ __('lang.website.transaction_id') }}</th>
                       <th>{{ __('lang.website.date') }}</th>
                       <th>{{ __('lang.website.price') }}</th>
-                      <th>{{ __('lang.website.valid_till') }}</th>
+                      <th>{{ __('lang.website.validity') }}</th>
                       <th>{{ __('lang.website.status') }}</th>
                   </tr>
 
@@ -51,8 +51,9 @@
                           </td>
 
                           <td>
-                              @if($payment->matched_package && $payment->matched_package->end_date)
-                                  {{ \Carbon\Carbon::parse($payment->matched_package->end_date)->format('d M, Y') }}
+                              @if($payment->matched_package && $payment->matched_package->start_date && $payment->matched_package->end_date)
+                                  {{ \Carbon\Carbon::parse($payment->matched_package->start_date)
+                                      ->diffInDays(\Carbon\Carbon::parse($payment->matched_package->end_date)) }} Days
                               @else
                                   -
                               @endif

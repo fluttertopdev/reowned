@@ -448,6 +448,118 @@ class UserController extends Controller
             return redirect('/')->with('error', __('lang.website.google_login_failed'));
         }
     }
+
+
+    public function doForgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('lang.website.email_not_found')
+                ]);
+            }
+
+            // Generate OTP
+            $otp = rand(100000, 999999);
+
+            $user->update([
+                'otp' => $otp,
+                'otp_expires_at' => Carbon::now()->addMinutes(10),
+            ]);
+
+            // Send Email
+            \Helpers::sendEmail(
+                'emails.forgot-password',
+                [
+                    'name' => $user->name,
+                    'otp' => $otp,
+                    'customMessage' => __('lang.website.reset_password_email_message')
+                ],
+                $user->email,
+                $user->name,
+                __('lang.website.reset_password_subject')
+            );
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => __('lang.website.otp_sent')
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            Log::error('Forgot Password OTP Error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => __('lang.website.something_went_wrong')
+            ], 500);
+        }
+    }
+
+
+    public function resetPasswordWithOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|digits:6',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        try {
+            $user = User::where('email', $request->email)
+                ->where('otp', $request->otp)
+                ->first();
+
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('lang.website.invalid_otp')
+                ]);
+            }
+
+            // Check expiry
+            if (Carbon::now()->gt($user->otp_expires_at)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('lang.website.otp_expired')
+                ]);
+            }
+
+            // Update password
+            $user->update([
+                'password' => Hash::make($request->password),
+                'otp' => null,
+                'otp_expires_at' => null,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => __('lang.website.password_reset_success')
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Reset Password Error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => __('lang.website.something_went_wrong')
+            ], 500);
+        }
+    }
+
    
 }
 

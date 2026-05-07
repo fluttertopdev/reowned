@@ -556,6 +556,15 @@ class TranslationWebsiteSeeder extends Seeder
                 'value' => 'Please Wait...'
             ),
 
+            array(
+                'keyword' => 'your_otp',
+                'value' => 'Your OTP'
+            ),
+            array(
+                'keyword' => 'hello',
+                'value' => 'Hello'
+            ),
+
 
         ];
 

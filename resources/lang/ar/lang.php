@@ -784,5 +784,7 @@ return array (
     'confirm_password' => 'تأكيد كلمة المرور',
     'password_reset_success' => 'تم إعادة تعيين كلمة المرور بنجاح',
     'please_wait' => 'يرجى الانتظار...',
+    'your_otp' => 'رمز التحقق الخاص بك',
+    'hello' => 'مرحباً',
   ),
 );

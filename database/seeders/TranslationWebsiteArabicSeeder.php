@@ -553,6 +553,15 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'value' => 'يرجى الانتظار...'
             ),
 
+            array(
+                'keyword' => 'your_otp',
+                'value' => 'رمز التحقق الخاص بك'
+            ),
+            array(
+                'keyword' => 'hello',
+                'value' => 'مرحباً'
+            ),
+
         ];
 
         $languages = Language::where('code','ar')->get();

@@ -146,21 +146,53 @@ class HomeController extends Controller
         $featuredItems = $allItems->where('is_featured', 1)->values();
         $normalItems   = $allItems->where('is_featured', 0)->values();
 
-        // Chunk (3 per row)
-        $featuredChunks = $featuredItems->chunk(3);
-        $normalChunks   = $normalItems->chunk(3);
-
-        // Alternate rows
         $finalRows = collect();
-        $max = max($featuredChunks->count(), $normalChunks->count());
 
-        for ($i = 0; $i < $max; $i++) {
-            if(isset($featuredChunks[$i])) {
-                $finalRows->push($featuredChunks[$i]);
+        $perRow = 4;
+
+        $fIndex = 0;
+        $nIndex = 0;
+
+        $totalF = $featuredItems->count();
+        $totalN = $normalItems->count();
+
+        $toggleFeatured = true;
+
+        while ($fIndex < $totalF || $nIndex < $totalN) {
+
+            $row = collect();
+
+            // Step 1: Try filling preferred type
+            if ($toggleFeatured) {
+
+                for ($i = 0; $i < $perRow && $fIndex < $totalF; $i++) {
+                    $row->push($featuredItems[$fIndex++]);
+                }
+
+            } else {
+
+                for ($i = 0; $i < $perRow && $nIndex < $totalN; $i++) {
+                    $row->push($normalItems[$nIndex++]);
+                }
+
             }
-            if(isset($normalChunks[$i])) {
-                $finalRows->push($normalChunks[$i]);
+
+            // Step 2: Fill remaining slots from other type
+            while ($row->count() < $perRow) {
+
+                if ($fIndex < $totalF) {
+                    $row->push($featuredItems[$fIndex++]);
+                } elseif ($nIndex < $totalN) {
+                    $row->push($normalItems[$nIndex++]);
+                } else {
+                    break;
+                }
             }
+
+            $finalRows->push($row);
+
+            // Toggle row type
+            $toggleFeatured = !$toggleFeatured;
         }
 
         $data['allItemData'] = $finalRows;
@@ -243,16 +275,6 @@ class HomeController extends Controller
                        ->take(8)
                        ->get();
 
-        /**
-         * IMPORTANT LOGIC
-         * If filter/sort applied → NORMAL LIST
-         */
-        if($request->category_id || $request->sort_by){
-            return view('website.partial.item_card_list', [
-                'items' => $items
-            ])->render();
-        }
-        exit();
 
         /**
          * DEFAULT HOMEPAGE → ALTERNATING ROWS
@@ -260,24 +282,53 @@ class HomeController extends Controller
         $featuredItems = $items->where('is_featured', 1)->values();
         $normalItems   = $items->where('is_featured', 0)->values();
 
-        $featuredChunks = $featuredItems->chunk(4); // col-md-3 = 4 items
-        $normalChunks   = $normalItems->chunk(4);
-
         $finalRows = collect();
-        $max = max($featuredChunks->count(), $normalChunks->count());
 
-        for ($i = 0; $i < $max; $i++) {
-            if(isset($featuredChunks[$i])) {
-                $finalRows->push($featuredChunks[$i]);
+        $perRow = 4;
+
+        $fIndex = 0;
+        $nIndex = 0;
+
+        $totalF = $featuredItems->count();
+        $totalN = $normalItems->count();
+
+        $toggleFeatured = true;
+
+        while ($fIndex < $totalF || $nIndex < $totalN) {
+
+            $row = collect();
+
+            // Step 1: Preferred type
+            if ($toggleFeatured) {
+                for ($i = 0; $i < $perRow && $fIndex < $totalF; $i++) {
+                    $row->push($featuredItems[$fIndex++]);
+                }
+            } else {
+                for ($i = 0; $i < $perRow && $nIndex < $totalN; $i++) {
+                    $row->push($normalItems[$nIndex++]);
+                }
             }
-            if(isset($normalChunks[$i])) {
-                $finalRows->push($normalChunks[$i]);
+
+            // Step 2: Fill remaining slots
+            while ($row->count() < $perRow) {
+                if ($fIndex < $totalF) {
+                    $row->push($featuredItems[$fIndex++]);
+                } elseif ($nIndex < $totalN) {
+                    $row->push($normalItems[$nIndex++]);
+                } else {
+                    break;
+                }
             }
+
+            $finalRows->push($row);
+
+            $toggleFeatured = !$toggleFeatured;
         }
 
         return view('website.partial.item_card_list_home', [
             'rows' => $finalRows
         ])->render();
+
     }
 
 

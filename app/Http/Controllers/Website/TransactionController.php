@@ -9,6 +9,7 @@ use Session;
 use App\Models\Itempackage;
 use App\Models\Adspackages;
 use App\Models\UserPayment;
+use App\Models\Userpackage;
 use DB;
 
 class TransactionController extends Controller
@@ -20,7 +21,7 @@ class TransactionController extends Controller
             ->latest()
             ->paginate(10);
 
-        $userPackages = \App\Models\UserPackage::where('user_id', auth()->id())
+        $userPackages = Userpackage::where('user_id', auth()->id())
             ->where('is_active', 1)
             ->get();
             

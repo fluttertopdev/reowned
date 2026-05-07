@@ -782,7 +782,9 @@ return array (
     'enter_otp_and_password' => 'Enter Otp And New Password',
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
-    'password_reset_success' => 'Password Reset Successfully!',
-    'please_wait' => 'Please Wait...',
+    'password_reset_success' => 'Password Reset Successfully',
+    'please_wait' => 'Please Wait....',
+    'your_otp' => 'Your OTP',
+    'hello' => 'Hello',
   ),
 );

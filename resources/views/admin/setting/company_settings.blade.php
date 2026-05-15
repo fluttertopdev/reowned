@@ -22,7 +22,6 @@
 </div>
 
 
-
 <div class="col-md-3 mb-3 display-inline-block width-32-percent mr-10">
     <label class="form-label" for="contact_number1">{{ __('lang.contact_number2') }}</label>
     <span class="text-danger">*</span>
@@ -31,14 +30,38 @@
         required maxlength="12" pattern="[0-9]+" title="Only numbers are allowed, max 12 digits" />
 </div>
 
-
 <div class="col-md-12 mb-3 display-inline-block width-32-percent mr-10">
     <label class="form-label" for="mailer">{{ __('lang.address') }}</label>
     <span class=" text-danger">*</span>
     <textarea type="text" class="form-control" placeholder="{{ __('lang.address') }}"
         name="address" value="{{ setting('address') }}" required />{{ setting('address') }}</textarea>
-
 </div>
+
+
+{{-- Company Location --}}
+<div class="col-md-6 mb-3 display-inline-block width-32-percent mr-10">
+    <label class="form-label">
+        {{ __('lang.location') }}
+    </label>
+
+    <input type="text"
+        class="form-control"
+        id="google_location"
+        name="location"
+        placeholder="{{ __('lang.location_placeholder') }}"
+        value="{{ setting('location') }}">
+</div>
+
+@foreach($result as $row)
+    @if($row->key == 'currency')
+    <div class="col-md-6 mb-3">
+        <label class="form-label">{{__('lang.currency')}}</label>
+        <span class=" text-danger">*</span>
+        <input type="text" class="form-control" name="currency" value="{{ $row->value }}" placeholder="{{__('lang.currency')}}" required>
+    </div>
+    @endif
+@endforeach
+
 <div class="row">
     @foreach($result as $row)
         @if($row->key == 'logo')
@@ -94,16 +117,6 @@
         </div>
         @endif
     @endforeach
-    
-    @foreach($result as $row)
-        @if($row->key == 'currency')
-        <div class="col-md-6 mt-3">
-            <label class="form-label">{{__('lang.currency')}}</label>
-            <span class=" text-danger">*</span>
-            <input type="text" class="form-control" name="currency" value="{{ $row->value }}" placeholder="{{__('lang.currency')}}" required>
-        </div>
-        @endif
-    @endforeach
 
 </div>
 
@@ -118,5 +131,32 @@
                 reader.readAsDataURL(input.files[0]);
             }
         };
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ setting('google_map_key') }}&libraries=places"></script>
+
+<script>
+    $(document).ready(function () {
+
+        const input = document.getElementById('google_location');
+
+        if (input) {
+
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                types: ['geocode']
+            });
+
+            autocomplete.addListener('place_changed', function () {
+
+                const place = autocomplete.getPlace();
+
+                if (place.formatted_address) {
+                    $('#google_location').val(place.formatted_address);
+                }
+            });
+        }
     });
 </script>

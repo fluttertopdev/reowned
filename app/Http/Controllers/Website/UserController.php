@@ -184,39 +184,88 @@ class UserController extends Controller
             'count' => $items->count()
         ]);
     }
+    
 
     public function doSignup(Request $request)
     {
         $request->validate([
             'name'     => 'required|string|min:3|max:255',
-            'email'    => 'required|email:rfc,dns|max:100|unique:users,email',
-            'mobile'   => 'required|digits:10|regex:/^[0-9]+$/|unique:users,phone',
+            'email'    => 'required|email:rfc,dns|max:100',
+            'mobile'   => 'required|digits:10|regex:/^[0-9]+$/',
             'password' => 'required|min:8'
         ],[
             'mobile.digits' => __('lang.website.phone_number_must_be_exactly_10_digits'),
             'mobile.regex'  => __('lang.website.phone_number_must_contain_only_numbers')
         ]);
-
+    
         DB::beginTransaction();
-
+    
         try {
-
+    
+            // Check existing user including soft deleted
+            $existingUser = User::withTrashed()
+                ->where(function ($q) use ($request) {
+                    $q->where('email', $request->email)
+                      ->orWhere('phone', $request->mobile);
+                })
+                ->first();
+    
+            // If active account already exists
+            if ($existingUser && $existingUser->deleted_at == null) {
+    
+                if ($existingUser->email == $request->email) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => __('Email already exists')
+                    ], 422);
+                }
+    
+                if ($existingUser->phone == $request->mobile) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => __('Mobile number already exists')
+                    ], 422);
+                }
+            }
+    
             $token = Str::random(64);
-
-            $user = User::create([
-                'name'      => $request->name,
-                'email'     => $request->email,
-                'phone'     => $request->mobile,
-                'password'  => Hash::make($request->password),
-                'type'      => 'user',
-                'status'    => 1,
-                'is_verified' => 0,
-                'email_verification_token' => $token,
-                'email_verification_expires_at' => Carbon::now()->addHours(24),
-            ]);
-
+    
+            // Restore old soft deleted account
+            if ($existingUser && $existingUser->deleted_at != null) {
+    
+                $existingUser->restore();
+    
+                $existingUser->update([
+                    'name'      => $request->name,
+                    'email'     => $request->email,
+                    'phone'     => $request->mobile,
+                    'password'  => Hash::make($request->password),
+                    'status'    => 1,
+                    'is_verified' => 0,
+                    'email_verification_token' => $token,
+                    'email_verification_expires_at' => Carbon::now()->addHours(24),
+                ]);
+    
+                $user = $existingUser;
+    
+            } else {
+    
+                // Create fresh account
+                $user = User::create([
+                    'name'      => $request->name,
+                    'email'     => $request->email,
+                    'phone'     => $request->mobile,
+                    'password'  => Hash::make($request->password),
+                    'type'      => 'user',
+                    'status'    => 1,
+                    'is_verified' => 0,
+                    'email_verification_token' => $token,
+                    'email_verification_expires_at' => Carbon::now()->addHours(24),
+                ]);
+            }
+    
             $verificationLink = route('user.verify-email', $token);
-
+    
             // Send Mail
             \Helpers::sendEmail(
                 'emails.verify-email',
@@ -228,20 +277,20 @@ class UserController extends Controller
                 $user->name,
                 'Verify Your Email - Reowned'
             );
-
+    
             DB::commit();
-
+    
             return response()->json([
                 'status' => true,
                 'message' => __('lang.website.registration_successful_check_email')
             ]);
-
+    
         } catch (\Exception $e) {
-
+    
             DB::rollBack();
-
+    
             Log::error('Signup Email Error: '.$e->getMessage());
-
+    
             return response()->json([
                 'status' => false,
                 'message' => __('lang.website.registration_failed_email_sending_failed')
@@ -321,6 +370,13 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => __('lang.website.please_verify_your_email_first')
+            ], 403);
+        }
+        
+        if ($user->status != 1) {
+            return response()->json([
+                'status' => false,
+                'message' => __('lang.website.account_inactive_msg')
             ], 403);
         }
 
@@ -562,4 +618,3 @@ class UserController extends Controller
 
    
 }
-

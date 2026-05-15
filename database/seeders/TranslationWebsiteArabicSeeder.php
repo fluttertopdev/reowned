@@ -561,6 +561,11 @@ class TranslationWebsiteArabicSeeder extends Seeder
                 'keyword' => 'hello',
                 'value' => 'مرحباً'
             ),
+            
+            array(
+                'keyword' => 'account_inactive_msg',
+                'value' => 'تم إلغاء تنشيط حسابك من قبل المشرف. يرجى الاتصال بالدعم للحصول على مزيد من المعلومات'
+            ),
 
         ];
 

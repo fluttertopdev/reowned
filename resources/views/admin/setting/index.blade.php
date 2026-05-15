@@ -111,6 +111,20 @@
                             {{__('lang.admin_adsense_ads')}}
                             </button>
                         </li>
+                        
+                        
+                        <li class="nav-item">
+                            <button
+                            type="button"
+                            class="nav-link @if(Request::is('admin/settings/chat-setting*')) active @endif"
+                            data-bs-toggle="tab"
+                            data-bs-target="#form-tabs-chat"
+                            role="tab"
+                            aria-selected="false"
+                            >
+                            {{__('lang.admin_chat_management')}}
+                            </button>
+                        </li>
 
                     </ul>
                 </div>
@@ -245,6 +259,25 @@
                             <div class="row">
                             @foreach($result as $row)
                                 @include('admin/setting/adsense_ads_settings')
+                            @endforeach 
+                            </div>
+                            <div class="row">
+                                <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                    <button type="submit" class="btn btn-primary mb-1 mb-sm-0 me-0 me-sm-1">{{__('lang.admin_button_save_changes')}}</button>
+                                    <a href="{!! url('admin/dashboard') !!}" class="btn btn-outline-secondary">{{__('lang.admin_button_back')}}</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Chat -->
+                    <div class="tab-pane fade @if(Request::is('admin/settings/chat-setting*')) active show @endif" id="form-tabs-chat" role="tabpanel">
+                        <form method="POST" id="update-record" action="{{route('setting.update')}}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="page_name" value="chat-setting">
+                            @csrf
+                            <div class="row">
+                            @foreach($result as $row)
+                                @include('admin/setting/chat_settings')
                             @endforeach 
                             </div>
                             <div class="row">

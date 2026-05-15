@@ -150,6 +150,12 @@ class Setting extends Model
 
             $envFilePath = base_path('.env');
             $replacementPairs = array();
+            
+             /*
+            |--------------------------------------------------------------------------
+            | GOOGLE KEYS
+            |--------------------------------------------------------------------------
+            */
 
             if(isset($data['google_client_id']) && $data['google_client_id']!=''){
                 
@@ -157,13 +163,38 @@ class Setting extends Model
                 $google_client_id = $google_data->value;
                 $replacementPairs['GOOGLE_CLIENT_ID'] =  $google_client_id;
             }
+            
             if(isset($data['google_client_secret']) && $data['google_client_secret']!=''){
                 $google_data = $obj::where('key', 'google_client_secret')->first();
                 $google_client_secret = $google_data->value;
                 $replacementPairs['GOOGLE_CLIENT_SECRET'] = $google_client_secret;
             }
+            
             if(isset($data['google_redirect_url']) && $data['google_redirect_url']!=''){
                 $replacementPairs['GOOGLE_REDIRECT_URL'] = $data['google_redirect_url'];
+            }
+            
+            
+            /*
+            |--------------------------------------------------------------------------
+            | PUSHER KEYS
+            |--------------------------------------------------------------------------
+            */
+            
+            if(isset($data['pusher_app_id']) && $data['pusher_app_id'] != ''){
+                $replacementPairs['PUSHER_APP_ID'] = $data['pusher_app_id'];
+            }
+            
+            if(isset($data['pusher_app_key']) && $data['pusher_app_key'] != ''){
+                $replacementPairs['PUSHER_APP_KEY'] = $data['pusher_app_key'];
+            }
+            
+            if(isset($data['pusher_app_secret']) && $data['pusher_app_secret'] != ''){
+                $replacementPairs['PUSHER_APP_SECRET'] = $data['pusher_app_secret'];
+            }
+            
+            if(isset($data['pusher_app_cluster']) && $data['pusher_app_cluster'] != ''){
+                $replacementPairs['PUSHER_APP_CLUSTER'] = $data['pusher_app_cluster'];
             }
             
             $envContents = file_get_contents($envFilePath);

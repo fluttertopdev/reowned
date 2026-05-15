@@ -95,6 +95,18 @@ class SellerController extends Controller
             return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
         }
     }
+    
+    
+    public function updateVerificationStatus($id)
+    {
+        try {
+            $updated = User::updateVerificationStatus($id);
+
+            return redirect()->back()->with($updated['status'] ? 'success' : 'error', $updated['message']);
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage() . ' ' . $ex->getLine() . ' ' . $ex->getFile());
+        }
+    }
 
 
     public function exportExcel()

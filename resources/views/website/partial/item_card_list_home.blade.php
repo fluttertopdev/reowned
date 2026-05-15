@@ -30,7 +30,9 @@
 
               <div class="product-box-text">
                 <span>{{ \Helpers::commonCurrencyFormate().$item->price }}</span>
-                <p>{{ $item->title }}</p>
+                <p>
+                    {{ \Illuminate\Support\Str::limit($item->title, 70, '...') }}
+                </p>
 
                 <div class="ul-li">
                   <em>

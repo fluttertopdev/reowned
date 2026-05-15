@@ -73,7 +73,9 @@
                 {{ \Helpers::commonCurrencyFormate().$item->price }}
             </div>
 
-            <p>{{ $item->title }}</p>
+            <p>
+                {{ \Illuminate\Support\Str::limit($item->title, 60, '...') }}
+            </p>
 
         </div>        
     </div>

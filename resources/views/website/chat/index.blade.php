@@ -210,7 +210,7 @@
   <script>
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'a1eab551463d55ab34eb',
+        key: "{{setting('pusher_app_key')}}",
         cluster: 'ap2',
         forceTLS: true
     });

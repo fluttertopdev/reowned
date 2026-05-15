@@ -36,6 +36,7 @@ class User extends Authenticatable
         'country_code',
         'phone',
         'status',
+        'verification_status',
         'is_verified',
         'otp_count',
         'otp',
@@ -322,6 +323,20 @@ class User extends Authenticatable
         try {
             $data = User::findOrFail($id);
             $data->update(['status' => !$data->status]);
+
+            return ['status' => true, 'message' => __('lang.admin_data_change_msg')];
+        } catch (\Exception $e) {
+            \Log::error("Error in updateStatusColumn: {$e->getMessage()}", ['line' => $e->getLine(), 'file' => $e->getFile()]);
+            return ['status' => false, 'message' => __('lang.admin_data_error_msg')];
+        }
+    }
+    
+    
+    public static function updateVerificationStatus($id)
+    {
+        try {
+            $data = User::findOrFail($id);
+            $data->update(['verification_status' => !$data->verification_status]);
 
             return ['status' => true, 'message' => __('lang.admin_data_change_msg')];
         } catch (\Exception $e) {

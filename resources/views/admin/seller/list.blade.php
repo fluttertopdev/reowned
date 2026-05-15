@@ -109,9 +109,9 @@
                                 <td>{{ \Helpers::commonDateFormate($row->created_at) }}</td>
                                 @can('seller.updateStatus')
                                 <td>
-                                    <a href="{{ route('seller.updateStatus', $row->id) }}">
-                                        <span class="badge {{ $row->status == 1 ? 'bg-success' : 'bg-warning' }}">
-                                            {{ $row->status == 1 ? __('lang.approved') : __('lang.pending') }}
+                                    <a href="{{ route('seller.updateVerificationStatus', $row->id) }}">
+                                        <span class="badge {{ $row->verification_status == 1 ? 'bg-success' : 'bg-warning' }}">
+                                            {{ $row->verification_status == 1 ? __('lang.approved') : __('lang.pending') }}
                                         </span>
                                     </a>
                                 </td>

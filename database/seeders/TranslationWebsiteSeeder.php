@@ -565,6 +565,11 @@ class TranslationWebsiteSeeder extends Seeder
                 'value' => 'Hello'
             ),
 
+            array(
+                'keyword' => 'account_inactive_msg',
+                'value' => 'Your account has been deactived by admin. Please contact support for furture information'
+            ),
+
 
         ];
 

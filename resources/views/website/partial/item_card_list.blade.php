@@ -25,8 +25,10 @@
         </div>
 
         <div class="product-box-text">
-          <span>{{ \Helpers::commonCurrencyFormate().$row->price }}</span>
-          <p>{{ $row->title }}</p>
+            <span>{{ \Helpers::commonCurrencyFormate().$row->price }}</span>
+            <p>
+                {{ \Illuminate\Support\Str::limit($row->title, 70, '...') }}
+            </p>
 
           <div class="ul-li">
             <em>

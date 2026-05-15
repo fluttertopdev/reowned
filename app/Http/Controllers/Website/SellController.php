@@ -95,7 +95,7 @@ class SellController extends Controller
 
         // Basic Validation
         $rules = [
-            'title' => 'required|string|max:70',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:4000',
             'price' => 'required|numeric|min:1',
             'images' => 'required',
@@ -115,25 +115,29 @@ class SellController extends Controller
         foreach ($customFields as $field) {
 
             $fieldKey = "custom_fields." . $field->id;
-
+        
             $fieldRules = [];
-
+        
+            // Required or nullable
             if ($field->is_required) {
                 $fieldRules[] = 'required';
+            } else {
+                $fieldRules[] = 'nullable';
             }
-
+        
             if ($field->field_type == 'text') {
                 $fieldRules[] = 'string';
             }
-
+        
+            // Apply min/max only if value exists
             if ($field->min_length) {
                 $fieldRules[] = 'min:' . $field->min_length;
             }
-
+        
             if ($field->max_length) {
                 $fieldRules[] = 'max:' . $field->max_length;
             }
-
+        
             $rules[$fieldKey] = implode('|', $fieldRules);
         }
 
@@ -397,7 +401,7 @@ class SellController extends Controller
 
         // Validation (same as store)
         $rules = [
-            'title' => 'required|string|max:70',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:4000',
             'price' => 'required|numeric|min:1',
             'area' => 'required|string|max:70',

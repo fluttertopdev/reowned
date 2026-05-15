@@ -1949,7 +1949,55 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'action',
                 'value' => 'Action'
             ),
-               
+
+            array(
+                'keyword' => 'location',
+                'value' => 'Location'
+            ),
+
+            array(
+                'keyword' => 'location_placeholder',
+                'value' => 'Search Location'
+            ),
+            
+            
+            array(
+                'keyword' => 'admin_chat_management',
+                'value' => 'Chat Management'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_id',
+                'value' => 'Pusher App Id'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_id_placeholder',
+                'value' => 'Enter Pusher App Id'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_key',
+                'value' => 'Pusher App Key'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_key_placeholder',
+                'value' => 'Enter Pusher App Key'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_secret',
+                'value' => 'Pusher App Secret'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_secret_placeholder',
+                'value' => 'Enter Pusher App Secret'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_cluster',
+                'value' => 'Pusher App Cluster'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_cluster_placeholder',
+                'value' => 'Enter Pusher App Cluster'
+            ),
+                           
         );
 
         $languages = Language::where('code','en')->get();

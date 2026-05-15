@@ -19,7 +19,9 @@
 	      </div>
 	      <div class="product-box-text">
 	        <span>{{ \Helpers::commonCurrencyFormate().$row->price }}</span>
-	        <p>{{ $row->title }}</p>
+	        <p>
+                {{ \Illuminate\Support\Str::limit($row->title, 60, '...') }}
+            </p>
 	        <div class="ul-li">
 	          <em>
 	            <img src="{{asset('website_assets/images/map-small.svg')}}">

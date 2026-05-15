@@ -1926,6 +1926,53 @@ class TranslationAdminArabicSeeder extends Seeder
                 'value' => 'إجراء'
             ),
 
+            array(
+                'keyword' => 'location',
+                'value' => 'الموقع'
+            ),
+            array(
+                'keyword' => 'location_placeholder',
+                'value' => 'ابحث عن موقع'
+            ),
+            
+            
+            array(
+                'keyword' => 'admin_chat_management',
+                'value' => 'إدارة الدردشة'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_id',
+                'value' => 'معرف تطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_id_placeholder',
+                'value' => 'أدخل معرف تطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_key',
+                'value' => 'مفتاح تطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_key_placeholder',
+                'value' => 'أدخل مفتاح تطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_secret',
+                'value' => 'المفتاح السري لتطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_secret_placeholder',
+                'value' => 'أدخل المفتاح السري لتطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_cluster',
+                'value' => 'مجموعة تطبيق Pusher'
+            ),
+            array(
+                'keyword' => 'admin_pusher_app_cluster_placeholder',
+                'value' => 'أدخل مجموعة تطبيق Pusher'
+            ),
+
         );
 
         $languages = Language::where('code','ar')->get();

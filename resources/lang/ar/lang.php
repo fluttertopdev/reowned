@@ -457,6 +457,17 @@ return array (
   'admin_enable_adsense_horizontal_ad_placeholder' => 'تفعيل الإعلان الأفقي من AdSense',
   'footer_logo' => 'شعار التذييل',
   'action' => 'إجراء',
+  'location' => 'الموقع',
+  'location_placeholder' => 'ابحث عن موقع',
+  'admin_chat_management' => 'إدارة الدردشة',
+  'admin_pusher_app_id' => 'معرف تطبيق Pusher',
+  'admin_pusher_app_id_placeholder' => 'أدخل معرف تطبيق Pusher',
+  'admin_pusher_app_key' => 'مفتاح تطبيق Pusher',
+  'admin_pusher_app_key_placeholder' => 'أدخل مفتاح تطبيق Pusher',
+  'admin_pusher_app_secret' => 'المفتاح السري لتطبيق Pusher',
+  'admin_pusher_app_secret_placeholder' => 'أدخل المفتاح السري لتطبيق Pusher',
+  'admin_pusher_app_cluster' => 'مجموعة تطبيق Pusher',
+  'admin_pusher_app_cluster_placeholder' => 'أدخل مجموعة تطبيق Pusher',
   'website' => 
   array (
     'select_location' => 'اختر الموقع',
@@ -786,5 +797,6 @@ return array (
     'please_wait' => 'يرجى الانتظار...',
     'your_otp' => 'رمز التحقق الخاص بك',
     'hello' => 'مرحباً',
+    'account_inactive_msg' => 'تم إلغاء تنشيط حسابك من قبل المشرف. يرجى الاتصال بالدعم للحصول على مزيد من المعلومات',
   ),
 );

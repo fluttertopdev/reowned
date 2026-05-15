@@ -457,6 +457,17 @@ return array (
   'admin_enable_adsense_horizontal_ad_placeholder' => 'Enable Adsense Horizontal Ad',
   'footer_logo' => 'Footer Logo',
   'action' => 'Action',
+  'location' => 'Location',
+  'location_placeholder' => 'Search Location',
+  'admin_chat_management' => 'Chat Management',
+  'admin_pusher_app_id' => 'Pusher App Id',
+  'admin_pusher_app_id_placeholder' => 'Enter Pusher App Id',
+  'admin_pusher_app_key' => 'Pusher App Key',
+  'admin_pusher_app_key_placeholder' => 'Enter Pusher App Key',
+  'admin_pusher_app_secret' => 'Pusher App Secret',
+  'admin_pusher_app_secret_placeholder' => 'Enter Pusher App Secret',
+  'admin_pusher_app_cluster' => 'Pusher App Cluster',
+  'admin_pusher_app_cluster_placeholder' => 'Enter Pusher App Cluster',
   'website' => 
   array (
     'select_location' => 'Select Location',
@@ -783,8 +794,9 @@ return array (
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
     'password_reset_success' => 'Password Reset Successfully',
-    'please_wait' => 'Please Wait....',
+    'please_wait' => 'Please Wait...',
     'your_otp' => 'Your OTP',
     'hello' => 'Hello',
+    'account_inactive_msg' => 'Your account has been deactived by admin. Please contact support for furture information.',
   ),
 );

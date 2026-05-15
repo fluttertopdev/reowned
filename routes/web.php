@@ -326,6 +326,7 @@ Route::middleware('admin-language')->group(function () {
         Route::get('/delete/{id}', 'destroy')->name('seller.destroy');
         Route::get('/status/{id}', 'updateStatus')->name('seller.updateStatus');
         Route::get('/view-details/{id}', 'viewDetails')->name('seller.viewDetails');
+        Route::get('/verification-status/{id}', 'updateVerificationStatus')->name('seller.updateVerificationStatus');
       });
       // seller managemnt routing end here
 

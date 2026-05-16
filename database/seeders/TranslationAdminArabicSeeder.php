@@ -1973,6 +1973,19 @@ class TranslationAdminArabicSeeder extends Seeder
                 'value' => 'أدخل مجموعة تطبيق Pusher'
             ),
 
+            array(
+                'keyword' => 'footer_about',
+                'value' => 'عن التذييل'
+            ),
+            array(
+                'keyword' => 'view_front_id',
+                'value' => 'عرض الهوية الأمامية'
+            ),
+            array(
+                'keyword' => 'view_back_id',
+                'value' => 'عرض الهوية الخلفية'
+            ),
+
         );
 
         $languages = Language::where('code','ar')->get();

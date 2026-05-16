@@ -45,7 +45,7 @@
                         <!-- Quill Editor -->
                     <div id="full-editor"></div>
                         <!-- Hidden textarea for storing content -->
-                    <textarea name="description" id="description" hidden>{{ old('description', $data->description ?? '') }}</textarea>
+                    <textarea name="description" id="description" hidden>{!! old('description', $data->description ?? '') !!}</textarea>
 
                     <span class="text-danger" id="description-error">
                         @error('description') {{ $message }} @enderror

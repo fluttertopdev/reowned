@@ -7,7 +7,7 @@
           <a href="#">
             <img src="{{url('uploads/setting/'.setting('footer_logo'))}}" alt="LOGO">
           </a>
-          <p>{{setting('address')}}</p>
+          <p>{{setting('footer_about')}}</p>
           <a href="#" class="link-g-p"><img
               src="{{asset('website_assets/images/icon-svg-1.svg')}}">{{setting('email')}}</a> <a href="#"
             class="link-g-p"><img src="{{asset('website_assets/images/icon-svg-2.svg')}}">{{setting('contact_number1')}}</a>

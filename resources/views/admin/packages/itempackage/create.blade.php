@@ -123,20 +123,20 @@
                     </div>
 
                     <!-- Description -->
-                       <div class="col-md-12 mt-2">
-                    <label class="form-label" for="description">{{__('lang.description')}}</label>
-                    <span class="text-danger">*</span>
+                    <div class="col-md-12 mt-2">
+                        <label class="form-label" for="description">{{__('lang.description')}}</label>
+                        <span class="text-danger">*</span>
 
-                    <!-- Quill Editor -->
-                    <div id="full-editor"></div>
+                        <!-- Quill Editor -->
+                        <div id="full-editor"></div>
 
-                    <!-- Hidden textarea for storing content -->
-                    <textarea name="description" id="description" hidden>{{ old('description', $data->description ?? '') }}</textarea>
+                        <!-- Hidden textarea for storing content -->
+                        <textarea name="description" id="description" hidden>{!!  old('description', $data->description ?? '') !!}</textarea>
 
-                    <span class="text-danger" id="description-error">
-                        @error('description') {{ $message }} @enderror
-                    </span>
-                </div>
+                        <span class="text-danger" id="description-error">
+                            @error('description') {{ $message }} @enderror
+                        </span>
+                    </div>
 
                     <!-- Image Upload -->
                     <div class="col-md-6">

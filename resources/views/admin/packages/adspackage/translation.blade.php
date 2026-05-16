@@ -34,10 +34,7 @@
                                         <input type="hidden" name="language_code[]" value="{{ $language->code }}">
                                         <input type="text" class="form-control @error('name.' . $loop->index) is-invalid @enderror"
                                             id="translated-name-{{ $language->language_code }}"
-                                            name="name[]"
-
-                                            value="{{ old('name.' . $loop->index, $language->details->name ?? '') }}">
-
+                                            name="name[]" value="{{ old('name.' . $loop->index, $language->details->name ?? '') }}">
                                         <!-- Validation Error Message -->
                                         @error('name.' . $loop->index)
                                         <span class="text-danger">{{ $message }}</span>
@@ -51,9 +48,7 @@
                                         </label>
                                         <span class=" text-danger">*</span>
                                         <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
-                                        <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">
-                                         {!! $language->details->description ?? '' !!}
-                                        </textarea>
+                                        <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">{!! $language->details->description ?? '' !!}</textarea>
                                         <span id="error-{{ $language->code }}" class="text-danger"></span>
                                     </div>
                                 </div>

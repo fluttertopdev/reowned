@@ -35,7 +35,6 @@ class TipController extends Controller
         // Validate the request
         $validatedData = $request->validate([
             'description' => 'required',
-
         ]);
 
         try {

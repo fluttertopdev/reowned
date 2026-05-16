@@ -157,9 +157,10 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             @if(!isset(request()->category))
-                                                @can('category.index')
-                                                <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item" type="button">
-                                                    <i class="ti ti-eye me-1"></i>{{__('lang.view')}}
+                                                <!-- Show 'Add Subcategory' for Categories only -->
+                                                @can('category.store')
+                                                <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item">
+                                                    <i class="ti ti-plus me-1"></i>{{__('lang.add_subcategory')}}
                                                 </a>
                                                 @endcan
                                             @endif
@@ -173,16 +174,8 @@
                                                 <i class="ti ti-trash me-1"></i>{{__('lang.delete')}}
                                             </a>
                                             @endcan
-                                            @if(!isset(request()->category))
-                                                <!-- Show 'Add Subcategory' for Categories only -->
-                                                @can('category.store')
-                                                <a href="{{ route('category.index', ['category' => $row->id]) }}" class="dropdown-item">
-                                                    <i class="ti ti-plus me-1"></i>{{__('lang.add_subcategory')}}
-                                                </a>
-                                                @endcan
-                                            @endif
                                             @can('category.translation')
-                                            <a href="{{ route('category.translation', $row->id) }}" class="dropdown-item">
+                                            <a href="{{ request()->has('category') ? route('category.translation', $row->id) . '?category=' . request()->category : route('category.translation', $row->id) }}" class="dropdown-item">
                                                 <i class="ti ti-language me-1"></i> {{__('lang.translation')}}
                                             </a>
                                             @endcan

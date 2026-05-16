@@ -120,6 +120,7 @@ class SellerController extends Controller
     {
         $sellers = User::where('type', 'user')
             ->select('name', 'email', 'phone', 'status', 'address')
+            ->whereNotNull('id_proof_front')
             ->get();
 
         $pdf = Pdf::loadView('admin.seller.export_pdf', compact('sellers'));

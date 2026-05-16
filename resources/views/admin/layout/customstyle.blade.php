@@ -13,10 +13,8 @@
     }
 
     td a {
-        color: #6d6b70;
-        /* Set text color to black */
+        color: #7367f0;
         text-decoration: none;
-        /* Remove underline */
     }
 
     div#full-editor {

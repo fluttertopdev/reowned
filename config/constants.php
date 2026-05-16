@@ -7,6 +7,11 @@ return [
         '0'  => 'Deactive',
     ],
 
+    'seller_status_types' => [
+        '1'   => 'Approved',
+        '0'  => 'Pending',
+    ],
+
     'sold_status_types' => [
         '1'   => 'Sold',
         '0'  => 'Available',

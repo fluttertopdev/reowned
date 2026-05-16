@@ -19,28 +19,26 @@
                 @endif
 
                 <div class="row g-6">
+                    <div class="col-md-12 mt-2">
+                        <label class="form-label" for="description">{{__('lang.description')}}</label>
+                        <span class="text-danger">*</span>
 
+                        <!-- Quill Editor -->
+                        <div id="full-editor"></div>
 
-                       <div class="col-md-12 mt-2">
-                    <label class="form-label" for="description">{{__('lang.description')}}</label>
-                    <span class="text-danger">*</span>
+                        <!-- Hidden textarea for storing content -->
+                        <textarea name="description" id="description" hidden>{!! old('description', $data->description ?? '') !!}</textarea>
 
-                    <!-- Quill Editor -->
-                    <div id="full-editor"></div>
-
-                    <!-- Hidden textarea for storing content -->
-                    <textarea name="description" id="description" hidden>{{ old('description', $data->description ?? '') }}</textarea>
-
-                    <span class="text-danger" id="description-error">
-                        @error('description') {{ $message }} @enderror
-                    </span>
-                </div>
+                        <span class="text-danger" id="description-error">
+                            @error('description') {{ $message }} @enderror
+                        </span>
+                    </div>
                 </div>
 
                 <div class="pt-6">
-                   <button type="submit" class="btn btn-primary me-4">
-    {{ isset($data) ? __('lang.update') : __('lang.submit') }}
-</button>
+                    <button type="submit" class="btn btn-primary me-4">
+                        {{ isset($data) ? __('lang.update') : __('lang.submit') }}
+                    </button>
 
                     <a href="{{route('tips.index')}}"
                         class="btn btn-label-secondary">

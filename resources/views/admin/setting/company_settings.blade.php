@@ -31,10 +31,10 @@
 </div>
 
 <div class="col-md-12 mb-3 display-inline-block width-32-percent mr-10">
-    <label class="form-label" for="mailer">{{ __('lang.address') }}</label>
+    <label class="form-label" for="mailer">{{ __('lang.footer_about') }}</label>
     <span class=" text-danger">*</span>
-    <textarea type="text" class="form-control" placeholder="{{ __('lang.address') }}"
-        name="address" value="{{ setting('address') }}" required />{{ setting('address') }}</textarea>
+    <textarea type="text" class="form-control" placeholder="{{ __('lang.footer_about') }}"
+        name="footer_about" value="{{ setting('footer_about') }}" required />{{ setting('footer_about') }}</textarea>
 </div>
 
 

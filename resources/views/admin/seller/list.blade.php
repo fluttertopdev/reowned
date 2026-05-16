@@ -27,10 +27,10 @@
                             <input type="text" class="form-control dt-full-name" placeholder="{{__('lang.name')}}" name="name" value="@if(isset($_GET['name']) && $_GET['name']!=''){{$_GET['name']}}@endif">
                         </div>
                         <div class="col-sm-3 display-inline-block mt-3">
-                            <select class="form-control select2 form-select" name="status">
-                                <option value="" {{ is_null(request('status')) ? 'selected' : '' }}>{{__('lang.select_status')}}</option>
-                                @foreach(config('constants.status_types') as $value => $label)
-                                <option value="{{ $value }}" {{ request('status') !== null && request('status') == $value ? 'selected' : '' }}>
+                            <select class="form-control select2 form-select" name="verification_status">
+                                <option value="" {{ is_null(request('verification_status')) ? 'selected' : '' }}>{{__('lang.select_status')}}</option>
+                                @foreach(config('constants.seller_status_types') as $value => $label)
+                                <option value="{{ $value }}" {{ request('verification_status') !== null && request('verification_status') == $value ? 'selected' : '' }}>
                                     {{ $label }}
                                 </option>
                                 @endforeach
@@ -183,34 +183,41 @@
 <!-- Content wrapper -->
 
 
-<!-- Verification Modal -->
 <div class="modal fade" id="verificationModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">{{__('lang.verification_details')}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title">
+                    {{ __('lang.verification_details') }}
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
             </div>
 
             <div class="modal-body text-center">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6>{{__('lang.id_proff')}} ({{__('lang.front')}})</h6>
-                        <img id="idFrontImage"
-                            src=""
-                            class="img-fluid img-thumbnail"
-                            style="max-height:300px;">
-                    </div>
+                <div class="d-flex justify-content-center gap-3">
 
-                    <div class="col-md-6">
-                        <h6>{{__('lang.id_proff')}} ({{__('lang.back')}})</h6>
-                        <img id="idBackImage"
-                            src=""
-                            class="img-fluid img-thumbnail"
-                            style="max-height:300px;">
-                    </div>
+                    <!-- Front Button -->
+                    <a id="idFrontBtn"
+                       href="#"
+                       target="_blank"
+                       class="btn btn-primary">
+                        {{ __('lang.view_front_id') }}
+                    </a>
+
+                    <!-- Back Button -->
+                    <a id="idBackBtn"
+                       href="#"
+                       target="_blank"
+                       class="btn btn-secondary">
+                        {{ __('lang.view_back_id') }}
+                    </a>
+
                 </div>
 
             </div>

@@ -468,6 +468,9 @@ return array (
   'admin_pusher_app_secret_placeholder' => 'Enter Pusher App Secret',
   'admin_pusher_app_cluster' => 'Pusher App Cluster',
   'admin_pusher_app_cluster_placeholder' => 'Enter Pusher App Cluster',
+  'footer_about' => 'Footer About',
+  'view_front_id' => 'View Front Id',
+  'view_back_id' => 'View Back Id',
   'website' => 
   array (
     'select_location' => 'Select Location',

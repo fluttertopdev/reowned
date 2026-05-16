@@ -1997,6 +1997,19 @@ class TranslationAdminSeeder extends Seeder
                 'keyword' => 'admin_pusher_app_cluster_placeholder',
                 'value' => 'Enter Pusher App Cluster'
             ),
+
+            array(
+                'keyword' => 'footer_about',
+                'value' => 'Footer About'
+            ),
+            array(
+                'keyword' => 'view_front_id',
+                'value' => 'View Front Id'
+            ),
+            array(
+                'keyword' => 'view_back_id',
+                'value' => 'View Back Id'
+            ),
                            
         );
 

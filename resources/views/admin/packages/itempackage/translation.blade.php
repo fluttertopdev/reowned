@@ -47,10 +47,8 @@
                                             {{__('lang.description')}}({{ $language->name }})
                                         </label>
                                         <span class=" text-danger">*</span>
-                                         <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
-                                         <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">
-                                         {!! $language->details->description ?? '' !!}
-                                             </textarea>
+                                        <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
+                                        <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">{!! $language->details->description ?? '' !!}</textarea>
                                         <span id="error-{{ $language->code }}" class="text-danger"></span>
                                     </div>
                                 </div>

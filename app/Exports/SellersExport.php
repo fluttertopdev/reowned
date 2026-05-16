@@ -12,6 +12,7 @@ class SellersExport implements FromCollection, WithHeadings
     {
         return User::where('type', 'user')
             ->select('name', 'email', 'phone', 'status', 'address')
+            ->whereNotNull('id_proof_front')
             ->get();
     }
 

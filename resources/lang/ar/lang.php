@@ -468,6 +468,9 @@ return array (
   'admin_pusher_app_secret_placeholder' => 'أدخل المفتاح السري لتطبيق Pusher',
   'admin_pusher_app_cluster' => 'مجموعة تطبيق Pusher',
   'admin_pusher_app_cluster_placeholder' => 'أدخل مجموعة تطبيق Pusher',
+  'footer_about' => 'عن التذييل',
+  'view_front_id' => 'عرض الهوية الأمامية',
+  'view_back_id' => 'عرض الهوية الخلفية',
   'website' => 
   array (
     'select_location' => 'اختر الموقع',

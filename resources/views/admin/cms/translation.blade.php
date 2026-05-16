@@ -47,19 +47,15 @@
                                     <!-- Description Section -->
                                    <div class="form-group mb-4">
                                         <label for="translated-description-{{ $language->language_code }}" class="form-label">
-                                            {{__('lang.description')}}({{ $language->name }})
+                                        {{__('lang.description')}}({{ $language->name }})
                                         </label>
                                         <span class=" text-danger">*</span>
-                                         <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
-                         <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">
-                         {!! old('description.' . $loop->index, strip_tags($language->details->description ?? '')) !!}
-                             </textarea>
-                         <span id="error-{{ $language->code }}" class="text-danger"></span>
+                                        <div id="full-editor-{{ $language->code }}" class="quill-editor" data-language-code="{{ $language->code }}"></div>
+                                        <textarea id="description-{{ $language->code }}" name="description[]" rows="4" hidden data-language-code="{{ $language->code }}">{!! old('description.' . $loop->index, strip_tags($language->details->description ?? '')) !!}</textarea>
+                                        <span id="error-{{ $language->code }}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 @endforeach
-
-
 
                                 <div class="pt-6">
                                     <button type="submit" class="btn btn-primary">{{__('lang.save')}}</button>

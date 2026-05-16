@@ -840,6 +840,7 @@
   });
 </script>
 
+<!-- Verification Modal -->
 <script>
   function openVerificationModal(front, back) {
 
@@ -851,8 +852,9 @@
       "{{ url('uploads/user') }}/" + back :
       "{{ asset('uploads/Image-not-found.png') }}";
 
-    document.getElementById('idFrontImage').src = frontPath;
-    document.getElementById('idBackImage').src = backPath;
+    // Set button links
+    document.getElementById('idFrontBtn').href = frontPath;
+    document.getElementById('idBackBtn').href = backPath;
 
     var myModal = new bootstrap.Modal(document.getElementById('verificationModal'));
     myModal.show();

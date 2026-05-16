@@ -130,7 +130,7 @@
                         <div id="full-editor" style="height: 300px;"></div>
 
                         <!-- Hidden textarea for storing content -->
-                        <textarea name="description" id="description-ads" hidden>{{ old('description', $data->description ?? '') }}</textarea>
+                        <textarea name="description" id="description-ads" hidden>{!! old('description', $data->description ?? '') !!}</textarea>
 
                         <span class="text-danger" id="description-error-ads">
                             @error('description') {{ $message }} @enderror

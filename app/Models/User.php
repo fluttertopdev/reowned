@@ -239,6 +239,11 @@ class User extends Authenticatable
                     fn($query) =>
                     $query->where('status', $search['status'])
                 )
+                 ->when(
+                    isset($search['verification_status']) && $search['verification_status'] !== '',
+                    fn($query) =>
+                    $query->where('verification_status', $search['verification_status'])
+                )
                 ->when(
                     isset($type) && $type!=null,
                     fn($query) =>

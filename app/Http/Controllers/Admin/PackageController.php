@@ -47,7 +47,7 @@ class PackageController extends Controller
     {
         // Validate the request
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:item_packages',
+            'name' => 'required|string|max:255|unique:adpackages',
             'price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric',
             'days' => 'required',
@@ -84,7 +84,7 @@ class PackageController extends Controller
     public function update(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:item_packages,name,' . $request->id,
+            'name' => 'required|string|max:255|unique:adpackages,name,' . $request->id,
             'price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric',
             'days' => 'required',

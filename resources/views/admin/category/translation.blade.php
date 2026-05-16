@@ -63,14 +63,17 @@
                                 @endforeach
 
 
-
-                                 <div class="pt-6">
-                     <button type="submit" class="btn btn-primary">{{__('lang.save')}}</button>
-                    <a href="{{route('category.index')}}"
-                        class="btn btn-label-secondary">
-                        {{__('lang.back')}}
-                    </a>
-                </div>
+                                <div class="pt-6">
+                                    <button type="submit" class="btn btn-primary">{{__('lang.save')}}</button>
+                                    @if(request()->has('category'))
+                                    <a type="reset" class="btn btn-outline-secondary"
+                                        href="{{ route('category.index', ['category' => request()->get('category')]) }}">
+                                        {{__('lang.back')}}
+                                    </a>
+                                    @else
+                                    <a type="reset" class="btn btn-outline-secondary" href="{{ route('category.index') }}">{{__('lang.back')}}</a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
